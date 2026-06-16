@@ -344,7 +344,7 @@ function writeSavedLibrary(entries){
 }
 function isSaved(id){return getSavedLibrary().some(entry=>entry.id===id)}
 const icon=id=>`<svg class="ico"><use href="#i-${id}"/></svg>`;
-function openTool(file){ const target=/탐구자료_라이브러리|탐구도서_라이브러리/.test(file)?'evaLib':'evaDiag'; const w=window.open(encodeURI(file),target); try{w&&w.focus()}catch(e){} }
+function openTool(file){ const target=/library-research|library-books/.test(file)?'evaLib':'evaDiag'; const w=window.open(encodeURI(file),target); try{w&&w.focus()}catch(e){} }
 function openDetailInLibrary(){const item=recommendationMap.get(activeRecommendationId);if(!item)return;if(item.type==='탐구도서'){openTool('library-books.html');}else{openTool('library-research.html?id='+encodeURIComponent(activeRecommendationId));}}
 const escapeHTML=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 function isDeprecatedStrategyResult(result){return result?.tool?.id==='university-fit'&&result?.metrics?.mode==='정시'}
@@ -909,7 +909,7 @@ window.EVAAccountStore?.ensureAccount();render();renderLibrary();syncSaveButtons
   function hide() { if (modal) modal.classList.remove('show'); }
 
   var ACTION = /(담기|담아|저장|작성|업로드|결제|구매|등록하기|완료|추가|만들기|분석|시작하기|진단 시작|첫 진단 시작|다시 진단|최저 진단|과목 확인|결과 보기|보완 행동|인쇄·PDF|내보내기|제출|발급)/;
-  var REALFILES = /(전공적성탐색기|생기부_(?:유형|정밀)진단|내신위치진단|지원가능대학|학생용_선택과목|수능_모의고사|탐구자료_라이브러리|탐구도서_라이브러리)/;
+  var REALFILES = /(major-aptitude|record-deep|record-type|grade-position|university-match|suneung-minimum|subject-design|library-research|library-books)\.html/;
   var LAUNCH = /openTool\(|openToolById\(/;
 
   function isLocked(el) {
