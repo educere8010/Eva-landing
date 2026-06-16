@@ -98,7 +98,7 @@
 
   const ov = document.createElement("div");
   ov.id = "evaAuth";
-  ov.innerHTML = '<div class="box"><h2>에바연 학생부 설계실</h2><p>로그인하면 어디서나 내 학생부 설계가 이어집니다.</p><label for="evaAuthEmail">이메일</label><input id="evaAuthEmail" type="email" autocomplete="off"><label for="evaAuthPw">비밀번호</label><input id="evaAuthPw" type="password" autocomplete="new-password"><div class="row"><button class="sec" id="evaAuthSignup">회원가입</button><button class="pri" id="evaAuthLogin">로그인</button></div><p style="margin:13px 0 0;font-size:12px;color:#9aa3b2;line-height:1.6;text-align:center">처음이세요? <b style="color:#e8714e">회원가입</b>으로 무료 시작 · 이미 가입했다면 입력 후 <b style="color:#11203f">Enter</b>로 로그인</p><div class="msg" id="evaAuthMsg" style="display:none"></div></div>';
+  ov.innerHTML = '<div class="box"><h2>에바연 학생부 설계실</h2><p>로그인하면 어디서나 내 학생부 설계가 이어집니다.</p><label for="evaAuthEmail">이메일</label><input id="evaAuthEmail" type="email" autocomplete="off"><label for="evaAuthPw">비밀번호</label><input id="evaAuthPw" type="password" autocomplete="new-password"><div class="row"><button class="sec" id="evaAuthSignup">회원가입</button><button class="pri" id="evaAuthLogin">로그인</button></div><p style="margin:13px 0 0;font-size:12px;color:#9aa3b2;line-height:1.6;text-align:center"><b style="color:#e8714e">회원가입</b>으로 무료 시작 · 이미 가입했다면 입력 후 <b style="color:#11203f">Enter</b>로 로그인</p><div class="msg" id="evaAuthMsg" style="display:none"></div></div>';
   document.body.appendChild(ov);
   const emailEl = document.getElementById("evaAuthEmail");
   const pwEl = document.getElementById("evaAuthPw");
