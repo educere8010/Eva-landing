@@ -903,7 +903,7 @@
         if (authMode === 'signup') {
           const { data, error } = await sb.auth.signUp({ email, password: pw });
           if (error) { setMsg('가입 오류: ' + error.message); return; }
-          if (!data.session) { setMsg('가입 완료! 메일 인증 후 로그인해 주세요.'); setAuthMode('login'); return; }
+          if (!data.session) { setMsg('가입이 완료됐어요. 로그인을 눌러 시작하세요.'); setAuthMode('login'); return; }
           const prof = { id: data.user.id, name: field('freeName').value.trim() || '학생', grade: field('freeGrade').value.trim(), major: field('freeMajor').value.trim(), updated_at: new Date().toISOString() };
           try { await sb.from('profiles').upsert(prof); } catch (e) {}
         } else {
