@@ -9,6 +9,7 @@
 !/*.js
 !/*.css
 !/vendor/
+!/marketing/
 
 # 혹시 모를 비밀/원본 자료 이중 차단(명시적)
 .mcp.json
