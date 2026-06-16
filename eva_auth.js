@@ -98,29 +98,39 @@
 
   const ov = document.createElement("div");
   ov.id = "evaAuth";
-  ov.innerHTML = '<div class="box"><h2>에바연 학생부 설계실</h2><p>로그인하면 어디서나 내 학생부 설계가 이어집니다.</p><label for="evaAuthEmail">이메일</label><input id="evaAuthEmail" type="email" autocomplete="email"><label for="evaAuthPw">비밀번호</label><input id="evaAuthPw" type="password" autocomplete="current-password"><div class="row"><button class="sec" id="evaAuthSignup">회원가입</button><button class="pri" id="evaAuthLogin">로그인</button></div><div class="msg" id="evaAuthMsg" style="display:none"></div></div>';
+  ov.innerHTML = '<div class="box"><h2>에바연 학생부 설계실</h2><p>로그인하면 어디서나 내 학생부 설계가 이어집니다.</p><label for="evaAuthEmail">이메일</label><input id="evaAuthEmail" type="email" autocomplete="off"><label for="evaAuthPw">비밀번호</label><input id="evaAuthPw" type="password" autocomplete="new-password"><div class="row"><button class="sec" id="evaAuthSignup">회원가입</button><button class="pri" id="evaAuthLogin">로그인</button></div><div class="msg" id="evaAuthMsg" style="display:none"></div></div>';
   document.body.appendChild(ov);
+  const emailEl = document.getElementById("evaAuthEmail");
+  const pwEl = document.getElementById("evaAuthPw");
+  // 로그아웃 후 브라우저 자동완성으로 이전 이메일/비번이 채워지는 것 방지: 렌더 직후 비움
+  setTimeout(function () { try { emailEl.value = ""; pwEl.value = ""; } catch (e) {} }, 60);
   const setMsg = t => { const m = document.getElementById("evaAuthMsg"); m.style.display = "block"; m.textContent = t; };
 
   async function afterLogin() { ov.remove(); addLogoutBtn(); await syncProfileFromSupabase(); }
 
-  document.getElementById("evaAuthSignup").onclick = async () => {
+  async function doSignup() {
     const { data, error } = await sb.auth.signUp({
-      email: document.getElementById("evaAuthEmail").value.trim(),
-      password: document.getElementById("evaAuthPw").value
+      email: emailEl.value.trim(),
+      password: pwEl.value
     });
     if (error) return setMsg("가입 오류: " + error.message);
     if (data.session) afterLogin();
     else setMsg("가입 완료! 이제 로그인하세요. (이메일 확인이 켜져 있으면 메일 인증 후)");
-  };
-  document.getElementById("evaAuthLogin").onclick = async () => {
+  }
+  async function doLogin() {
     const { error } = await sb.auth.signInWithPassword({
-      email: document.getElementById("evaAuthEmail").value.trim(),
-      password: document.getElementById("evaAuthPw").value
+      email: emailEl.value.trim(),
+      password: pwEl.value
     });
     if (error) return setMsg("로그인 오류: " + error.message);
     afterLogin();
-  };
+  }
+  document.getElementById("evaAuthSignup").onclick = doSignup;
+  document.getElementById("evaAuthLogin").onclick = doLogin;
+  // 이메일/비밀번호 칸에서 Enter → 바로 로그인
+  [emailEl, pwEl].forEach(function (el) {
+    el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); doLogin(); } });
+  });
 
   // 이미 로그인돼 있으면 통과
   sb.auth.getSession().then(({ data }) => {
