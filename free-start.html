@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="우리 아이 학생부, 무엇부터 시작할지 무료로 확인하세요. 전공적성·생기부 유형·내신 위치 중 지금 가장 필요한 진단 하나를 무료로 체험할 수 있습니다.">
+  <title>무료 진단 | 우리 아이 학생부, 어디부터 시작할지 확인하기</title>
+  <link rel="stylesheet" href="eva_studio_theme.css">
+  <style>
+    :root {
+      --ink: #1d2330;
+      --muted: #6b7280;
+      --line: #e3ddd0;
+      --paper: #f4f1ea;
+      --card: #ffffff;
+      --green: #11203f;
+      --green2: #e8714e;
+      --lime: #ecd9b6;
+      --mint: #cdd8ec;
+      --blue: #dfe9f5;
+      --rose: #f6e0d6;
+      --gold: #ecd9b6;
+      --shadow: 0 18px 45px rgba(20, 30, 50, .1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 6%, rgba(236, 217, 182, .32), transparent 22rem),
+        radial-gradient(circle at 8% 14%, rgba(223, 233, 245, .8), transparent 21rem),
+        var(--paper);
+      font-family: Pretendard, "Noto Sans KR", system-ui, sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    a { color: inherit; }
+
+    .free-shell {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 30px 0 72px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) 360px;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 24px;
+    }
+
+    .hero-copy {
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 42px;
+      color: #fff;
+      background: var(--green);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      right: -86px;
+      top: -92px;
+      border: 52px solid rgba(236, 217, 182, .14);
+      border-radius: 50%;
+    }
+
+    .kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      width: max-content;
+      align-items: center;
+      gap: 8px;
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 14px 0 14px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -0.06em;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0;
+      color: #aebed8;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 17px;
+      background: var(--green);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); background: var(--green2); }
+    .btn.light { background: #fff; color: var(--green); }
+    .btn.lime { background: var(--lime); color: var(--green); }
+    .btn.ghost { border: 1px solid var(--line); background: #fff; color: var(--green); }
+    .btn.block { width: 100%; }
+
+    .status-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .status-panel h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: -0.05em;
+    }
+
+    .status-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .usage-box {
+      padding: 17px;
+      border-radius: 18px;
+      background: #fbf8f1;
+      border: 1px solid #e3ddd0;
+    }
+
+    .usage-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .usage-box strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--green);
+      font-size: 28px;
+      letter-spacing: -0.05em;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+
+    .step {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .76);
+    }
+
+    .step b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 42px 0 16px;
+    }
+
+    .section-head h2 {
+      margin: 8px 0 0;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.18;
+      letter-spacing: -0.06em;
+    }
+
+    .section-head p {
+      max-width: 440px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .tool-card {
+      display: flex;
+      min-height: 330px;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 12px 30px rgba(20, 30, 50, .06);
+    }
+
+    .tool-card.featured { border-color: #cdd8ec; }
+
+    .tool-mark {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--mint);
+      color: var(--green);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .tool-card:nth-child(2) .tool-mark { background: var(--rose); color: #82443d; }
+    .tool-card:nth-child(3) .tool-mark { background: var(--blue); color: #284e73; }
+
+    .badge-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 14px 0 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 8px;
+      background: #f7f3ea;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .tool-card h3 {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.32;
+      letter-spacing: -0.05em;
+    }
+
+    .tool-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .lock-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .lock-card {
+      min-height: 180px;
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .74);
+    }
+
+    .lock-card span {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: #f4efe4;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .lock-card h3 {
+      margin: 18px 0 8px;
+      font-size: 16px;
+      line-height: 1.35;
+      letter-spacing: -0.04em;
+    }
+
+    .lock-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.62;
+    }
+
+    .notice {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      margin-top: 28px;
+      padding: 24px;
+      color: #fff;
+      background: #11203f;
+      border-radius: 24px;
+    }
+
+    .notice h2 {
+      margin: 0 0 7px;
+      font-size: 22px;
+      letter-spacing: -0.05em;
+    }
+
+    .notice p {
+      margin: 0;
+      color: #aebed8;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(10, 30, 23, .52);
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-box {
+      width: min(520px, 100%);
+      padding: 28px;
+      background: #fff;
+      border-radius: 26px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, .24);
+    }
+
+    .modal-box h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.05em;
+    }
+
+    .modal-box p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      outline: 0;
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .field input:focus { border-color: var(--green2); }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 40;
+      max-width: min(360px, calc(100% - 44px));
+      padding: 14px 16px;
+      color: #fff;
+      background: #15243f;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      line-height: 1.55;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      transform: none;
+      opacity: 1;
+    }
+
+    footer {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto 34px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .steps,
+      .tool-grid,
+      .lock-grid,
+      .notice {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy { min-height: 360px; padding: 32px; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+    }
+
+    @media (max-width: 620px) {
+      .free-shell { width: min(100% - 28px, 1120px); }
+      .hero-copy,
+      .status-panel,
+      .tool-card,
+      .notice { border-radius: 22px; padding: 22px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .hero-actions,
+      .modal-actions { flex-direction: column; }
+      .hero-actions .btn,
+      .modal-actions .btn { width: 100%; }
+    }
+
+    /* ===== 디자인 폴리시 ===== */
+    /* 제목 줄바꿈·자간 개선: 한국어 어절 단위 줄바꿈 + 줄 균형 + 자간 완화 */
+    .hero h1, .section-head h2, .status-panel h2,
+    .tool-card h3, .lock-card h3, .notice h2, .modal-box h2 {
+      word-break: keep-all;
+      text-wrap: balance;
+    }
+    .hero h1 { letter-spacing: -.04em; }
+    .section-head h2 { letter-spacing: -.03em; line-height: 1.24; }
+
+    .tool-card, .lock-card, .step {
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 46px rgba(20, 30, 50, .14);
+      border-color: #cdd8ec;
+    }
+    .lock-card:hover, .step:hover { transform: translateY(-3px); border-color: #cfd9e8; }
+    /* 잠긴 진단 카드: 살짝 흐릿하게 구분 + 자물쇠 느낌 */
+    .lock-card { position: relative; background: rgba(255,255,255,.62); }
+    .lock-card span { background: #f4efe4; color: #8a93a5; }
+    /* 설명형 배지는 너무 무겁지 않게 */
+    .badge { font-weight: 800; padding: 6px 10px; line-height: 1.2; }
+    .badge-row { align-items: center; }
+    /* 첫 배지(무료)는 강조색으로 구분 */
+    .badge-row .badge:first-child { background: var(--lime); color: var(--green); }
+    /* 키보드 포커스 가시성 */
+    .btn:focus-visible, a:focus-visible, .field input:focus-visible {
+      outline: 3px solid rgba(232, 113, 78, .45);
+      outline-offset: 2px;
+    }
+    /* 단계 카드 번호 강조 */
+    .step b { letter-spacing: -.02em; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="eva-studio-shell">
+    <a class="eva-studio-brand" href="index.html" aria-label="에바연 학생부 설계실 랜딩으로 이동" style="text-decoration:none;color:#fff">
+      <span class="eva-studio-mark">E</span>
+      <span><strong>에바연</strong><small>MY ADMISSION STUDIO</small></span>
+    </a>
+    <div class="eva-studio-actions">
+      <span class="eva-tool-label">무료진단</span>
+      <a class="eva-back" href="index.html">랜딩으로 돌아가기</a>
+    </div>
+  </div>
+
+  <main class="free-shell">
+    <section class="hero">
+      <article class="hero-copy">
+        <span class="kicker">무료 진단</span>
+        <h1>우리 아이 학생부,<br>무엇부터 할지 5분이면 보여요.</h1>
+        <p>
+          전공적성·생기부 유형·내신 위치 중 <b style="color:#fff">지금 가장 필요한 진단 하나</b>를 무료로 받아보세요.
+          결과는 저장돼 학생부 설계실의 추천 자료·플래너로 자연스럽게 이어집니다.
+          무료회원 등록만 하면 되고, 결제나 신용카드는 필요 없어요.
+        </p>
+        <div class="hero-actions">
+          <button class="btn lime" type="button" onclick="openSignup()">무료로 시작하기</button>
+          <a class="btn light" href="#free-tools">진단 종류 보기</a>
+          <a class="btn" href="dashboard.html?mode=demo">설계실 둘러보기</a>
+        </div>
+      </article>
+
+      <aside class="status-panel">
+        <div>
+          <span class="kicker">내 이용 현황</span>
+          <h2 id="usageTitle">무료 진단 안내</h2>
+          <p id="memberSummary">로그인(무료 가입)하면 진단 1회를 무료로 받을 수 있어요.</p>
+        </div>
+        <div class="usage-box">
+          <span id="usageMonth">이번 달 받을 수 있는 진단</span>
+          <strong id="usageCount">1회 남음</strong>
+        </div>
+        <button class="btn block" type="button" onclick="openSignup()">내 정보 확인하기</button>
+      </aside>
+    </section>
+
+    <section class="steps" aria-label="무료진단 이용 단계">
+      <article class="step">
+        <b>1. 무료 회원 가입 (1분)</b>
+        <span>이메일로 가입하면 끝. 결제나 신용카드는 필요 없어요.</span>
+      </article>
+      <article class="step">
+        <b>2. 진단 하나 고르기</b>
+        <span>전공적성·생기부 유형·내신 위치 중 지금 가장 궁금한 진단 하나를 고릅니다.</span>
+      </article>
+      <article class="step">
+        <b>3. 결과 확인 &amp; 설계실 연결</b>
+        <span>진단 결과가 저장돼, 우리 아이에게 맞는 다음 할 일과 자료로 이어집니다.</span>
+      </article>
+    </section>
+
+    <section id="free-tools">
+      <div class="section-head">
+        <div>
+          <span class="kicker">무료 진단 3종</span>
+          <h2>지금 가장 궁금한 것 하나, 무료로 확인해요</h2>
+        </div>
+        <p>
+          한꺼번에 다 보여주기보다, 우리 아이에게 지금 가장 필요한 '첫 기준'을 정확히 잡는 데 집중했어요.
+          아래 셋 중 하나를 골라 5분이면 시작할 수 있습니다.
+        </p>
+      </div>
+
+      <div class="tool-grid">
+        <article class="tool-card featured">
+          <div>
+            <div class="tool-mark">01</div>
+            <div class="badge-row">
+              <span class="badge">무료</span>
+              <span class="badge">진로가 아직 막연할 때</span>
+            </div>
+            <h3>전공적성 탐색</h3>
+            <p>"우리 아이가 뭘 좋아하는지 모르겠어요." 흥미와 선호 과목으로 어울리는 전공 방향을 가볍게 찾아줍니다.</p>
+          </div>
+          <button class="btn block" type="button" onclick="startFreeTool('major-fit')">이 진단으로 시작하기</button>
+        </article>
+
+        <article class="tool-card featured">
+          <div>
+            <div class="tool-mark">02</div>
+            <div class="badge-row">
+              <span class="badge">무료</span>
+              <span class="badge">활동은 했는데 방향이 애매할 때</span>
+            </div>
+            <h3>생기부 유형 진단</h3>
+            <p>"활동은 많은데 잘하고 있는 건지…" 지금 학생부의 기록 성향과, 앞으로 채우면 좋을 부분을 빠르게 짚어줍니다.</p>
+          </div>
+          <button class="btn block" type="button" onclick="startFreeTool('record-type')">이 진단으로 시작하기</button>
+        </article>
+
+        <article class="tool-card featured">
+          <div>
+            <div class="tool-mark">03</div>
+            <div class="badge-row">
+              <span class="badge">무료</span>
+              <span class="badge">내 위치가 궁금할 때</span>
+            </div>
+            <h3>내신 위치 진단</h3>
+            <p>"우리 아이 성적이 어느 정도인지 객관적으로…" 현재 교과 위치와 희망계열 기준의 첫 그림을 잡아줍니다.</p>
+          </div>
+          <button class="btn block" type="button" onclick="startFreeTool('grade-position')">이 진단으로 시작하기</button>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <span class="kicker">설계실에서 더 깊이</span>
+          <h2>필요할 때 이어서 보는 진단</h2>
+        </div>
+        <p>
+          전략 판단·정밀 분석·누적 리포트가 필요한 진단은, 결과 저장과 다음 설계까지 함께 따라올 때 진짜 도움이 됩니다.
+          그래서 학생부 설계실 안에서 이어집니다.
+        </p>
+      </div>
+
+      <div class="lock-grid">
+        <article class="lock-card">
+          <span>설계실에서</span>
+          <h3>모의고사·수능최저 진단</h3>
+          <p>관심 대학 조건, 1등급 이내 전형, 지원 전략을 함께 봐야 하는 고3 전략 도구입니다.</p>
+        </article>
+        <article class="lock-card">
+          <span>설계실에서</span>
+          <h3>지원 전략 범위 진단</h3>
+          <p>교과·정시 위치를 바탕으로 안정, 적정, 도전 지원군을 나누는 전략형 진단입니다.</p>
+        </article>
+        <article class="lock-card">
+          <span>정밀 분석</span>
+          <h3>생기부 정밀진단</h3>
+          <p>원문 기반 해석과 세특 보완 방향은 1:1 분석 또는 유료 설계 흐름에서 다룹니다.</p>
+        </article>
+        <article class="lock-card">
+          <span>설계실에서</span>
+          <h3>선택과목·탐구 설계</h3>
+          <p>희망학과, 진단 결과, 탐구자료 추천이 연결된 뒤 쓰는 후속 설계 도구입니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="notice">
+      <div>
+        <h2>무료 진단은 부담 없는 첫걸음이에요.</h2>
+        <p>
+          🔒 입력하신 정보는 진단 결과 안내에만 쓰이고, 생기부 원문은 저장하지 않습니다.
+          무료 진단으로 우리 아이의 현재 위치를 먼저 확인한 뒤,
+          전체 진단·추천 탐구자료·독서 설계·탐구 설계·주간 플래너는 6개월 학생부 설계실에서 이어집니다.
+        </p>
+      </div>
+      <a class="btn lime" href="dashboard.html?mode=demo">설계실 둘러보기</a>
+    </section>
+  </main>
+
+  <footer>
+    <strong>에듀케레 바른교육연구소</strong> · 에바연 학생부 설계실<br>
+    무료 진단은 회원당 1회 받을 수 있어요. 입력하신 정보는 진단 결과 안내에만 사용하며, 생기부 원문은 저장하지 않습니다.<br>
+    상담 카카오톡 채널 <a href="http://pf.kakao.com/_qxnkUn" target="_blank" rel="noopener">@에듀케레</a> · 고객문의 educere8010@gmail.com · 070-7954-6105 (평일 10:00~18:00)
+  </footer>
+
+  <div class="modal" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
+    <div class="modal-box">
+      <h2 id="signupTitle">무료 회원 가입</h2>
+      <p id="authIntro">이메일로 가입하면 무료 진단 1회를 바로 받을 수 있어요. 결제·신용카드 필요 없어요. 🔒</p>
+      <form id="signupForm">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="freeEmail">이메일</label>
+            <input id="freeEmail" type="email" autocomplete="email" required placeholder="example@email.com">
+          </div>
+          <div class="field full">
+            <label for="freePw">비밀번호</label>
+            <input id="freePw" type="password" autocomplete="current-password" required placeholder="6자 이상">
+          </div>
+          <div class="field signup-only">
+            <label for="freeName">학생 이름</label>
+            <input id="freeName" autocomplete="name" placeholder="예: 김에바">
+          </div>
+          <div class="field signup-only">
+            <label for="freeGrade">학년</label>
+            <input id="freeGrade" placeholder="예: 고2">
+          </div>
+          <div class="field full signup-only">
+            <label for="freeMajor">희망학과 또는 관심계열</label>
+            <input id="freeMajor" placeholder="예: 생명공학, 교육계열">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn ghost" type="button" onclick="closeSignup()">닫기</button>
+          <button class="btn" type="submit" id="authSubmit">가입하고 시작하기</button>
+        </div>
+        <div id="authMsg" style="display:none;margin-top:10px;font-size:13px;color:#b4452e;line-height:1.5"></div>
+        <p id="authSwitchText" style="margin-top:12px;font-size:13px;color:#6b7280">이미 회원이세요? <a href="#" onclick="setAuthMode('login');return false">로그인</a></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="limitModal" role="dialog" aria-modal="true" aria-labelledby="limitTitle">
+    <div class="modal-box">
+      <h2 id="limitTitle">무료 진단을 모두 사용하셨어요 🙂</h2>
+      <p id="limitText">무료 진단을 모두 사용하셨어요. 구독하면 모든 진단을 무제한으로 받을 수 있어요.</p>
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" onclick="closeLimit()">닫기</button>
+        <a class="btn lime" href="index.html#price">구독하고 시작하기</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    /* ===== Supabase 인증 + 최초 1회 무료진단 게이트 ===== */
+    const SB_URL = "https://eytdqxlueuhqinkjxhui.supabase.co";
+    const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGRxeGx1ZXVocWlua2p4aHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MzQ5MTYsImV4cCI6MjA5NzAxMDkxNn0.gljEkX78tXvffkxqUOCB5z9k_bPSf_gq5RT3TURaZW4";
+    const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
+    const toolMap = {
+      'major-fit': { title: '전공적성 탐색', file: 'major-aptitude.html' },
+      'record-type': { title: '생기부 유형 진단', file: 'record-type.html' },
+      'grade-position': { title: '내신 위치 진단', file: 'grade-position.html' }
+    };
+
+    let pendingToolId = '';
+    let session = null, membership = null, authMode = 'signup';
+
+    function field(id) { return document.querySelector('#' + id); }
+
+    function showToast(message) {
+      const toast = document.querySelector('#toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    async function refreshAuthState() {
+      try {
+        const { data: { session: s } } = await sb.auth.getSession();
+        session = s || null;
+        if (session) {
+          const { data: m } = await sb.from('memberships').select('tier,free_diag_used').eq('user_id', session.user.id).maybeSingle();
+          membership = m || { tier: 'free', free_diag_used: false };
+        } else { membership = null; }
+      } catch (e) { session = null; membership = null; }
+      updateStatus();
+    }
+
+    function updateStatus() {
+      const title = field('usageTitle'), lbl = field('usageMonth'), cnt = field('usageCount'), sum = field('memberSummary');
+      if (!session) {
+        if (title) title.textContent = '무료 진단 안내';
+        if (lbl) lbl.textContent = '무료 회원 혜택';
+        if (cnt) cnt.textContent = '최초 1회 무료';
+        if (sum) sum.textContent = '로그인(무료 가입)하면 진단 1회를 무료로 받을 수 있어요.';
+      } else if (membership && membership.tier === 'paid') {
+        if (title) title.textContent = '이용 등급';
+        if (lbl) lbl.textContent = '구독 회원';
+        if (cnt) cnt.textContent = '무제한';
+        if (sum) sum.textContent = (session.user.email || '') + ' · 모든 진단을 제한 없이 받을 수 있어요.';
+      } else if (membership && !membership.free_diag_used) {
+        if (title) title.textContent = '무료 진단';
+        if (lbl) lbl.textContent = '지금 받을 수 있어요';
+        if (cnt) cnt.textContent = '1회 가능';
+        if (sum) sum.textContent = (session.user.email || '') + ' · 무료 진단 1회를 받을 수 있어요.';
+      } else {
+        if (title) title.textContent = '무료 진단';
+        if (lbl) lbl.textContent = '무료 진단';
+        if (cnt) cnt.textContent = '사용 완료';
+        if (sum) sum.textContent = '무료 진단을 사용했어요. 구독하면 무제한으로 받을 수 있어요.';
+      }
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      const isSignup = mode === 'signup';
+      field('signupTitle').textContent = isSignup ? '무료 회원 가입' : '로그인';
+      field('authIntro').textContent = isSignup
+        ? '이메일로 가입하면 무료 진단 1회를 바로 받을 수 있어요. 결제·신용카드 필요 없어요. 🔒'
+        : '가입하신 이메일로 로그인하세요.';
+      field('authSubmit').textContent = isSignup ? '가입하고 시작하기' : '로그인';
+      document.querySelectorAll('.signup-only').forEach(el => el.style.display = isSignup ? '' : 'none');
+      field('authSwitchText').innerHTML = isSignup
+        ? '이미 회원이세요? <a href="#" onclick="setAuthMode(\'login\');return false">로그인</a>'
+        : '처음이세요? <a href="#" onclick="setAuthMode(\'signup\');return false">무료 가입</a>';
+    }
+
+    function openSignup(toolId) {
+      if (session) { showToast('이미 로그인되어 있어요. 진단을 선택해 시작하세요. 🙂'); return; }
+      pendingToolId = toolId || pendingToolId || '';
+      setAuthMode('signup');
+      field('authMsg').style.display = 'none';
+      document.querySelector('#signupModal').classList.add('show');
+      setTimeout(() => field('freeEmail').focus(), 40);
+    }
+    function closeSignup() { document.querySelector('#signupModal').classList.remove('show'); }
+
+    function openLimit() {
+      field('limitText').textContent = '무료 진단을 모두 사용하셨어요. 구독하면 전공적성·생기부·내신 등 모든 진단을 무제한으로 받고, 탐구자료·도서 전체와 학생부 설계 기능까지 이어집니다.';
+      document.querySelector('#limitModal').classList.add('show');
+    }
+    function closeLimit() { document.querySelector('#limitModal').classList.remove('show'); }
+
+    function launch(tool) {
+      localStorage.setItem('eva_entry_route', 'free-diagnosis');
+      localStorage.setItem('eva_last_page', 'insights');
+      location.href = tool.file;
+    }
+
+    async function startFreeTool(toolId) {
+      const tool = toolMap[toolId];
+      if (!tool) return;
+      if (!session) { openSignup(toolId); showToast('무료 가입(1분)하면 바로 진단을 시작할 수 있어요. 🙂'); return; }
+      if (membership && membership.tier === 'paid') { launch(tool); return; }
+      // 무료: 최초 1회만 — 서버에서 원자적으로 판정·소진
+      try {
+        const { data, error } = await sb.rpc('use_free_diagnosis');
+        if (error) { showToast('잠시 후 다시 시도해 주세요.'); return; }
+        if (data && data.allowed) {
+          if (membership) membership.free_diag_used = true;
+          updateStatus();
+          launch(tool);
+        } else {
+          openLimit();
+        }
+      } catch (e) { showToast('잠시 후 다시 시도해 주세요.'); }
+    }
+
+    document.querySelector('#signupForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const email = field('freeEmail').value.trim(), pw = field('freePw').value;
+      const msg = field('authMsg');
+      const setMsg = t => { msg.style.display = 'block'; msg.textContent = t; };
+      if (!email || !pw) { setMsg('이메일과 비밀번호를 입력해 주세요.'); return; }
+      const submit = field('authSubmit'); submit.disabled = true;
+      try {
+        if (authMode === 'signup') {
+          const { data, error } = await sb.auth.signUp({ email, password: pw });
+          if (error) { setMsg('가입 오류: ' + error.message); return; }
+          if (!data.session) { setMsg('가입 완료! 메일 인증 후 로그인해 주세요.'); setAuthMode('login'); return; }
+          const prof = { id: data.user.id, name: field('freeName').value.trim() || '학생', grade: field('freeGrade').value.trim(), major: field('freeMajor').value.trim(), updated_at: new Date().toISOString() };
+          try { await sb.from('profiles').upsert(prof); } catch (e) {}
+        } else {
+          const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+          if (error) { setMsg('로그인 오류: ' + error.message); return; }
+        }
+        closeSignup();
+        await refreshAuthState();
+        showToast('환영해요! 진단을 시작할게요. 🎉');
+        if (pendingToolId) { const t = pendingToolId; pendingToolId = ''; startFreeTool(t); }
+      } finally { submit.disabled = false; }
+    });
+
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) modal.classList.remove('show');
+      });
+    });
+
+    if (sb) { sb.auth.onAuthStateChange(() => refreshAuthState()); refreshAuthState(); }
+    else { updateStatus(); }
+  </script>
+</body>
+</html>

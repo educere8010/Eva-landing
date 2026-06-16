@@ -1,0 +1,23 @@
+# 배포(공개) 대상만 화이트리스트: 루트의 html/js/css + vendor + 설정파일
+# 기본적으로 전부 무시
+/*
+
+# 아래만 공개
+!/.gitignore
+!/.nojekyll
+!/*.html
+!/*.js
+!/*.css
+!/vendor/
+
+# 혹시 모를 비밀/원본 자료 이중 차단(명시적)
+.mcp.json
+.claude/
+_archive/
+_자료원본/
+_파이프라인_재료/
+아카이브_탐구자료_라이브러리_이전버전/
+*.xlsx
+~$*
+*.md
+tools/

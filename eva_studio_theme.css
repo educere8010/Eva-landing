@@ -1,0 +1,378 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+/* Shared visual shell for the EBAYEON diagnostic tools. */
+:root {
+  --eva-ink: #1d2330;
+  --eva-muted: #6b7280;
+  --eva-line: #e3ddd0;
+  --eva-paper: #f4f1ea;
+  --eva-card: #ffffff;
+  --eva-brand: #11203f;
+  --eva-brand-soft: #cdd8ec;
+  --eva-accent: #e8714e;
+  --eva-accent-soft: #cdd8ec;
+  --eva-accent-deep: #11203f;
+  --eva-radius: 20px;
+  --eva-shadow: 0 12px 34px rgba(20, 30, 50, 0.08);
+}
+
+body.eva-tool {
+  margin: 0;
+  color: var(--eva-ink);
+  background:
+    radial-gradient(circle at 92% 5%, color-mix(in srgb, var(--eva-accent-soft) 58%, transparent), transparent 24rem),
+    var(--eva-paper);
+  font-family: Pretendard, "Noto Sans KR", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+body.eva-career { --eva-accent:#e8714e; --eva-accent-soft:#cdd8ec; --eva-accent-deep:#11203f; }
+body.eva-grade { --eva-accent:#426d99; --eva-accent-soft:#dfe9f5; --eva-accent-deep:#284e73; }
+body.eva-record-type { --eva-accent:#b7685e; --eva-accent-soft:#f2dedb; --eva-accent-deep:#82443d; }
+body.eva-record-deep { --eva-accent:#765b91; --eva-accent-soft:#e9e0f0; --eva-accent-deep:#503b68; }
+body.eva-university { --eva-accent:#a36a2e; --eva-accent-soft:#f4dfc2; --eva-accent-deep:#70451e; }
+body.eva-subject { --eva-accent:#6d7634; --eva-accent-soft:#e8ebcb; --eva-accent-deep:#4a5221; }
+body.eva-mock { --eva-accent:#397b82; --eva-accent-soft:#dcecee; --eva-accent-deep:#24545a; }
+
+.eva-studio-shell {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 max(20px, calc((100vw - 1120px) / 2));
+  color: #fff;
+  background: rgba(17, 32, 63, 0.96);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(17, 32, 63, 0.14);
+  backdrop-filter: blur(14px);
+}
+
+.eva-studio-brand,
+.eva-studio-actions { display: flex; align-items: center; gap: 11px; }
+.eva-studio-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #11203f;
+  background: #ecd9b6;
+  font-size: 17px;
+  font-weight: 900;
+}
+.eva-studio-brand strong { display: block; font-size: 14px; letter-spacing: -0.04em; }
+.eva-studio-brand small { display: block; margin-top: 2px; color: #aebed8; font-size: 9px; letter-spacing: 0.08em; }
+.eva-tool-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 999px;
+  color: #cdd8ec;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 10px;
+  font-weight: 700;
+}
+.eva-tool-label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--eva-accent-soft); }
+.eva-back {
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  color: #fff !important;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 800;
+  text-decoration: none !important;
+  transition: 0.2s ease;
+}
+.eva-back:hover { background: rgba(255, 255, 255, 0.11); transform: translateY(-1px); }
+
+.eva-product-hero {
+  width: min(1120px, calc(100% - 40px)); min-height: 186px; margin: 30px auto 20px; padding: 30px 32px;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; overflow: hidden; position: relative;
+  color: #fff; background: var(--eva-accent-deep); border-radius: 26px; box-shadow: var(--eva-shadow);
+}
+.eva-product-hero::after { content: ""; position: absolute; width: 230px; height: 230px; right: -72px; top: -100px; border: 48px solid color-mix(in srgb, var(--eva-accent-soft) 22%, transparent); border-radius: 50%; }
+.eva-product-copy { position: relative; z-index: 1; max-width: 690px; }
+.eva-product-kicker { color: var(--eva-accent-soft); font-size: 10px; font-weight: 800; letter-spacing: .13em; }
+.eva-product-hero h1 { margin: 8px 0 9px; font-size: clamp(25px,3vw,34px); line-height: 1.2; letter-spacing: -.055em; }
+.eva-product-hero p { margin: 0; color: rgba(255,255,255,.72); font-size: 12px; line-height: 1.7; }
+.eva-product-number { position: relative; z-index: 1; color: rgba(255,255,255,.16); font-size: 64px; font-weight: 900; line-height: 1; letter-spacing: -.08em; }
+
+body.eva-career > .wrap > header, body.eva-grade > header.hero, body.eva-university > .wrap > header, body.eva-subject > main > .hero { display: none !important; }
+body.eva-record-deep > .topbar { display: none !important; }
+body.eva-record-deep #s-start > .hero > .eyebrow, body.eva-record-deep #s-start > .hero > h1, body.eva-record-deep #s-start > .hero > p.sub { display: none !important; }
+body.eva-record-deep #s-start > .hero { margin-top: 0 !important; padding-top: 24px !important; background: var(--eva-card) !important; border: 1px solid var(--eva-line) !important; border-radius: var(--eva-radius) !important; }
+
+/* Career explorer: place the two primary modes directly below the product hero. */
+body.eva-career > .wrap {
+  width: min(920px, calc(100% - 32px));
+  max-width: 920px;
+  min-height: auto;
+  padding: 0 0 64px;
+  background: transparent;
+  box-shadow: none;
+}
+body.eva-career .tabs {
+  width: 100%;
+  margin: 0 auto 12px;
+  padding: 7px;
+  gap: 8px;
+  position: sticky;
+  top: 72px;
+  z-index: 20;
+  background: rgba(255,255,255,.94);
+  border: 1px solid var(--eva-line);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(20,30,50,.08);
+  backdrop-filter: blur(12px);
+}
+body.eva-career .tab {
+  padding: 14px 0;
+  color: var(--eva-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 11px;
+  font-size: 15px;
+}
+body.eva-career .tab.on {
+  color: #fff !important;
+  background: var(--eva-accent) !important;
+  border-color: transparent !important;
+  box-shadow: 0 5px 14px color-mix(in srgb, var(--eva-accent) 24%, transparent);
+}
+body.eva-career .page { width: 100%; margin: 0 auto; padding: 12px 0 20px; }
+body.eva-career .card {
+  padding: 28px;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(20,30,50,.07);
+}
+body.eva-career .startbox {
+  padding: 44px 32px;
+  background: #fff;
+  border: 1px solid var(--eva-line);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(20,30,50,.07);
+}
+body.eva-career .startbox .big { font-size: 54px; }
+body.eva-career .startbox h2 { font-size: 24px; }
+body.eva-career .startbox p { font-size: 15px; }
+body.eva-career h2.q { font-size: 18px; }
+body.eva-career .hint { font-size: 14px; margin-bottom: 18px; }
+body.eva-career .chips { gap: 10px; }
+body.eva-career .chip { padding: 11px 16px; font-size: 14px; }
+body.eva-career .opts { gap: 11px; }
+body.eva-career .opt { padding: 15px 17px; font-size: 15px; border-radius: 12px; }
+body.eva-career .btn {
+  min-height: 58px;
+  padding: 17px 20px;
+  border-radius: 14px;
+  font-size: 17px;
+  background: var(--eva-accent);
+  box-shadow: 0 7px 18px color-mix(in srgb, var(--eva-accent) 24%, transparent);
+}
+body.eva-career .btn:hover { background: var(--eva-accent-deep); }
+body.eva-career .btn.ghost { color: var(--eva-accent-deep); background: #fff; border-color: var(--eva-accent); box-shadow: none; }
+body.eva-career .search { padding: 15px 17px; border-radius: 12px; font-size: 15px; }
+body.eva-career .deptrow { padding: 16px 10px; }
+body.eva-career .deptrow .nm { font-size: 15px; }
+body.eva-career .rescard { padding: 18px; border-radius: 14px; margin-bottom: 12px; }
+body.eva-career .resname { font-size: 16px; }
+body.eva-career .sheet { max-width: 920px; border-radius: 22px 22px 0 0; }
+body.eva-career footer { position: static; padding: 24px 20px 0; }
+
+/* Grade position: remove the negative overlap that belonged to the legacy hero. */
+body.eva-grade > main.wrap { margin: 0 auto 60px; padding: 0 16px; }
+body.eva-grade .cta {
+  background: var(--eva-accent);
+  box-shadow: 0 7px 18px color-mix(in srgb, var(--eva-accent) 28%, transparent);
+}
+body.eva-grade .cta:hover { background: var(--eva-accent-deep); }
+
+body.eva-tool > .wrap,
+body.eva-tool > main,
+body.eva-tool > .container,
+body.eva-tool > #app {
+  width: min(1120px, calc(100% - 40px));
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.eva-tool header:not(.eva-studio-shell) {
+  border-color: color-mix(in srgb, var(--eva-accent) 25%, var(--eva-line));
+}
+body.eva-tool header:not(.eva-studio-shell) h1,
+body.eva-tool header:not(.eva-studio-shell) h2 { letter-spacing: -0.055em; }
+
+body.eva-tool button,
+body.eva-tool .btn,
+body.eva-tool [role="button"] {
+  border-radius: 11px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+body.eva-tool button:hover,
+body.eva-tool .btn:hover,
+body.eva-tool [role="button"]:hover { transform: translateY(-1px); }
+
+body.eva-tool input,
+body.eva-tool select,
+body.eva-tool textarea {
+  border-radius: 11px;
+  border-color: var(--eva-line);
+  font-family: inherit;
+}
+body.eva-tool input:focus,
+body.eva-tool select:focus,
+body.eva-tool textarea:focus {
+  border-color: var(--eva-accent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--eva-accent-soft) 80%, transparent) !important;
+  outline: none;
+}
+
+body.eva-tool .card,
+body.eva-tool .panel,
+body.eva-tool .section,
+body.eva-tool .result-card,
+body.eva-tool .box,
+body.eva-tool article {
+  border-color: var(--eva-line);
+  border-radius: var(--eva-radius);
+}
+
+/* Common component accents without changing each tool's functional layout. */
+body.eva-tool .tab.on,
+body.eva-tool .tab.active,
+body.eva-tool .active-tab,
+body.eva-tool .chip.on,
+body.eva-tool .chip.active { color: var(--eva-accent-deep) !important; border-color: var(--eva-accent) !important; background: var(--eva-accent-soft) !important; }
+body.eva-tool progress::-webkit-progress-value { background: var(--eva-accent); }
+body.eva-tool ::selection { color: var(--eva-accent-deep); background: var(--eva-accent-soft); }
+
+.eva-next-actions {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--eva-accent) 22%, var(--eva-line));
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--eva-accent-soft) 70%, #fff), #fff 62%);
+  box-shadow: 0 10px 26px rgba(20, 30, 50, 0.06);
+}
+.eva-next-actions-head {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 13px;
+}
+.eva-next-kicker {
+  width: max-content;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: var(--eva-accent-deep);
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--eva-accent) 16%, var(--eva-line));
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+.eva-next-actions h3 {
+  margin: 0;
+  color: var(--eva-ink);
+  font-size: 17px;
+  letter-spacing: -0.04em;
+}
+.eva-next-actions p {
+  margin: 0;
+  color: var(--eva-muted);
+  font-size: 11px;
+  line-height: 1.65;
+}
+.eva-privacy-note {
+  margin-top: 8px;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb, var(--eva-accent) 14%, var(--eva-line));
+  border-radius: 11px;
+  color: #5c6884;
+  background: rgba(255,255,255,.72);
+  font-size: 10px;
+  line-height: 1.55;
+}
+.eva-privacy-note b {
+  color: var(--eva-accent-deep);
+  margin-right: 5px;
+}
+.eva-next-action-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eva-next-btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+.eva-next-btn.dashboard {
+  color: #fff !important;
+  background: var(--eva-accent-deep);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--eva-accent) 18%, transparent);
+}
+.eva-next-btn.primary {
+  color: #fff !important;
+  background: var(--eva-accent);
+}
+.eva-next-btn.secondary {
+  color: var(--eva-accent-deep) !important;
+  background: #fff;
+  border-color: color-mix(in srgb, var(--eva-accent) 22%, var(--eva-line));
+}
+.eva-next-btn.quiet {
+  color: var(--eva-muted) !important;
+  background: transparent;
+  border-color: color-mix(in srgb, var(--eva-accent) 14%, var(--eva-line));
+}
+
+@media print {
+  .eva-next-actions { display: none !important; }
+}
+
+/* Tailwind-based record type tool has its own fixed navigation. */
+body.eva-record-type > header.fixed { top: 64px !important; }
+body.eva-record-type > main { padding-top: 7.5rem !important; }
+
+@media (max-width: 720px) {
+  .eva-studio-shell { height: 58px; padding: 0 14px; }
+  .eva-studio-brand small, .eva-tool-label { display: none; }
+  .eva-studio-actions { gap: 7px; }
+  .eva-back { padding: 7px 9px; }
+  .eva-product-hero { width: min(100% - 24px,1120px); min-height: 158px; margin: 18px auto 14px; padding: 23px 20px; }
+  .eva-product-hero p { font-size: 11px; }
+  .eva-product-number { display: none; }
+  body.eva-career .tabs { top: 64px; }
+  body.eva-career > .wrap { width: min(100% - 24px,920px); }
+  body.eva-career .tab { padding: 11px 0; font-size: 13px; }
+  body.eva-career .card { padding: 20px 14px; margin-bottom: 14px; }
+  body.eva-career .startbox { padding: 32px 18px; }
+  body.eva-career .startbox h2 { font-size: 20px; }
+  body.eva-career .btn { min-height: 54px; padding: 15px; font-size: 16px; }
+  body.eva-tool > .wrap,
+  body.eva-tool > main,
+  body.eva-tool > .container,
+  body.eva-tool > #app { width: min(100% - 24px, 1120px); }
+  body.eva-record-type > header.fixed { top: 58px !important; }
+}

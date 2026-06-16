@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="희망학과에 맞는 고교 선택과목을 간편하게 설계하는 에바연 학생용 도구">
+  <title>선택과목 진단 | 에바연</title>
+  <link rel="stylesheet" href="eva_studio_theme.css">
+  <style>
+    :root{--ink:#17201d;--muted:#69736f;--line:#e3e8e5;--paper:#f5f7f3;--card:#fff;--accent:#6d7634;--deep:#4a5221;--soft:#e8ebcb;--shadow:0 12px 34px rgba(24,48,39,.08)}
+    *{box-sizing:border-box}body{margin:0}.tool-wrap{width:min(1080px,calc(100% - 36px));margin:0 auto;padding:38px 0 70px}.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;align-items:stretch;margin-bottom:18px}.hero-main{border-radius:26px;padding:31px;background:var(--deep);color:#fff;position:relative;overflow:hidden}.hero-main:after{content:"";position:absolute;width:210px;height:210px;border:45px solid rgba(220,231,127,.12);border-radius:50%;right:-75px;top:-95px}.eyebrow{font-size:10px;letter-spacing:.12em;color:#cbd5a5;font-weight:800}.hero h1{font-size:30px;line-height:1.25;letter-spacing:-.055em;margin:8px 0 10px}.hero p{font-size:12px;color:#d1d8bc;line-height:1.7;margin:0;max-width:620px}.mini-guide{background:#fff;border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow)}.mini-guide b{font-size:13px}.guide-step{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #edf0ed;font-size:11px}.guide-step:last-child{border:0}.guide-step i{font-style:normal;width:24px;height:24px;border-radius:8px;background:var(--soft);color:var(--deep);display:grid;place-items:center;font-weight:900;font-size:10px}.grid{display:grid;grid-template-columns:340px 1fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:21px;padding:22px;box-shadow:0 8px 25px rgba(24,48,39,.04)}.card h2{font-size:16px;margin:0 0 5px}.sub{font-size:10px;color:var(--muted);line-height:1.55;margin:0 0 19px}.field{margin-bottom:16px}.field label{display:block;font-size:10px;color:var(--muted);font-weight:800;margin-bottom:7px}.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.seg button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px;font-size:11px;font-weight:700}.seg button.on{background:var(--soft);border-color:var(--accent);color:var(--deep)}input[type=search]{width:100%;border:1px solid var(--line);padding:12px;border-radius:11px;outline:0;font:inherit;font-size:12px}.major-list{display:grid;gap:5px;max-height:330px;overflow:auto;margin-top:8px;padding-right:3px}.major-btn{border:1px solid transparent;background:#f5f7f3;text-align:left;border-radius:10px;padding:10px 11px;font-size:11px;display:flex;justify-content:space-between;align-items:center}.major-btn:hover,.major-btn.on{border-color:var(--accent);background:var(--soft);color:var(--deep)}.major-btn small{font-size:9px;color:var(--muted)}.notice{background:#f7f8f0;border-radius:12px;padding:12px;font-size:9px;color:var(--muted);line-height:1.6;margin-top:17px}.empty{min-height:430px;display:grid;place-items:center;text-align:center;color:var(--muted)}.empty strong{display:block;color:var(--ink);font-size:17px;margin-bottom:8px}.result-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}.domain{display:inline-block;background:var(--soft);color:var(--deep);border-radius:30px;padding:5px 8px;font-size:9px;font-weight:800}.result-head h2{font-size:23px;margin:7px 0 5px}.result-head p{font-size:10px;color:var(--muted);margin:0}.curriculum-badge{display:inline-block;margin-top:8px;border-radius:30px;background:#f1f3e8;color:#566026;padding:5px 8px;font-size:9px;font-weight:800}.fit{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--accent) 0 var(--score),#edf0e5 var(--score));position:relative;flex:none}.fit:after{content:"";position:absolute;inset:7px;background:#fff;border-radius:50%}.fit b{z-index:1;font-size:14px}.section{padding:20px 0;border-bottom:1px solid var(--line)}.section:last-child{border:0}.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.section-title h3{font-size:13px;margin:0}.section-title span{font-size:9px;color:var(--muted)}.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.subject{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fff;cursor:pointer}.subject:hover{border-color:#bdc797}.subject input{appearance:none;width:17px;height:17px;border:1.5px solid #b8c0a1;border-radius:5px;flex:none;margin:1px 0 0}.subject input:checked{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 4px #fff}.subject b{font-size:10px;display:block}.subject small{font-size:8px;color:var(--muted);display:block;margin-top:3px}.subject .reason{font-size:9px;color:#59645f;line-height:1.55;margin-top:7px}.subject .output{font-size:8px;color:var(--accent);font-weight:800;margin-top:5px}.priority{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.priority span{border-radius:12px;background:#f1f3e8;color:#596024;padding:9px 10px;font-size:9px;line-height:1.5}.priority b{display:block;color:var(--deep);font-size:9px;margin-bottom:4px}.advice{border-left:3px solid var(--accent);padding:4px 0 4px 13px;font-size:11px;line-height:1.7;color:#4d5752}.actions{display:flex;gap:8px;margin-top:18px}.primary,.secondary{border-radius:11px;padding:11px 14px;font-size:11px;font-weight:800}.primary{border:0;background:var(--accent);color:#fff}.secondary{border:1px solid var(--line);background:#fff;color:var(--ink)}.saved{margin-top:10px;font-size:9px;color:var(--accent);min-height:14px}.plan-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.stat{background:#f6f7f1;border-radius:11px;padding:11px;text-align:center}.stat b{display:block;font-size:17px;color:var(--deep)}.stat span{font-size:8px;color:var(--muted)}
+    @media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.mini-guide{display:none}.tool-wrap{padding-top:23px}.hero-main{padding:25px}.hero h1{font-size:25px}.major-list{max-height:220px}.empty{min-height:260px}}
+    @media(max-width:520px){.subjects{grid-template-columns:1fr}.result-head h2{font-size:20px}.fit{width:60px;height:60px}.tool-wrap{width:min(100% - 22px,1080px)}}
+  </style>
+</head>
+<body class="eva-tool eva-subject">
+<div class="eva-studio-shell"><div class="eva-studio-brand"><span class="eva-studio-mark">E</span><span><strong>에바연</strong><small>MY ADMISSION STUDIO</small></span></div><div class="eva-studio-actions"><span class="eva-tool-label">선택과목 진단</span><a class="eva-back" href="dashboard.html">대시보드로 돌아가기</a></div></div>
+<section class="eva-product-hero"><div class="eva-product-copy"><span class="eva-product-kicker">SUBJECT PLANNER</span><h1>선택과목 진단</h1><p>현재 학년과 희망학과를 기준으로 우선·심화·탐구 과목을 확인하고 나의 수강 계획을 세웁니다.</p></div></section>
+<main class="tool-wrap">
+  <section class="hero"><div class="hero-main"><span class="eyebrow">MY SUBJECT PLAN</span><h1>희망학과에 맞는<br>나의 선택과목 찾기</h1><p>많이 듣는 것보다 전공에 필요한 과목을 일관되게 연결하는 것이 중요합니다. 학과를 선택하면 우선 과목과 심화 과목을 간단히 확인할 수 있어요.</p></div><aside class="mini-guide"><b>이렇게 사용하세요</b><div class="guide-step"><i>1</i>현재 학년을 선택해요.</div><div class="guide-step"><i>2</i>희망학과를 검색해요.</div><div class="guide-step"><i>3</i>수강할 과목을 체크해요.</div><div class="guide-step"><i>4</i>내 계획을 브라우저에 저장해요.</div></aside></section>
+  <div class="grid">
+    <aside class="card"><h2>나의 조건</h2><p class="sub">학생 개인에게 필요한 정보만 간단히 선택하세요.</p><div class="field"><label>현재 학년</label><div class="seg" id="grades"><button data-grade="고1">고1</button><button class="on" data-grade="고2">고2</button><button data-grade="고3">고3</button></div></div><div class="field"><label>희망학과 검색</label><input type="search" id="search" placeholder="예: 컴퓨터공학, 간호, 경영"><div class="major-list" id="majorList"></div></div><div class="notice">학교에 개설되지 않은 과목이 있을 수 있습니다. 실제 수강 신청 전에는 학교 교육과정 편제표와 희망 대학의 최신 모집요강을 함께 확인하세요.</div></aside>
+    <section class="card" id="result"><div class="empty"><div><strong>희망학과를 선택해 주세요.</strong>추천 과목과 선택 우선순위가 여기에 나타납니다.</div></div></section>
+  </div>
+</main>
+<script src="eva_result_bridge.js"></script>
+<script>
+const MAJORS=[
+ {name:'경영학과',domain:'사회',aliases:'경영 회계 마케팅 무역',core:['대수','확률과 통계','영어 I','경제'],advanced:['미적분 I','경제 수학','데이터 과학'],explore:['실용 통계','금융과 경제생활','사회문제 탐구'],note:'수리·통계 자료 해석과 사회현상 이해를 함께 보여주는 구성이 좋습니다.'},
+ {name:'심리학과',domain:'사회',aliases:'심리 상담 임상 인지',core:['확률과 통계','사회와 문화','생명과학','현대사회와 윤리'],advanced:['대수','세포와 물질대사','주제 탐구 독서'],explore:['실용 통계','논리와 사고','사회문제 탐구'],note:'사회과학과 생명과학의 접점이므로 통계, 생명, 윤리를 균형 있게 연결하세요.'},
+ {name:'미디어커뮤니케이션학과',domain:'사회',aliases:'미디어 언론 방송 영상 광고홍보',core:['독서와 작문','화법과 언어','사회와 문화','영어 I'],advanced:['정치와 법','정보','문학과 영상'],explore:['매체 의사소통','논리와 사고','지식 재산 일반'],note:'글쓰기와 사회 이슈 분석, 디지털 매체 활용을 함께 보여주는 것이 핵심입니다.'},
+ {name:'국어교육과',domain:'교육',aliases:'국어교육 국어교사 사범대',core:['독서와 작문','문학','화법과 언어','사회와 문화'],advanced:['주제 탐구 독서','문학과 영상','한문'],explore:['매체 의사소통','논리와 사고','사회문제 탐구'],note:'국어 교과 전문성과 교육적 의사소통 역량이 드러나는 과목 구성을 권장합니다.'},
+ {name:'수학교육과',domain:'교육',aliases:'수학교육 수학 교사 사범대',core:['대수','미적분 I','확률과 통계','기하'],advanced:['미적분 II','인공지능 수학','물리학'],explore:['수학과제 탐구','수학과 문화','실용 통계'],note:'수학 교과의 위계가 중요하므로 미적분과 기하를 심화 탐구로 연결하세요.'},
+ {name:'생명과학과',domain:'자연',aliases:'생명 생물 바이오 생명공학 분자생물',core:['생명과학','화학','확률과 통계','미적분 I'],advanced:['세포와 물질대사','생물의 유전','화학 반응의 세계'],explore:['융합과학 탐구','실용 통계','과학의 역사와 문화'],note:'생명과학과 화학을 함께 이수하고 유전·세포 영역으로 깊이를 보여주는 것이 좋습니다.'},
+ {name:'화학과',domain:'자연',aliases:'화학 응용화학 화학생명',core:['화학','미적분 I','확률과 통계','물리학'],advanced:['물질과 에너지','화학 반응의 세계','미적분 II'],explore:['융합과학 탐구','수학과제 탐구','과학의 역사와 문화'],note:'화학 심화와 수학적 모델링을 연결하면 전공 적합성이 더욱 선명해집니다.'},
+ {name:'컴퓨터공학과',domain:'공학',aliases:'컴퓨터 컴공 소프트웨어 AI 인공지능 데이터 정보보안',core:['정보','대수','확률과 통계','미적분 I'],advanced:['인공지능 수학','데이터 과학','프로그래밍','미적분 II'],explore:['수학과제 탐구','실용 통계','소프트웨어와 생활'],note:'수학·정보·데이터 역량을 함께 보여주세요. AI 진로라면 확률과 통계가 특히 중요합니다.'},
+ {name:'기계공학과',domain:'공학',aliases:'기계 로봇 자동차 항공 메카트로닉스',core:['물리학','미적분 I','기하','화학'],advanced:['미적분 II','역학과 에너지','전자기와 양자'],explore:['창의 공학 설계','수학과제 탐구','융합과학 탐구'],note:'힘과 운동, 설계의 연결을 위해 물리학·미적분·기하를 우선 고려하세요.'},
+ {name:'전기전자공학과',domain:'공학',aliases:'전기 전자 반도체 정보통신 통신공학',core:['물리학','미적분 I','기하','정보'],advanced:['미적분 II','전자기와 양자','인공지능 수학'],explore:['창의 공학 설계','융합과학 탐구','수학과제 탐구'],note:'전자기와 회로의 기초가 되는 물리학과 수학 심화가 중요합니다.'},
+ {name:'간호학과',domain:'의약',aliases:'간호 보건간호 간호대',core:['생명과학','화학','확률과 통계','영어 I'],advanced:['세포와 물질대사','생물의 유전','현대사회와 윤리'],explore:['융합과학 탐구','논리와 사고','실용 통계'],note:'생명과학 기반에 약물·감염 이해를 위한 화학, 의료윤리를 함께 연결하세요.'},
+ {name:'약학과',domain:'의약',aliases:'약학 약대 제약 신약',core:['화학','생명과학','미적분 I','확률과 통계'],advanced:['물질과 에너지','화학 반응의 세계','세포와 물질대사','생물의 유전'],explore:['융합과학 탐구','실용 통계','과학의 역사와 문화'],note:'화학과 생명과학을 모두 깊게 이수하고 통계로 약물 데이터를 해석하면 좋습니다.'},
+ {name:'의예과',domain:'의약',aliases:'의예 의대 의학 치의예 한의예',core:['화학','생명과학','미적분 I','확률과 통계'],advanced:['세포와 물질대사','생물의 유전','미적분 II','화학 반응의 세계'],explore:['융합과학 탐구','실용 통계','논리와 사고'],note:'대학별 권장과목 차이가 크므로 수학·과학 심화를 확보하고 최신 모집요강을 반드시 확인하세요.'},
+ {name:'시각디자인학과',domain:'예체능',aliases:'시각 디자인 산업디자인 영상디자인 미술',core:['미술','독서와 작문','영어 I','정보'],advanced:['미술 창작','미술 감상과 비평','문학과 영상'],explore:['매체 의사소통','지식 재산 일반','창의 공학 설계'],note:'표현 역량에 매체 이해와 지식재산 관점을 더하면 탐구의 폭이 넓어집니다.'},
+ {name:'체육학과',domain:'예체능',aliases:'체육 스포츠 스포츠과학 운동재활',core:['체육','생명과학','확률과 통계','사회와 문화'],advanced:['스포츠 과학','세포와 물질대사','영어 I'],explore:['스포츠 생활','실용 통계','융합과학 탐구'],note:'실기와 더불어 운동 생리와 스포츠 데이터를 해석하는 학업 역량을 보여주세요.'}
+];
+let state={grade:'고2',major:null,selected:[]};
+function renderList(q=''){q=q.trim().toLowerCase();const list=MAJORS.filter(m=>!q||(`${m.name} ${m.aliases} ${m.domain}`).toLowerCase().includes(q));majorList.innerHTML=list.map(m=>`<button class="major-btn ${state.major?.name===m.name?'on':''}" onclick="selectMajor('${m.name}')"><span>${m.name}</span><small>${m.domain} →</small></button>`).join('')||'<div class="notice">검색 결과가 없어요. 학과명 일부나 계열 키워드로 다시 검색해 보세요.</div>'}
+function selectMajor(name){state.major=MAJORS.find(m=>m.name===name);const saved=loadSaved(name);state.selected=saved?.selected||[];renderList(search.value);renderResult()}
+function subjectRow(name,type){return `<label class="subject"><input type="checkbox" value="${name}" ${state.selected.includes(name)?'checked':''} onchange="toggleSubject(this)"><span><b>${name}</b><small>${type}</small></span></label>`}
+function renderResult(){const m=state.major;if(!m)return;const score=Math.min(96,52+state.selected.length*7);result.innerHTML=`<div class="result-head"><div><span class="domain">${m.domain}계열</span><h2>${m.name}</h2><p>${state.grade} 기준으로 나의 선택 계획을 만들어 보세요.</p></div><div class="fit" style="--score:${score}%"><b>${score}%</b></div></div><div class="plan-summary"><div class="stat"><b>${m.core.length}</b><span>기초 권장</span></div><div class="stat"><b>${m.advanced.length}</b><span>심화 권장</span></div><div class="stat"><b>${state.selected.length}</b><span>나의 계획</span></div></div><div class="section"><div class="section-title"><h3>우선 확인할 과목</h3><span>전공 기초를 만드는 과목</span></div><div class="subjects">${m.core.map(x=>subjectRow(x,'기초 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>심화하면 좋은 과목</h3><span>관심 분야를 깊게 보여주는 과목</span></div><div class="subjects">${m.advanced.map(x=>subjectRow(x,'심화 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>탐구와 연결할 과목</h3></div><div class="priority">${m.explore.map(x=>`<span>${x}</span>`).join('')}</div></div><div class="section"><div class="section-title"><h3>에바연 설계 포인트</h3></div><div class="advice">${m.note}</div><div class="actions"><button class="primary" onclick="savePlan()">내 선택계획 저장</button><button class="secondary" onclick="clearPlan()">체크 초기화</button></div><div class="saved" id="savedMessage"></div></div>`}
+function toggleSubject(el){if(el.checked&&!state.selected.includes(el.value))state.selected.push(el.value);if(!el.checked)state.selected=state.selected.filter(x=>x!==el.value);renderResult()}
+function savePlan(){if(!state.major)return;localStorage.setItem('eva_subject_'+state.major.name,JSON.stringify({grade:state.grade,selected:state.selected,date:new Date().toISOString()}));const missing=state.major.core.filter(subject=>!state.selected.includes(subject));if(window.EVAResultBridge)window.EVAResultBridge.save({tool:{id:'subject-plan',title:'선택과목 진단',category:'교과 설계'},summary:{title:`${state.major.name} 선택과목 계획`,headline:`${state.selected.length}개 과목 선택 · 핵심 ${Math.max(0,state.major.core.length-missing.length)}/${state.major.core.length}개 반영`,score:Math.min(96,52+state.selected.length*7),scoreLabel:'계획 적합도',status:missing.length?'설계 중':'핵심 과목 반영',description:state.major.note},metrics:{selectedCount:state.selected.length,coreCount:state.major.core.length,missingCore:missing},signals:{strengths:state.selected, gaps:missing.map(subject=>`${subject} 이수 검토`),interests:state.major.explore,subjects:[...state.selected,...state.major.core,...state.major.advanced],majors:[state.major.name,state.major.domain+'계열'],keywords:['선택과목',state.major.domain,...state.major.explore]},actions:[{label:missing.length?`${missing[0]} 이수 가능 여부 확인`:'선택과목과 연결할 탐구 주제 찾기',page:missing.length?'diagnosis':'resources'},{label:'희망학과 연계 탐구자료 확인',page:'resources'}],source:{grade:state.grade,major:state.major.name}});savedMessage.textContent=`${state.selected.length}개 과목을 나의 계획과 대시보드에 저장했습니다.`}
+function loadSaved(name){try{return JSON.parse(localStorage.getItem('eva_subject_'+name))}catch(e){return null}}
+function clearPlan(){state.selected=[];renderResult()}
+grades.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.grade=b.dataset.grade;grades.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderResult()});
+search.addEventListener('input',e=>renderList(e.target.value));renderList();
+</script>
+<script>
+(()=>{
+  const CURRICULUM_NOTE='2022 개정 교육과정 과목명 기준 · 학교 개설 과목과 모집요강은 최종 확인 필요';
+  const RAW_MAJORS=[
+    {name:'경영학과',domain:'사회',aliases:'경영 회계 마케팅 무역',core:['대수','확률과 통계','영어 I','경제'],advanced:['미적분 I','경제 수학','데이터 과학'],explore:['실용 통계','금융과 경제생활','사회문제 탐구'],note:'수리·통계 자료 해석과 사회현상 이해를 함께 보여주는 구성이 좋습니다.'},
+    {name:'심리학과',domain:'사회',aliases:'심리 상담 임상 인지',core:['확률과 통계','사회와 문화','생명과학','현대사회와 윤리'],advanced:['대수','세포와 물질대사','주제 탐구 독서'],explore:['실용 통계','윤리와 사고','사회문제 탐구'],note:'사회과학과 생명과학의 접점이므로 통계, 생명, 윤리를 균형 있게 연결하세요.'},
+    {name:'미디어커뮤니케이션학과',domain:'사회',aliases:'미디어 언론 방송 영상 광고홍보',core:['독서와 작문','화법과 언어','사회와 문화','영어 I'],advanced:['정치','정보','문학과 영상'],explore:['매체 의사소통','윤리와 사고','지식 재산 일반'],note:'글쓰기와 사회 이슈 분석, 디지털 매체 활용을 함께 보여주는 것이 핵심입니다.'},
+    {name:'국어교육과',domain:'교육',aliases:'국어교육 국어교사 사범대',core:['독서와 작문','문학','화법과 언어','사회와 문화'],advanced:['주제 탐구 독서','문학과 영상','신문'],explore:['매체 의사소통','윤리와 사고','사회문제 탐구'],note:'국어 교과 전문성과 교육적 의사소통 역량이 드러나는 과목 구성을 권장합니다.'},
+    {name:'수학교육과',domain:'교육',aliases:'수학교육 수학 교사 사범대',core:['대수','미적분 I','확률과 통계','기하'],advanced:['미적분 II','인공지능 수학','물리학'],explore:['수학과제 탐구','수학과 문화','실용 통계'],note:'수학 교과의 위계가 중요하므로 미적분과 기하를 심화 탐구로 연결하세요.'},
+    {name:'생명과학과',domain:'자연',aliases:'생명 생물 바이오 생명공학 분자생물',core:['생명과학','화학','확률과 통계','미적분 I'],advanced:['세포와 물질대사','생물의 유전','화학 반응의 세계'],explore:['융합과학 탐구','실용 통계','과학의 역사와 문화'],note:'생명과학과 화학을 함께 이수하고 유전·세포 영역으로 깊이를 보여주는 것이 좋습니다.'},
+    {name:'화학과',domain:'자연',aliases:'화학 응용화학 화학생명',core:['화학','미적분 I','확률과 통계','물리학'],advanced:['물질과 에너지','화학 반응의 세계','미적분 II'],explore:['융합과학 탐구','수학과제 탐구','과학의 역사와 문화'],note:'화학 심화와 수학적 모델링을 연결하면 전공 적합성이 더 선명해집니다.'},
+    {name:'컴퓨터공학과',domain:'공학',aliases:'컴퓨터 컴공 소프트웨어 AI 인공지능 데이터 정보보안',core:['정보','대수','확률과 통계','미적분 I'],advanced:['인공지능 수학','데이터 과학','소프트웨어와 생활','미적분 II'],explore:['수학과제 탐구','실용 통계','융합과학 탐구'],note:'수학·정보·데이터 역량을 함께 보여주세요. AI 진로라면 확률과 통계가 특히 중요합니다.'},
+    {name:'기계공학과',domain:'공학',aliases:'기계 로봇 자동차 항공 메카트로닉스',core:['물리학','미적분 I','기하','화학'],advanced:['미적분 II','역학과 에너지','전자기와 양자'],explore:['창의 공학 설계','수학과제 탐구','융합과학 탐구'],note:'힘과 이동, 설계를 연결하기 위해 물리학·미적분·기하를 우선 고려하세요.'},
+    {name:'전기전자공학과',domain:'공학',aliases:'전기 전자 반도체 정보통신 통신공학',core:['물리학','미적분 I','기하','정보'],advanced:['미적분 II','전자기와 양자','인공지능 수학'],explore:['창의 공학 설계','융합과학 탐구','수학과제 탐구'],note:'전자기와 회로의 기초가 되는 물리학과 수학 심화가 중요합니다.'},
+    {name:'간호학과',domain:'의약',aliases:'간호 보건간호 간호대',core:['생명과학','화학','확률과 통계','영어 I'],advanced:['세포와 물질대사','생물의 유전','현대사회와 윤리'],explore:['융합과학 탐구','윤리와 사고','실용 통계'],note:'생명과학 기반의 질병·감염 이해를 위한 화학, 의료윤리를 함께 연결하세요.'},
+    {name:'약학과',domain:'의약',aliases:'약학 약대 제약 신약',core:['화학','생명과학','미적분 I','확률과 통계'],advanced:['물질과 에너지','화학 반응의 세계','세포와 물질대사','생물의 유전'],explore:['융합과학 탐구','실용 통계','과학의 역사와 문화'],note:'화학과 생명과학을 모두 깊게 이수하고 통계로 질병 데이터를 해석하면 좋습니다.'},
+    {name:'의예과',domain:'의약',aliases:'의예 의대 의학 치의예 한의예',core:['화학','생명과학','미적분 I','확률과 통계'],advanced:['세포와 물질대사','생물의 유전','미적분 II','화학 반응의 세계'],explore:['융합과학 탐구','실용 통계','윤리와 사고'],note:'대학별 권장과목 차이가 크므로 수학·과학 심화를 확보하고 최신 모집요강을 반드시 확인하세요.'},
+    {name:'시각디자인학과',domain:'예체능',aliases:'시각 디자인 산업디자인 영상디자인 미술',core:['미술','독서와 작문','영어 I','정보'],advanced:['미술 창작','미술 감상과 비평','문학과 영상'],explore:['매체 의사소통','지식 재산 일반','창의 공학 설계'],note:'표현 역량과 매체 이해, 지식재산 관심을 결합하면 탐구 폭이 넓어집니다.'},
+    {name:'체육학과',domain:'예체능',aliases:'체육 스포츠 스포츠과학 운동생활',core:['체육','생명과학','확률과 통계','사회와 문화'],advanced:['스포츠 과학','세포와 물질대사','영어 I'],explore:['스포츠 생활','실용 통계','융합과학 탐구'],note:'경기와 훈련, 운동 생리와 스포츠 데이터를 해석하는 수업 역량을 보여주세요.'}
+  ];
+  const SUBJECT_META={
+    '대수':{why:'함수·방정식으로 전공 현상을 수식화하는 기초가 됩니다.',output:'모델링 탐구·자료 해석 세특'},
+    '미적분 I':{why:'변화량과 최적화 개념을 다루어 자연·공학·경제 계열의 핵심 언어가 됩니다.',output:'변화율 분석 보고서'},
+    '미적분 II':{why:'심화 수학 이수 근거를 만들어 상위 전공 학습 준비도를 보여줍니다.',output:'심화 수학 탐구 기록'},
+    '확률과 통계':{why:'실험·조사 데이터를 해석하고 근거 기반 결론을 세우는 데 필요합니다.',output:'통계 분석 보고서'},
+    '기하':{why:'공간 구조, 설계, 시각화 역량을 보여주는 과목입니다.',output:'공간 모델링 탐구'},
+    '정보':{why:'데이터 처리와 알고리즘 사고를 전공 문제 해결에 연결할 수 있습니다.',output:'데이터 처리 활동 기록'},
+    '데이터 과학':{why:'전공 관련 데이터를 수집·정리·분석하는 역량을 보여줍니다.',output:'데이터 기반 탐구 보고서'},
+    '인공지능 수학':{why:'AI와 모델 예측의 수학적 원리를 이해하는 심화 근거가 됩니다.',output:'AI 모델 원리 탐구'},
+    '소프트웨어와 생활':{why:'문제 해결 과정을 소프트웨어 구현과 연결할 수 있습니다.',output:'간단 구현·프로토타입 활동'},
+    '물리학':{why:'힘, 에너지, 전자기 등 공학 시스템의 작동 원리를 이해하는 기초입니다.',output:'물리 원리 적용 탐구'},
+    '역학과 에너지':{why:'기계·항공·로봇 분야의 운동과 에너지 전환을 깊게 설명합니다.',output:'시스템 효율 분석'},
+    '전자기와 양자':{why:'전기전자·반도체 분야의 핵심 원리를 설명하는 심화 과목입니다.',output:'전자기 현상 탐구'},
+    '화학':{why:'물질 변화와 반응 원리를 이해해 생명·의약·공학 탐구를 뒷받침합니다.',output:'반응 원리 탐구'},
+    '물질과 에너지':{why:'물질 구조와 에너지 변화를 전공 문제에 적용할 수 있습니다.',output:'물질 특성 분석'},
+    '화학 반응의 세계':{why:'반응 속도와 평형 등 심화 화학 개념을 전공 탐구로 확장합니다.',output:'화학 반응 분석 보고서'},
+    '생명과학':{why:'생명 현상과 질병·환경·바이오 이슈를 이해하는 핵심 과목입니다.',output:'생명 현상 탐구 기록'},
+    '세포와 물질대사':{why:'세포 수준의 생명 현상을 의약·바이오 탐구와 연결합니다.',output:'세포 기능 분석'},
+    '생물의 유전':{why:'유전 정보와 변이를 바탕으로 바이오·의학 주제를 설계할 수 있습니다.',output:'유전 원리 탐구'},
+    '사회와 문화':{why:'사회 현상과 집단 행동을 분석해 인문사회 전공의 문제의식을 만듭니다.',output:'사회 이슈 분석'},
+    '경제':{why:'시장과 의사결정 구조를 이해해 경영·사회 현상 분석의 기준이 됩니다.',output:'경제 현상 분석'},
+    '경제 수학':{why:'경제 현상을 수식과 그래프로 해석하는 전공 기초를 보여줍니다.',output:'경제 모델링 기록'},
+    '정치':{why:'정책·권력·사회 의사결정 구조를 미디어와 사회 이슈 분석에 연결합니다.',output:'정책/여론 분석'},
+    '현대사회와 윤리':{why:'의료·기술·교육 분야에서 필요한 가치 판단과 책임성을 보여줍니다.',output:'윤리 쟁점 토론 기록'},
+    '윤리와 사고':{why:'근거를 세워 판단하고 토론하는 역량을 보여주는 과목입니다.',output:'쟁점 기반 발표'},
+    '독서와 작문':{why:'전공 텍스트를 읽고 자기 언어로 논증하는 기본 역량입니다.',output:'전공 독서·비평문'},
+    '화법과 언어':{why:'발표와 의사소통 역량을 학생부 활동으로 드러내기 좋습니다.',output:'발표·토론 세특'},
+    '문학':{why:'텍스트 해석과 표현 역량을 교육·인문 계열의 기초로 연결합니다.',output:'문학 해석 활동'},
+    '영어 I':{why:'전공 자료 접근성과 학술 자료 이해의 기본 역량을 보여줍니다.',output:'영문 자료 요약'},
+    '매체 의사소통':{why:'디지털 매체의 메시지 구조와 수용자를 분석하는 데 연결됩니다.',output:'콘텐츠 분석 보고서'},
+    '창의 공학 설계':{why:'아이디어를 설계·제작·개선하는 공학적 문제 해결 과정을 보여줍니다.',output:'프로젝트 설계 기록'},
+    '융합과학 탐구':{why:'여러 과학 개념을 결합해 전공형 탐구 질문을 만들 수 있습니다.',output:'융합 탐구 보고서'},
+    '수학과제 탐구':{why:'전공 현상을 수학적 질문으로 바꾸는 과정을 보여줍니다.',output:'수학 기반 탐구'},
+    '실용 통계':{why:'생활·전공 데이터를 분석해 근거 있는 결론을 만드는 데 적합합니다.',output:'통계 처리 활동'}
+  };
+  const DOMAIN_REASON={
+    공학:'전공 문제를 수학·과학 원리로 설명하고 설계 활동으로 확장할 수 있습니다.',
+    자연:'자연 현상을 관찰·분석하고 실험 근거를 세우는 데 연결됩니다.',
+    의약:'생명·화학·윤리 근거를 바탕으로 의료 문제를 탐구할 수 있습니다.',
+    사회:'사회 현상과 자료를 해석해 전공 문제의식을 만들 수 있습니다.',
+    교육:'교과 전문성과 설명·소통 역량을 함께 보여줄 수 있습니다.',
+    예체능:'표현·매체·인체 이해를 활동 산출물로 연결할 수 있습니다.'
+  };
+  function enrichSubject(name,major,type){
+    const meta=SUBJECT_META[name]||{};
+    return {name,type,why:meta.why||DOMAIN_REASON[major.domain]||'전공 이해와 학생부 활동의 근거를 만드는 과목입니다.',output:meta.output||`${major.name} 연계 탐구 질문·세특 소재`,curriculum:'2022-revised'};
+  }
+  const SUBJECT_MAJORS=RAW_MAJORS.map(major=>({
+    ...major,
+    core:major.core.map(name=>enrichSubject(name,major,'기초 권장')),
+    advanced:major.advanced.map(name=>enrichSubject(name,major,'심화 권장')),
+    explore:major.explore.map(name=>enrichSubject(name,major,'탐구 연결'))
+  }));
+  const subjectName=item=>typeof item==='string'?item:item.name;
+  const escapeAttr=value=>String(value).replace(/"/g,'&quot;');
+  function selectedDetails(major){
+    return [...major.core,...major.advanced].filter(item=>state.selected.includes(item.name)).map(({name,type,why,output,curriculum})=>({name,type,why,output,curriculum}));
+  }
+  function planScore(major){
+    const coreMatched=major.core.filter(item=>state.selected.includes(item.name)).length;
+    const selected=Math.min(state.selected.length,major.core.length+2);
+    const base=45+(major.core.length?coreMatched/major.core.length*35:0)+selected*4;
+    return Math.min(96,Math.round(base));
+  }
+  window.__EVA_SUBJECT_MAJORS_2022=SUBJECT_MAJORS;
+  renderList=function(q=''){
+    q=q.trim().toLowerCase();
+    const list=SUBJECT_MAJORS.filter(m=>!q||(`${m.name} ${m.aliases} ${m.domain}`).toLowerCase().includes(q));
+    majorList.innerHTML=list.map(m=>`<button class="major-btn ${state.major?.name===m.name?'on':''}" onclick="selectMajor('${escapeAttr(m.name)}')"><span>${m.name}</span><small>${m.domain} →</small></button>`).join('')||'<div class="notice">검색 결과가 없어요. 학과명 일부나 계열 키워드로 다시 검색해 보세요.</div>';
+  };
+  selectMajor=function(name){
+    state.major=SUBJECT_MAJORS.find(m=>m.name===name);
+    const saved=loadSaved(name);
+    state.selected=saved?.selected||[];
+    renderList(search.value);
+    renderResult();
+  };
+  subjectRow=function(item,type){
+    const subject=typeof item==='string'?{name:item,type,why:'전공 기초와 학생부 활동의 근거를 만드는 과목입니다.',output:'탐구 질문·세특 소재'}:item;
+    return `<label class="subject"><input type="checkbox" value="${subject.name}" ${state.selected.includes(subject.name)?'checked':''} onchange="toggleSubject(this)"><span class="subject-copy"><b>${subject.name}</b><small>${type} · 2022 개정</small><span class="reason">왜 연결되나 · ${subject.why}</span><span class="output">학생부 활용 · ${subject.output}</span></span></label>`;
+  };
+  renderResult=function(){
+    const m=state.major;
+    if(!m)return;
+    const score=planScore(m);
+    const coreMatched=m.core.filter(item=>state.selected.includes(item.name)).length;
+    result.innerHTML=`<div class="result-head"><div><span class="domain">${m.domain}계열</span><h2>${m.name}</h2><p>${state.grade} 기준으로 나의 선택 계획을 만들어 보세요.</p><span class="curriculum-badge">${CURRICULUM_NOTE}</span></div><div class="fit" style="--score:${score}%"><b>${score}%</b></div></div><div class="plan-summary"><div class="stat"><b>${m.core.length}</b><span>기초 권장</span></div><div class="stat"><b>${m.advanced.length}</b><span>심화 권장</span></div><div class="stat"><b>${coreMatched}/${m.core.length}</b><span>핵심 반영</span></div></div><div class="section"><div class="section-title"><h3>우선 확인할 과목</h3><span>전공 기초를 만드는 과목</span></div><div class="subjects">${m.core.map(x=>subjectRow(x,'기초 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>심화하면 좋은 과목</h3><span>관심 분야를 깊게 보여주는 과목</span></div><div class="subjects">${m.advanced.map(x=>subjectRow(x,'심화 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>탐구와 연결할 과목</h3></div><div class="priority">${m.explore.map(x=>`<span><b>${x.name}</b>${x.why}</span>`).join('')}</div></div><div class="section"><div class="section-title"><h3>에바연 설계 포인트</h3></div><div class="advice">${m.note}</div><div class="actions"><button class="primary" onclick="savePlan()">내 선택계획 저장</button><button class="secondary" onclick="clearPlan()">체크 초기화</button></div><div class="saved" id="savedMessage"></div><div id="subjectNextActions"></div></div>`;
+  };
+  savePlan=function(){
+    if(!state.major)return;
+    const m=state.major;
+    const missing=m.core.filter(subject=>!state.selected.includes(subject.name));
+    const details=selectedDetails(m);
+    const score=planScore(m);
+    const payload={grade:state.grade,selected:state.selected,selectedDetails:details,date:new Date().toISOString(),curriculum:'2022-revised'};
+    localStorage.setItem('eva_subject_'+m.name,JSON.stringify(payload));
+    const savedResult=window.EVAResultBridge?window.EVAResultBridge.save({
+      tool:{id:'subject-plan',title:'선택과목 진단',category:'교과 설계'},
+      summary:{title:`${m.name} 선택과목 계획`,headline:`${state.selected.length}개 과목 선택 · 핵심 ${m.core.length-missing.length}/${m.core.length}개 반영`,score,scoreLabel:'계획 적합도',status:missing.length?'설계 중':'핵심 과목 반영',description:m.note},
+      metrics:{selectedCount:state.selected.length,coreCount:m.core.length,coreMatched:m.core.length-missing.length,advancedCount:m.advanced.length,missingCore:missing.map(subject=>subject.name),selectedDetails:details,curriculum:'2022-revised',subjectPlanScore:score},
+      signals:{strengths:details.map(item=>`${item.name}: ${item.why}`),gaps:missing.map(subject=>`${subject.name} 이수 검토`),interests:m.explore.map(subject=>subject.name),subjects:[...new Set([...state.selected,...m.core.map(subjectName),...m.advanced.map(subjectName)])],majors:[m.name,m.domain+'계열'],keywords:['선택과목','2022 개정',m.domain,...m.explore.map(subject=>subject.name)]},
+      actions:[{label:missing.length?`${missing[0].name} 이수 가능 여부 확인`:'선택과목과 연결할 탐구 주제 찾기',page:missing.length?'diagnosis':'resources'},{label:'희망학과 연계 탐구자료 확인',page:'resources'}],
+      source:{grade:state.grade,major:m.name,curriculum:'2022-revised'}
+    }):null;
+    savedMessage.textContent=`${state.selected.length}개 과목을 나의 계획과 대시보드에 저장했습니다.`;
+    window.EVAResultBridge?.renderNextActions('#subjectNextActions',savedResult,{
+      dashboardPage:'insights',
+      subtitle:'선택과목 계획이 저장되었습니다. 이제 과목 선택을 탐구 주제와 학생부 활동으로 이어가 보세요.'
+    });
+  };
+  renderList(search.value||'');
+})();
+</script>
+</body>
+</html>
