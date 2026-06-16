@@ -9,11 +9,22 @@
   window.sbClient = sb;
   const isDemo = new URLSearchParams(location.search).get("mode") === "demo";
 
+  // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(프로필/결과 등 eva_* 키)를 비움.
+  // Supabase 세션 키(sb-*)는 건드리지 않으므로 로그인은 유지됨.
+  function evaScopeToUser(uid) {
+    try {
+      if (!uid || localStorage.getItem("eva_active_uid") === uid) return;
+      Object.keys(localStorage).filter(k => k.indexOf("eva_") === 0).forEach(k => localStorage.removeItem(k));
+      localStorage.setItem("eva_active_uid", uid);
+    } catch (e) {}
+  }
+
   // 프로필: Supabase → 로컬 저장소 → 화면
   async function syncProfileFromSupabase() {
     try {
       const { data: { user } } = await sb.auth.getUser();
       if (!user) return;
+      evaScopeToUser(user.id);  // 계정이 바뀌었으면 이전 로컬데이터 정리 후 서버에서 새로 로드
       const { data } = await sb.from("profiles").select("*").eq("id", user.id).maybeSingle();
       if (data) {
         const p = {
@@ -63,6 +74,7 @@
   window.evaLogout = async function () {
     try { await sb.auth.signOut({ scope: "local" }); } catch (e) {}
     try { Object.keys(localStorage).filter(k => k.startsWith("sb-")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+    try { Object.keys(localStorage).filter(k => k.startsWith("eva_")).forEach(k => localStorage.removeItem(k)); } catch (e) {}
     location.reload();
   };
 

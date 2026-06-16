@@ -772,6 +772,15 @@
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGRxeGx1ZXVocWlua2p4aHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MzQ5MTYsImV4cCI6MjA5NzAxMDkxNn0.gljEkX78tXvffkxqUOCB5z9k_bPSf_gq5RT3TURaZW4";
     const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
+    // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(eva_* 키)를 비움.
+    function evaScopeToUser(uid) {
+      try {
+        if (!uid || localStorage.getItem("eva_active_uid") === uid) return;
+        Object.keys(localStorage).filter(k => k.indexOf("eva_") === 0).forEach(k => localStorage.removeItem(k));
+        localStorage.setItem("eva_active_uid", uid);
+      } catch (e) {}
+    }
+
     const toolMap = {
       'major-fit': { title: '전공적성 탐색', file: 'major-aptitude.html' },
       'record-type': { title: '생기부 유형 진단', file: 'record-type.html' },
@@ -795,6 +804,7 @@
         const { data: { session: s } } = await sb.auth.getSession();
         session = s || null;
         if (session) {
+          evaScopeToUser(session.user.id);  // 계정이 바뀌었으면 이전 로컬데이터 정리
           const { data: m } = await sb.from('memberships').select('tier,free_diag_used').eq('user_id', session.user.id).maybeSingle();
           membership = m || { tier: 'free', free_diag_used: false };
         } else { membership = null; }
