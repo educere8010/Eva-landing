@@ -171,7 +171,7 @@
             <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 13px"><b style="font-size:13px;color:#fff">세특 연결</b><br><span style="font-size:12px;color:#aeb8cc;line-height:1.6">수행평가·세특으로 그대로 이어가요.</span></div>
           </div>
         </div><div class="library-bar"><svg class="ico"><use href="#i-search"/></svg><input id="resourceSearch" placeholder="탐구 주제, 교과, 키워드 검색" oninput="renderResourceCatalog()"><select class="select-functional" id="resourceSort" aria-label="탐구자료 정렬" onchange="renderResourceCatalog()"><option value="recommend">추천순</option><option value="title">제목순</option><option value="subject">교과순</option></select><button class="primary" onclick="openTool('library-research.html')">전체 라이브러리 열기</button></div><div class="recommend-grid full-grid" id="resourceCards"></div></section>
-      <section class="page" id="page-profile"><div class="page-title"><span class="eyebrow">GOAL SETTING</span><h1>나의 진로·목표</h1><p>이 정보는 추천 도서, 탐구 주제, 대학 전략 개인화에 사용됩니다.</p></div>
+      <section class="page" id="page-profile" data-eva-allow="1"><div class="page-title"><span class="eyebrow">GOAL SETTING</span><h1>나의 진로·목표</h1><p>이 정보는 추천 도서, 탐구 주제, 대학 전략 개인화에 사용됩니다.</p></div>
         <div style="background:#11203f;border-radius:18px;padding:18px 20px;margin-bottom:18px">
           <p style="font-size:14px;color:#c9d2e3;line-height:1.7;margin:0 0 14px"><b style="color:#fff;font-size:15px">정확히 입력할수록, 추천이 정확해져요.</b><br>여기 적은 <b style="color:#ecd9b6">희망학과·관심 분야</b>가 과목별 탐구 추천, 탐구 설계, 진단 결과 해석의 기준이 돼요. 나에게 맞는 학생부 설계의 출발점이에요.</p>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px">
@@ -179,7 +179,7 @@
             <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 13px"><b style="font-size:13px;color:#fff">탐구 설계</b><br><span style="font-size:12px;color:#aeb8cc;line-height:1.6">자기평가서까지 진로 기준으로 이어가요.</span></div>
             <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 13px"><b style="font-size:13px;color:#fff">자기 진단</b><br><span style="font-size:12px;color:#aeb8cc;line-height:1.6">결과를 내 목표 기준으로 해석해요.</span></div>
           </div>
-        </div><div class="profile-grid"><div class="panel-card profile-card"><div class="profile-big" id="profileInitial">김</div><h2 id="profileNameTitle">김에바</h2><p style="font-size:11px;color:var(--muted)">Studio 로컬 계정 · 이용 중</p><div class="progress"><i id="profileProgress" style="width:0%"></i></div><small id="profileCompletion" style="color:var(--muted)">프로필 완성도 계산 중</small></div><div class="panel-card"><div class="form-grid"><div class="field"><label>이름</label><input id="profileName" value="김에바"></div><div class="field"><label>학년</label><input id="profileGrade" value="고2"></div><div class="field"><label>희망학과</label><input id="profileMajor" value="의공학과"></div><div class="field"><label>계열</label><input id="profileTrack" value="자연계열"></div><div class="field" style="grid-column:1/-1"><label>관심 키워드</label><input id="profileInterests" value="생명과학, 의료기술, 데이터 분석"></div></div><button class="primary" style="margin-top:18px" onclick="saveProfile()">변경사항 저장</button></div><div class="panel-card data-card"><div class="card-head"><h3>내 데이터 보관</h3><span class="pill" id="accountStorageBadge">요약 저장</span></div><p style="font-size:11px;color:var(--muted);line-height:1.7">생기부 PDF 원문과 상세 전문은 저장하지 않습니다. 학생부 현황·추천·탐구 설계에 필요한 진단 요약 신호, 진행 중인 탐구, 플래너만 백업하고 복원합니다.</p><div class="data-status" id="accountStorageStatus"></div><div class="data-actions"><button class="primary" onclick="exportAccountData()">요약 데이터 백업</button><button class="secondary" onclick="document.querySelector('#accountImportFile').click()">백업 불러오기</button><input id="accountImportFile" type="file" accept="application/json,.json" hidden onchange="importAccountData(this.files[0]);this.value=''"/></div></div></div></section>
+        </div><div class="profile-grid"><div class="panel-card profile-card"><div class="profile-big" id="profileInitial">학</div><h2 id="profileNameTitle">학생</h2><p style="font-size:11px;color:var(--muted)">Studio 로컬 계정 · 이용 중</p><div class="progress"><i id="profileProgress" style="width:0%"></i></div><small id="profileCompletion" style="color:var(--muted)">프로필 완성도 계산 중</small></div><div class="panel-card"><div class="form-grid"><div class="field"><label>이름</label><input id="profileName" value="" placeholder="예: 김에바"></div><div class="field"><label>학년</label><input id="profileGrade" value="" placeholder="예: 고2"></div><div class="field"><label>희망학과</label><input id="profileMajor" value="" placeholder="예: 의공학과"></div><div class="field"><label>계열</label><input id="profileTrack" value="" placeholder="예: 자연계열"></div><div class="field" style="grid-column:1/-1"><label>관심 키워드</label><input id="profileInterests" value="" placeholder="예: 생명과학, 의료기술, 데이터 분석"></div></div><button class="primary" style="margin-top:18px" onclick="saveProfile()">변경사항 저장</button></div><div class="panel-card data-card"><div class="card-head"><h3>내 데이터 보관</h3><span class="pill" id="accountStorageBadge">요약 저장</span></div><p style="font-size:11px;color:var(--muted);line-height:1.7">생기부 PDF 원문과 상세 전문은 저장하지 않습니다. 학생부 현황·추천·탐구 설계에 필요한 진단 요약 신호, 진행 중인 탐구, 플래너만 백업하고 복원합니다.</p><div class="data-status" id="accountStorageStatus"></div><div class="data-actions"><button class="primary" onclick="exportAccountData()">요약 데이터 백업</button><button class="secondary" onclick="document.querySelector('#accountImportFile').click()">백업 불러오기</button><input id="accountImportFile" type="file" accept="application/json,.json" hidden onchange="importAccountData(this.files[0]);this.value=''"/></div></div></div></section>
     </div>
   </main>
 </div>
@@ -914,6 +914,7 @@ window.EVAAccountStore?.ensureAccount();render();renderLibrary();syncSaveButtons
 
   function isLocked(el) {
     if (el.closest('#evaDemoBar') || el.closest('#evaDemoModal')) return false;
+    if (el.closest('[data-eva-allow]')) return false;  // 무료회원 허용 영역(프로필·진로 기본정보 편집/저장)
     var onclick = el.getAttribute('onclick') || '';
     var href = el.getAttribute('href') || '';
     var txt = (el.textContent || '').replace(/\s+/g, ' ').trim();
@@ -958,7 +959,7 @@ window.EVAAccountStore?.ensureAccount();render();renderLibrary();syncSaveButtons
       e.stopPropagation();
       show();
     }, true);
-    document.addEventListener('submit', function (e) { e.preventDefault(); e.stopPropagation(); show(); }, true);
+    document.addEventListener('submit', function (e) { if (e.target && e.target.closest && e.target.closest('[data-eva-allow]')) return; e.preventDefault(); e.stopPropagation(); show(); }, true);
     if (document.body) startTagging(); else document.addEventListener('DOMContentLoaded', startTagging);
   }
 
