@@ -109,6 +109,11 @@
   .gauge .big{font-size:48px;font-weight:800;color:var(--navy);line-height:1;}
   .gauge .big small{font-size:17px;color:var(--muted);font-weight:400;}
   .gauge .why{flex:1;min-width:240px;font-size:13.3px;color:#33405e;}
+  .fitband{display:inline-block;font-size:19px;font-weight:800;padding:9px 19px;border-radius:30px;line-height:1.1;white-space:nowrap;}
+  .fitband.fbA{background:#e7f3e8;color:#2f7d33;} .fitband.fbB{background:#fbeed3;color:#946312;} .fitband.fbC{background:#f6e4e4;color:#b23b3b;}
+  .axisev{margin:-4px 0 12px 116px;padding:8px 11px;border-left:3px solid #91a5dc;background:#f7f9fe;border-radius:0 8px 8px 0;font-size:12px;color:#46516c;line-height:1.55;}
+  .axisev-q{color:#91a5dc;font-weight:800;} .axisev-meta{display:block;margin-top:4px;font-size:10.5px;color:var(--muted);}
+  .axisev.none{border-left-color:#d8b48c;background:#fdf6ee;color:#7a6443;}
   .tri{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
   .tri .t{border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center;}
   .tri .t .lb{font-size:11.5px;color:var(--muted);}
@@ -309,7 +314,7 @@
       <div id="rAxes"></div>
       <div class="tri" id="rTri"></div>
       <div class="gauge">
-        <div class="big"><span id="rFit">0</span><small> / 100</small></div>
+        <div class="big"><span id="rFitBand" class="fitband fbB">—</span></div>
         <div class="why" id="rWhy"></div>
       </div>
       <p class="hint" id="rWeight"></p>
@@ -788,6 +793,8 @@ function score(){
 
 /* ── 리포트 렌더 ───────────────────────────── */
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+// 적합도/준비도 단일 점수를 절대 기준 밴드로 (3축 A/B/C와 동일 임계: 75/50)
+function fitBand(p){ const g=LETTER(p); return {g, label: g==="A"?"강점 단계":g==="B"?"보완 단계":"기초 단계"}; }
 function profileText(profile){
   if(!profile)return "";
   return [
@@ -879,7 +886,7 @@ function renderReport(){
   const uploaded = S.analysisMode==="upload" && S.uploadAnalysis;
   const savedResult=window.EVAResultBridge?window.EVAResultBridge.save({
     tool:{id:'record-analysis',title:'생기부 정밀 진단',category:'학생부 진단'},
-    summary:{title:`${S.hak} 학생부 ${design?'설계':uploaded?'원문 분석':'정밀 진단'}`,headline:`${design?'준비도':'적합도'} ${r.fit}점 · 우선 ${r.worst[0]?.q?.nm||'기록 보완'}`,score:r.fit,scoreLabel:design?'학생부 준비도':'학생부 적합도',status:r.fit>=75?'강점 확장':r.fit>=55?'보완 실행':'기초 설계',description:`${S.hak} 역량 기준으로 강점과 우선 보완 영역을 ${uploaded?'원문 근거에서 ':''}분석했습니다.`},
+    summary:{title:`${S.hak} 학생부 ${design?'설계':uploaded?'원문 분석':'정밀 진단'}`,headline:`${design?'준비도':'적합도'} ${fitBand(r.fit).label} · 우선 ${r.worst[0]?.q?.nm||'기록 보완'}`,score:r.fit,scoreLabel:design?'학생부 준비도':'학생부 적합도',status:r.fit>=75?'강점 확장':r.fit>=55?'보완 실행':'기초 설계',description:`${S.hak} 역량 기준으로 강점과 우선 보완 영역을 ${uploaded?'원문 근거에서 ':''}분석했습니다.`},
     metrics:{fit:r.fit,axes:Object.fromEntries(r.axes3.map(axis=>[axis.nm,axis.p])),mode:uploaded?'upload':S.mode,grade:S.grade,evidenceCount:uploaded?S.uploadAnalysis.evidence.length:0,documentPages:uploaded?S.uploadAnalysis.document.pageCount:0},
     signals:{strengths:r.axes3.filter(axis=>axis.p>=70).map(axis=>axis.nm),gaps:r.worst.map(item=>item.q.nm),subjects:[],majors:[S.hak,S.gye],keywords:['학생부','세특','탐구 기록',...r.worst.map(item=>item.q.tag||item.q.nm)]},
     actions:[{label:`${r.worst[0]?.q?.nm||'학생부 기록'} 보완 활동 시작`,page:'roadmap'},{label:`${S.hak} 연계 탐구자료 확인`,page:'resources'}],
@@ -899,16 +906,30 @@ function renderReport(){
 
   // ① 3축
   const axBox=document.getElementById("rAxes"); axBox.innerHTML="";
+  const allCrit = uploaded ? [...S.uploadAnalysis.dimensions,...S.uploadAnalysis.majorCompetencies] : [];
+  const confLabel = {high:'높음',medium:'보통',low:'낮음'};
   r.axes3.forEach(a=>{
     const g=LETTER(a.p);
     const gi = g==="A"?0 : g==="B"?1 : 2;
     const lvTxt = design ? DESIGN_Q[a.i].opts[gi]
       : [DB.rubric[a.i].A, DB.rubric[a.i].B, DB.rubric[a.i].C][gi];
+    let evHTML="";
+    if(uploaded){
+      const q=S.questions[a.i];
+      const crit=allCrit.find(it=>it.label===q.nm);
+      const ev=crit?.evidence?.[0];
+      if(ev){
+        const quote = ev.excerpt.length>140 ? ev.excerpt.slice(0,140)+"…" : ev.excerpt;
+        evHTML = `<div class="axisev"><span class="axisev-q">“</span>${esc(quote)}<span class="axisev-q">”</span><span class="axisev-meta">이 등급의 근거 · 원문 p.${ev.page}${ev.confidence?` · 신뢰도 ${confLabel[ev.confidence]||ev.confidence}`:""}</span></div>`;
+      } else {
+        evHTML = `<div class="axisev none">원문에서 이 축을 직접 뒷받침하는 문장을 찾지 못했어요 — 활동이 있었다면 세특·창체에 문장으로 남았는지 확인하세요.</div>`;
+      }
+    }
     axBox.insertAdjacentHTML("beforeend", `
       <div class="axis"><span class="nm">${a.nm}</span>
         <div class="bar"><i style="width:${a.p}%"></i></div>
         <span class="gd g${g}">${g}</span></div>
-      <p class="axiscmt">${esc(lvTxt)}</p>`);
+      <p class="axiscmt">${esc(lvTxt)}</p>${evHTML}`);
   });
   // 학종 3대 역량
   const triBox=document.getElementById("rTri"); triBox.innerHTML="";
@@ -917,13 +938,16 @@ function renderReport(){
     triBox.insertAdjacentHTML("beforeend",
       `<div class="t"><div class="lb">${t.nm}</div><div class="g g${g}">${g}</div><div class="d">${t.d}</div></div>`);
   });
-  // 적합도 / 준비도
-  animateNum(document.getElementById("rFit"), r.fit);
+  // 적합도 / 준비도 — 단일 점수 대신 밴드 칩
+  const fb=fitBand(r.fit);
+  const fitEl=document.getElementById("rFitBand");
+  fitEl.textContent=fb.label;
+  fitEl.className="fitband fb"+fb.g;
   const mq = r.majors, mp = r.majorPts;
   const best = mp.indexOf(Math.max(...mp)), worstM = mp.indexOf(Math.min(...mp));
   let why;
   if(design){
-    why = `생기부가 아닌 <b>습관·경험 기준의 ${S.hak} 준비도</b>예요. 점수가 낮아도 불리한 게 아니라 '여기서 시작하면 된다'는 지도입니다. `;
+    why = `생기부가 아닌 <b>습관·경험 기준의 ${S.hak} 준비도</b>예요. 지금 단계가 낮아도 불리한 게 아니라 '여기서 시작하면 된다'는 지도입니다. `;
     if(mp[best] >= 75) why += `‘${mq[best].nm}’ 쪽 경험이 이미 있으니, 고교에서 이 줄기를 첫 기록으로 만드는 게 가장 빠릅니다. `;
     else if(mp[best] >= 50) why += `‘${mq[best].nm}’에 관심의 씨앗이 보여요 — 첫 탐구를 여기서 시작해 보세요. `;
     else why += `아직 학과 관련 경험이 없는 출발선이에요. 그래서 지금이 가장 좋은 시작 시점입니다. `;
