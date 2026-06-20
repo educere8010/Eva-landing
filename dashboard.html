@@ -308,7 +308,7 @@ function renderSubjectRec(){
   rows.sort((a,b)=>(b.det||0)-(a.det||0));
   const total=rows.length;
   const grid=document.querySelector('#recSubjectGrid');
-  if(grid)grid.innerHTML=total?rows.slice(0,3).map(r=>recCardHTML(r,recMode)).join(''):'<div class="archive-empty">이 조합의 자료는 준비 중이에요. 다른 과목을 선택해 보세요.</div>';
+  if(grid)grid.innerHTML=total?rows.slice(0,3).map(r=>recCardHTML(r,recMode)).join(''):'<div class="archive-empty">이 조합은 다른 추천을 먼저 보여드릴게요. 다른 과목도 선택해 보세요.</div>';
   const more=document.querySelector('#recMoreWrap');
   if(more)more.innerHTML=total>3?`<button class="text-btn" onclick="goPage('resources')">이 과목 자료 더 보기 (${total}) →</button>`:'';
   syncSaveButtons();
@@ -464,7 +464,7 @@ function renderCommonResourceDetail(record){
 }
 function renderBriefDetail(item){
  const d=item.detail||{};
- const pending='<div class="detail-pending"><b>간단자료</b><br>이 자료의 전체 상세 콘텐츠는 아직 연결 준비 중입니다. 현재 확인 가능한 핵심 정보만 제공합니다.</div>';
+ const pending='<div class="detail-pending"><b>간단자료</b><br>지금은 이 자료의 핵심 정보를 먼저 보여드릴게요. 상세 콘텐츠는 순차적으로 확대하고 있어요.</div>';
  if(item.type==='탐구자료')return pending+detailInfoHTML([['자료 ID',item.sourceId],['계열·학과',d.major],['권장 학년',d.grade],['추천 도서',d.book]])+detailSection('탐구 주제',paragraphsHTML(d.topic||item.body))+detailSection('자료 소개',paragraphsHTML(d.intro||item.body))+(d.activities?detailSection('탐구 활동',listHTML(d.activities,true)):'')+(d.concepts?detailSection('핵심 개념',`<div class="tags">${d.concepts.map(value=>`<span>${escapeHTML(value)}</span>`).join('')}</div>`):'')+(d.output?detailSection('예상 산출물',paragraphsHTML(d.output)):'')+(d.record?detailSection('학생부 기록 방향',`<div class="detail-note">${escapeHTML(d.record)}</div>`):'');
  return pending+detailInfoHTML([['도서 ID',item.sourceId],['저자',d.author],['출판사',d.publisher],['출간 연도',d.year]])+detailSection('추천 이유',paragraphsHTML(d.why||item.body))+(d.questions?detailSection('읽으며 답할 질문',listHTML(d.questions,true)):'')+(d.activity?detailSection('후속 탐구 활동',`<div class="detail-note">${escapeHTML(d.activity)}</div>`):'');
 }

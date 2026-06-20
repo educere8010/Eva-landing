@@ -176,7 +176,7 @@
   .lawitem span{font-size:11px;color:var(--muted);line-height:1.5;display:block;}
   .lawnote{font-size:11.5px;color:#8a6d1a;background:#fff8e6;border-radius:8px;padding:7px 10px;margin-top:6px;}
   @media(max-width:560px){.tri,.evidence-summary{grid-template-columns:1fr;}.axiscmt{margin-left:0;}}
-  @media print{.topbar,.actions,.upsell,.leadcard,.noprint{display:none!important;}body{background:#fff;}.card{box-shadow:none;break-inside:avoid;}}
+  @media print{.topbar,.actions,.upsell,.leadcard,.noprint,.print-skip,.eva-studio-shell,.eva-product-hero,footer{display:none!important;}body{background:#fff;}.card{box-shadow:none;break-inside:avoid;}}
 </style>
 </head>
 <body class="eva-tool eva-record-deep">
@@ -349,6 +349,7 @@
       <div id="rLaw"></div>
     </div>
 
+    <div class="print-skip">
     <div class="blocktitle">PART 2 · 설계</div>
 
     <div class="card">
@@ -389,19 +390,6 @@
       <div id="rProds"></div>
     </div>
 
-    <div class="leadcard">
-      <h2>이 리포트, 이메일로 받아두기</h2>
-      <p class="sub">진단 결과 요약과 함께 학과 맞춤 무료 탐구 자료를 보내드려요.</p>
-      <form id="leadForm" novalidate>
-        <div class="leadrow">
-          <input id="leadEmail" name="email" type="email" required autocomplete="email" placeholder="이메일 주소" />
-          <button type="submit" class="btn">무료로 받기</button>
-        </div>
-      </form>
-      <p class="leadmsg" id="leadMsg" aria-live="polite"></p>
-      <p class="hint">스팸 ❌ · 필요 없으면 1초만에 수신거부</p>
-    </div>
-
     <div class="upsell">
       <div><b>자동 분석을 넘어, 더 깊게 보고 싶다면</b>
       <p>원문을 에바연 연구진이 직접 읽는 1:1 정밀 진단도 있어요. 자동 분석이 놓치는 맥락·뉘앙스까지 사람이 짚어 드립니다.</p></div>
@@ -411,13 +399,14 @@
     <div id="recordNextActions"></div>
 
     <div class="actions">
-      <button class="btn ghost" onclick="window.print()">리포트 PDF 저장</button>
+      <button class="btn ghost" onclick="window.print()">결과 인쇄하기</button>
       <button class="btn ghost" onclick="go('s-input')">다른 학과로 재진단</button>
       <button class="btn" onclick="go('s-start')">처음으로</button>
     </div>
+    </div>
   </section>
 
-  <footer>에듀케레 바른교육연구소 · educereedu.com<br>본 진단은 원문 근거 분석 또는 학생 자가응답 기반의 보조 도구이며, 학교생활기록부 기재와 입학사정관의 종합평가를 대체하지 않습니다.</footer>
+  <footer>(주)에듀케레 바른교육연구소 · educereedu.com<br>본 진단은 원문 근거 분석 또는 학생 자가응답 기반의 보조 도구이며, 학교생활기록부 기재와 입학사정관의 종합평가를 대체하지 않습니다.</footer>
 </div>
 
 <script src="eva_record_analysis_schema.js"></script>
@@ -1167,7 +1156,7 @@ function renderReport(){
         <div class="how">목표 기준: ${esc(d.high)}</div></div>`);
     });
   } else {
-    document.getElementById("rTopicSub").textContent=`원문에서 확인한 관심사와 방법을 바탕으로 ${S.hak} 방향의 후속 탐구를 만들었습니다. 학과 검증 주제는 DB 등록 후 함께 표시됩니다.`;
+    document.getElementById("rTopicSub").textContent=`원문에서 확인한 관심사와 방법을 바탕으로 ${S.hak} 방향의 후속 탐구를 만들었습니다.`;
   }
 
   // ⑤ 도서 (④도서표 매칭 → 없으면 에바연 무료 도서자료)
@@ -1234,24 +1223,6 @@ function animateNum(el, target){
   requestAnimationFrame(step);
 }
 
-/* ── 리드 폼 ───────────────────────────── */
-document.getElementById("leadForm").addEventListener("submit", e=>{
-  e.preventDefault();
-  const email=document.getElementById("leadEmail").value.trim();
-  const msg=document.getElementById("leadMsg");
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msg.textContent="이메일 형식을 한 번만 다시 확인해 주세요."; msg.style.color="var(--bad)"; return; }
-  const ready = !GOOGLE_FORM.action.includes("교체") && !GOOGLE_FORM.emailField.includes("교체");
-  if(ready){
-    const fd=new FormData(); fd.append(GOOGLE_FORM.emailField, email);
-    if(GOOGLE_FORM.typeField && !GOOGLE_FORM.typeField.includes("교체"))
-      fd.append(GOOGLE_FORM.typeField, `${S.grade}/${S.hak}/${S.mode==="design"?"준비도":"적합도"}${S.result?.fit??""}`);
-    fetch(GOOGLE_FORM.action,{method:"POST",mode:"no-cors",body:fd}).catch(()=>{});
-  } else {
-    console.warn("[에바연] 구글 폼이 아직 연결되지 않았어요. GOOGLE_FORM 설정을 채워주세요.");
-  }
-  msg.textContent="신청 완료! 24시간 안에 이메일로 보내드릴게요."; msg.style.color="var(--good)";
-  e.target.reset();
-});
 </script>
 </body>
 </html>

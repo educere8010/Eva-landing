@@ -272,21 +272,16 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center">
           <div>
             <span class="inline-block px-3 py-1 mb-4 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold tracking-widest uppercase">Free Pack</span>
-            <h3 class="text-2xl md:text-3xl font-bold text-primary-container mb-3 leading-tight">위 3권 자료,<br class="md:hidden"/> 이메일로 한 번에 받기</h3>
+            <h3 class="text-2xl md:text-3xl font-bold text-primary-container mb-3 leading-tight">위 3권 자료,<br class="md:hidden"/> 자료실에서 바로 보기</h3>
             <p class="text-sm md:text-base text-on-surface-variant leading-relaxed mb-5">
-              유형별로 큐레이션된 교과 탐구 자료 PDF를 보내드려요.
-              <b class="text-primary-container">책마다 탐구 질문 + 활동 흐름</b>이 정리돼 있어서, 그대로 수행·세특에 쓸 수 있어요.
+              유형별로 큐레이션된 교과 탐구 자료를 자료실에 정리해 뒀어요.
+              <b class="text-primary-container">책마다 탐구 질문 + 활동 흐름</b>이 있어서, 그대로 수행·세특에 쓸 수 있어요.
             </p>
-            <form data-field="leadForm" class="flex flex-col sm:flex-row gap-3" novalidate>
-              <label class="sr-only" for="email">이메일 주소</label>
-              <input id="email" name="email" type="email" required autocomplete="email" placeholder="이메일 주소" class="flex-1 px-4 py-3 md:py-4 rounded-xl border border-outline-variant bg-surface-container-low focus:border-primary-container focus:outline-none focus:ring-2 focus:ring-primary-container/30" />
-              <button type="submit" class="brand-gradient text-on-primary px-6 py-3 md:py-4 rounded-xl font-bold text-sm md:text-base shadow-lg hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 focus-ring whitespace-nowrap">
-                무료로 받기
-                <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
-              </button>
-            </form>
-            <p data-field="leadMsg" class="text-xs md:text-sm mt-3 min-h-[1.25rem]" aria-live="polite"></p>
-            <p class="text-[11px] text-outline mt-2">스팸 ❌ · 필요 없으면 1초만에 수신거부</p>
+            <a href="library-books.html" class="brand-gradient text-on-primary px-6 py-3 md:py-4 rounded-xl font-bold text-sm md:text-base shadow-lg hover:opacity-90 active:scale-[0.98] transition-all inline-flex items-center justify-center gap-2 focus-ring whitespace-nowrap">
+              자료실에서 보기
+              <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span>
+            </a>
+            <p class="text-[11px] text-outline mt-3">로그인하면 내 유형에 맞는 자료가 설계실 대시보드에도 모여요.</p>
           </div>
           <div class="relative hidden md:block">
             <div class="aspect-[4/5] rounded-xl overflow-hidden relative z-10" style="background:linear-gradient(135deg,#fef3e6 0%,#ffe6c2 50%,#ffd9d1 100%);">
@@ -787,7 +782,7 @@
     };
     const leadForm = document.querySelector('[data-field="leadForm"]');
     const leadMsg  = document.querySelector('[data-field="leadMsg"]');
-    leadForm.addEventListener("submit", (e) => {
+    if(leadForm) leadForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const email = leadForm.email.value.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
