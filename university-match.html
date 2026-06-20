@@ -71,6 +71,7 @@ input:focus,select:focus{outline:none;border-color:#4f46e5}
 .more{width:100%;padding:11px;border:1.5px dashed #c7cdde;background:none;border-radius:10px;color:#6b7280;font-size:13px;font-weight:600;cursor:pointer;margin:4px 0 10px;font-family:inherit}
 .empty{text-align:center;color:#8b93a7;font-size:13px;padding:18px 0}
 .sumline{background:#eef0ff;border-radius:12px;padding:12px 16px;font-size:13.5px;color:#3730a3;font-weight:600;margin-bottom:6px}
+.sumbasis{background:#f7f8fb;border:1px solid #e6e9f2;border-radius:10px;padding:9px 14px;font-size:12px;color:#5b6678;line-height:1.6;margin:0 0 10px}.sumbasis b{color:#3730a3}
 .foot{font-size:11.5px;color:#8b93a7;margin-top:30px;border-top:1px solid #e5e7eb;padding-top:14px}
 .foot li{margin:4px 0 4px 16px}
 </style>
@@ -291,7 +292,7 @@ function runSusi(){
  groups.reach.sort((a,b)=>b.m-a.m);
  const tot = groups.safe.length+groups.fit.length+groups.reach.length;
  renderBands(el, groups, itemRowS,
-  `<div class="sumline">📍 평균등급 ${g.toFixed(2)} 기준 — ${coreOnly?'주요대학':'전체 대학'} ${typ==='전체'?'교과·종합':typ}전형에서 ${tot}개 모집단위가 전략 검토 범위에 있어요.</div>`);
+  `<div class="sumline">📍 평균등급 ${g.toFixed(2)} 기준 — ${coreOnly?'주요대학':'전체 대학'} ${typ==='전체'?'교과·종합':typ}전형에서 ${tot}개 모집단위가 전략 검토 범위에 있어요.</div><div class="sumbasis">기준: 한국대학교육협의회(대학어디가) 공식 <b>2023~2025학년도 3개년 70%cut 평균</b> · 추정치예요. 종합전형 cut은 생기부 경쟁력에 따라 크게 달라집니다.</div>`);
  const savedResult=window.EVAResultBridge?window.EVAResultBridge.save({tool:{id:'university-fit',title:'지원 전략 범위 진단',category:'지원 전략'},summary:{title:'수시 지원 전략 범위 진단',headline:`전략 검토 ${tot}개 · 적정 ${groups.fit.length}개`,score:tot,scoreLabel:'전략 검토 모집단위',status:groups.fit.length?'지원군 구성':'조건 재점검',description:`교과 평균 ${g.toFixed(2)}등급 기준으로 안정·적정·도전 지원군을 나눴습니다. 고1·2의 5등급제 환산은 참고값입니다.`},metrics:{mode:'수시',grade:g,total:tot,safe:groups.safe.length,fit:groups.fit.length,reach:groups.reach.length,gradeScale:'9-grade-reference'},signals:{strengths:groups.safe.length?[`안정 검토군 ${groups.safe.length}개`]:[],gaps:groups.fit.length?[]:['지원 조건 또는 성적 보완'],keywords:['수시','지원 전략','전략 범위',typ,'대학 탐색']},actions:[{label:'적정 지원군 모집단위 비교',page:'insights'},{label:'지원 전공과 연결되는 탐구자료 확인',page:'resources'}],source:{mode:'수시',admissionType:typ,coreOnly,gradeScale:'9-grade-reference'}}):null;
  window.EVAResultBridge?.renderNextActions(el,savedResult,{append:true,dashboardPage:'insights',subtitle:'지원 전략 결과가 나의 리포트에 저장되었습니다. 관심 대학 조건을 확인한 뒤 전공 연결 활동으로 이어가 보세요.'});
 }
@@ -319,7 +320,7 @@ function runJeongsi(){
  groups.reach.sort((a,b)=>b.m-a.m);
  const tot = groups.safe.length+groups.fit.length+groups.reach.length;
  renderBands(el, groups, itemRowJ,
-  `<div class="sumline">📍 내 평균 백분위 ${my.toFixed(1)} (입력 ${vals.length}과목) 기준 — ${coreOnly?'주요대학':'전체 대학'}에서 ${tot}개 모집단위가 전략 검토 범위에 있어요.</div>`);
+  `<div class="sumline">📍 내 평균 백분위 ${my.toFixed(1)} (입력 ${vals.length}과목) 기준 — ${coreOnly?'주요대학':'전체 대학'}에서 ${tot}개 모집단위가 전략 검토 범위에 있어요.</div><div class="sumbasis">정시 백분위 cut은 <b>추정 참고치</b>예요. 영어·탐구 선택과목별 차이는 반영되지 않으니, 최종 지원 전 대학 환산점수·모집요강을 꼭 확인하세요.</div>`);
  const savedResult=window.EVAResultBridge?window.EVAResultBridge.save({tool:{id:'university-fit',title:'지원 전략 범위 진단',category:'지원 전략'},summary:{title:'정시 지원 전략 범위 진단',headline:`평균 백분위 ${my.toFixed(1)} · 전략 검토 ${tot}개`,score:Math.round(my),scoreLabel:'평균 백분위',status:groups.fit.length?'지원군 구성':'조건 재점검',description:`입력한 ${vals.length}개 영역 백분위로 안정·적정·도전 지원군을 나눴습니다.`},metrics:{mode:'정시',percentile:Number(my.toFixed(1)),total:tot,safe:groups.safe.length,fit:groups.fit.length,reach:groups.reach.length},signals:{strengths:my>=85?['수능 백분위 경쟁력']:[],gaps:my<85?['수능 영역별 백분위 보완']:[],keywords:['정시','지원 전략','전략 범위','수능','대학 탐색']},actions:[{label:'정시 적정 지원군 모집단위 비교',page:'insights'},{label:'지원 전공과 연결되는 탐구자료 확인',page:'resources'}],source:{mode:'정시',coreOnly}}):null;
  window.EVAResultBridge?.renderNextActions(el,savedResult,{append:true,dashboardPage:'insights',subtitle:'지원 전략 결과가 나의 리포트에 저장되었습니다. 관심 대학 조건을 확인한 뒤 전공 연결 활동으로 이어가 보세요.'});
 }

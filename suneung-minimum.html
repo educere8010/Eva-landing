@@ -20,7 +20,7 @@
 <div class="eva-studio-shell"><div class="eva-studio-brand"><span class="eva-studio-mark">E</span><span><strong>에바연</strong><small>MY ADMISSION STUDIO</small></span></div><div class="eva-studio-actions"><span class="eva-tool-label">모의고사·수능최저 진단</span><a class="eva-back" href="dashboard.html">대시보드로 돌아가기</a></div></div>
 <section class="eva-product-hero"><div class="eva-product-copy"><span class="eva-product-kicker">MOCK &amp; CSAT</span><h1>모의고사·수능최저 진단</h1><p>현재 등급으로 충족 가능한 수능최저를 찾고, 한 등급 향상했을 때 열리는 대학과 전형까지 확인합니다.</p></div></section>
 <main class="tool-wrap">
-  <section class="data-strip"><div><strong>2026학년도 수능최저 데이터</strong><br><span>에듀케레 총정리 자료의 대학·전형·모집단위별 조건을 활용합니다.</span></div><div class="data-badges"><i id="rowBadge">1,134개 조건</i><i id="univBadge">133개 대학</i><i>원문 조건 함께 제공</i></div></section>
+  <section class="data-strip"><div><strong>2026학년도 수능최저 데이터</strong><br><span>전국 대학이 발표한 모집요강의 수능최저 조건을 에바연이 정리했습니다. <b id="confNote" style="color:var(--deep);font-weight:800"></b></span></div><div class="data-badges"><i id="rowBadge">1,134개 조건</i><i id="univBadge">133개 대학</i><i id="confBadge">자동판정 –</i><i>원문 조건 함께 제공</i></div></section>
   <div class="workspace">
     <aside class="card input-card">
       <h2>나의 모의고사 성적</h2><p class="sub">시험 회차와 영역별 등급, 선택과목을 입력하면 각 대학의 수능최저를 같은 기준으로 비교합니다.</p>
@@ -100,6 +100,16 @@ function parseRule(record,scores){
   const confidence=(hasMixedDepartments||alternatives||kind==='manual'||inquiryRounding==='mixed')?'review':'high';
   return {kind,n,threshold,required:[...new Set(required)],historyMax:historyMatch?Number(historyMatch[1]):null,englishMax:englishFixed?Number(englishFixed[1]):null,inquiryAverage,inquiryRounding,inquiryBothOne,confidence,notes:[]};
 }
+
+/* 전체 데이터의 자동판정 신뢰율 — 규칙 텍스트만 보므로 점수와 무관하게 1회 계산 */
+(function(){
+  let auto=0;
+  DATA.forEach(rec=>{const r=parseRule(rec,{});if(r.kind==='none'||(r.n&&r.threshold&&r.confidence!=='review'&&r.required.length<=r.n))auto++;});
+  const pct=DATA.length?Math.round(auto/DATA.length*100):0;
+  if(byId('confBadge'))byId('confBadge').textContent=`자동판정 ${pct}%`;
+  if(byId('confNote'))byId('confNote').textContent=`전체의 약 ${pct}%는 규칙을 자동 판정하고, 나머지는 ‘세부조건 확인’으로 분리해 직접 확인하도록 안내해요.`;
+  if(META.updated&&byId('rowBadge'))byId('rowBadge').insertAdjacentHTML('beforebegin',`<i>기준일 ${escapeHTML(META.updated)}</i>`);
+})();
 
 function optionCheck(record,scores,rule){
   const math=ntext(record.m);const detail=ntext(record.x);const recognized=['확률과통계','미적분','기하'].filter(choice=>math.includes(choice));
