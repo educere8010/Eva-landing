@@ -114,16 +114,28 @@
 
   function evidenceScore(items,definition){
     if(definition.coverage){
-      const reflected=['subjectDetails','creative','behavior','academic'].filter(section=>items.some(item=>item.sectionId===section)).length;
-      const process=unique(items.flatMap(item=>item.indicatorIds)).length;
-      return clamp(30+Math.min(items.length,8)*5+reflected*6+Math.min(process,4)*3,30,90);
+      // 기록 축적도: '양'이 아니라 탐구 과정(질문→방법→결론→성장)의 다양성·깊이로 채점
+      const rel=items.filter(item=>['inquiry','method','outcome','growth'].some(id=>item.indicatorIds.includes(id)));
+      if(!rel.length)return 30;
+      const process=unique(rel.flatMap(item=>item.indicatorIds).filter(id=>['inquiry','method','outcome','growth'].includes(id))).length; // 0..4
+      const sections=unique(rel.map(item=>item.sectionId)).length;
+      const deep=rel.filter(item=>item.quality>=4).length;
+      return clamp(32+process*9+Math.min(sections,3)*3+Math.min(deep,4)*3,30,96);
     }
     const relevant=items.filter(item=>definition.indicators.some(id=>item.indicatorIds.includes(id))||(definition.majorMatch&&item.majorCompetencyIds.length));
     if(!relevant.length)return 30;
     const sections=unique(relevant.map(item=>item.sectionId)).length;
-    const indicatorCoverage=unique(relevant.flatMap(item=>item.indicatorIds).filter(id=>definition.indicators.includes(id))).length;
-    const chain=definition.processChain&&['inquiry','method','outcome','growth'].filter(id=>relevant.some(item=>item.indicatorIds.includes(id))).length;
-    return clamp(44+Math.min(relevant.length,5)*6+Math.min(sections,3)*4+indicatorCoverage*3+(chain>=3?8:0),30,90);
+    const distinctInd=unique(relevant.flatMap(item=>item.indicatorIds).filter(id=>definition.indicators.includes(id))).length; // 이 역량 facet의 다양성=깊이
+    const deep=relevant.filter(item=>item.quality>=4).length;                  // 깊이 있는(질 높은) 근거 수
+    const chain=definition.processChain?['inquiry','method','outcome','growth'].filter(id=>relevant.some(item=>item.indicatorIds.includes(id))).length:0;
+    return clamp(
+      34
+      +Math.min(relevant.length,5)*4   // 양(상한 20) — 영향 축소
+      +Math.min(sections,3)*3          // 영역 분포(상한 9)
+      +distinctInd*5                   // facet 다양성 = 깊이(핵심 변별 요소)
+      +Math.min(deep,3)*4              // 고품질 근거(상한 12)
+      +(definition.processChain?(chain>=4?10:chain>=3?6:0):0), // 과정 사슬 완성도
+      30,97);
   }
 
   function confidenceFor(items){
@@ -205,7 +217,9 @@
     const dimensions=schema.DIMENSIONS.map(definition=>{
       const related=evidence.filter(item=>definition.indicators.some(id=>item.indicatorIds.includes(id))||(definition.majorMatch&&item.majorCompetencyIds.length));
       const score=evidenceScore(evidence,definition);
-      return {...definition,score,grade:score>=75?'A':score>=50?'B':'C',confidence:confidenceFor(related),evidence:related.sort((a,b)=>b.quality-a.quality).slice(0,3)};
+      // 모든 축이 같은 '최고 품질' 문장을 보여주지 않도록, 이 축 지표에 특화된 문장을 우선
+      const ranked=related.map(item=>({item,fit:item.indicatorIds.filter(id=>definition.indicators.includes(id)).length+(definition.majorMatch?item.majorCompetencyIds.length:0)})).sort((a,b)=>b.fit-a.fit||b.item.quality-a.item.quality).map(x=>x.item);
+      return {...definition,score,grade:score>=75?'A':score>=50?'B':'C',confidence:confidenceFor(related),evidence:ranked.slice(0,3)};
     });
     const majorCompetencies=majorCriteria.map(criterion=>{
       const related=evidence.filter(item=>item.majorCompetencyIds.includes(criterion.id));
