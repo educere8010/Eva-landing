@@ -5,8 +5,16 @@
   const SB_URL = "https://eytdqxlueuhqinkjxhui.supabase.co";
   const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGRxeGx1ZXVocWlua2p4aHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MzQ5MTYsImV4cCI6MjA5NzAxMDkxNn0.gljEkX78tXvffkxqUOCB5z9k_bPSf_gq5RT3TURaZW4";
   if (!window.supabase) { console.error("[eva-auth] supabase-js 로드 실패"); return; }
-  const sb = window.supabase.createClient(SB_URL, SB_KEY);
+  // navigator-lock 데드락 회피(lock no-op) + 깨진 저장 세션 자가복구
+  function evaMakeSb() { return window.supabase.createClient(SB_URL, SB_KEY, { auth: { lock: async function (n, t, fn) { return await fn(); } } }); }
+  let sb = evaMakeSb();
   window.sbClient = sb;
+  function evaResetAuthClient() { try { Object.keys(localStorage).filter(function (k) { return k.indexOf("sb-") === 0; }).forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {} sb = evaMakeSb(); window.sbClient = sb; }
+  async function authCall(fn) {
+    var _t = function (p) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error("TIMEOUT")); }, 8000); })]); };
+    try { return await _t(fn(sb)); }
+    catch (e) { if (e && e.message === "TIMEOUT") { evaResetAuthClient(); return await _t(fn(sb)); } throw e; }
+  }
   // 무료 티어 콜드스타트 완화: 로드 즉시 프로젝트를 깨워 둠(논블로킹)
   try { fetch(SB_URL + "/auth/v1/health", { headers: { apikey: SB_KEY } }).catch(function () {}); } catch (e) {}
   const isDemo = new URLSearchParams(location.search).get("mode") === "demo";
@@ -119,7 +127,8 @@
   async function doSignup() {
     _busy("evaAuthSignup", true, "가입 중…");
     try {
-      const { data, error } = await _wt(sb.auth.signUp({ email: emailEl.value.trim(), password: pwEl.value }));
+      evaResetAuthClient(); // 잔여·깨진 세션 제거(데드락 방지)
+      const { data, error } = await authCall(function (c) { return c.auth.signUp({ email: emailEl.value.trim(), password: pwEl.value }); });
       if (error) {
         if (/already registered|already exists|User already/i.test(error.message || "")) return setMsg("이미 가입된 이메일이에요. '로그인'을 눌러 주세요.");
         return setMsg("가입 오류: " + error.message);
@@ -133,7 +142,8 @@
   async function doLogin() {
     _busy("evaAuthLogin", true, "로그인 중…");
     try {
-      const { error } = await _wt(sb.auth.signInWithPassword({ email: emailEl.value.trim(), password: pwEl.value }));
+      evaResetAuthClient(); // 잔여·깨진 세션 제거(데드락 방지)
+      const { error } = await authCall(function (c) { return c.auth.signInWithPassword({ email: emailEl.value.trim(), password: pwEl.value }); });
       if (error) return setMsg("로그인 오류: " + error.message);
       afterLogin();
     } catch (e) {

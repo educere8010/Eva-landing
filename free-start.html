@@ -794,8 +794,18 @@
     /* ===== Supabase 인증 + 최초 1회 무료진단 게이트 ===== */
     const SB_URL = "https://eytdqxlueuhqinkjxhui.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGRxeGx1ZXVocWlua2p4aHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MzQ5MTYsImV4cCI6MjA5NzAxMDkxNn0.gljEkX78tXvffkxqUOCB5z9k_bPSf_gq5RT3TURaZW4";
-    const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
-    // 무료 티어 콜드스타트 완화: 로드 즉시 프로젝트를 깨워 둠(논블로킹). 사용자가 입력하는 동안 워밍업돼 로그인이 빨라짐.
+    // navigator-lock 데드락 회피(lock no-op) + 깨진 저장 세션 자가복구
+    function evaMakeSb() { return window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, { auth: { lock: async (n, t, fn) => await fn() } }) : null; }
+    let sb = evaMakeSb();
+    function evaClearAuthStorage() { try { Object.keys(localStorage).filter(function (k) { return k.indexOf('sb-') === 0; }).forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {} }
+    function evaResetAuthClient() { evaClearAuthStorage(); sb = evaMakeSb(); if (sb) sb.auth.onAuthStateChange(function () { refreshAuthState(); }); }
+    // 인증 호출이 멈추면(깨진 세션 데드락) 저장소 비우고 1회 재시도
+    async function authCall(fn) {
+      const _t = function (p) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error('TIMEOUT')); }, 8000); })]); };
+      try { return await _t(fn(sb)); }
+      catch (e) { if (e && e.message === 'TIMEOUT') { evaResetAuthClient(); return await _t(fn(sb)); } throw e; }
+    }
+    // 콜드스타트 완화: 로드 즉시 프로젝트를 깨워 둠(논블로킹)
     try { fetch(SB_URL + '/auth/v1/health', { headers: { apikey: SB_KEY } }).catch(function () {}); } catch (e) {}
 
     // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(eva_* 키)를 비움.
@@ -941,11 +951,11 @@
       if (!sb) { setMsg('로그인 서비스에 연결하지 못했어요. 인터넷 연결을 확인하고 페이지를 새로고침해 주세요.'); return; }
       const submit = field('authSubmit'); const origLabel = submit.textContent;
       submit.disabled = true; submit.textContent = authMode === 'signup' ? '가입 중…' : '로그인 중…';
-      const withTimeout = (p) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), 20000))]);
       const wasSignup = authMode === 'signup';
       try {
+        evaResetAuthClient(); // 잔여·깨진 세션 제거(데드락 방지) — 로그인/가입은 깨끗한 상태에서 시작
         if (authMode === 'signup') {
-          const { data, error } = await withTimeout(sb.auth.signUp({ email, password: pw }));
+          const { data, error } = await authCall(function (c) { return c.auth.signUp({ email, password: pw }); });
           if (error) {
             if (/already registered|already exists|User already/i.test(error.message || '')) { setMsg('이미 가입된 이메일이에요. 로그인으로 바꿨어요 — 비밀번호를 넣고 다시 눌러 주세요.'); setAuthMode('login'); return; }
             setMsg('가입 오류: ' + error.message); return;
@@ -954,7 +964,7 @@
           const prof = { id: data.user.id, name: field('freeName').value.trim() || '학생', grade: field('freeGrade').value.trim(), major: field('freeMajor').value.trim(), updated_at: new Date().toISOString() };
           try { await sb.from('profiles').upsert(prof); } catch (e) {}
         } else {
-          const { error } = await withTimeout(sb.auth.signInWithPassword({ email, password: pw }));
+          const { error } = await authCall(function (c) { return c.auth.signInWithPassword({ email, password: pw }); });
           if (error) { setMsg('로그인 오류: ' + error.message); return; }
         }
         try { localStorage.setItem('eva_has_account', '1'); } catch (e) {}
