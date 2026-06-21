@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="학교생활기록부는 기록이 아니라 설계입니다. 에바연은 희망학과를 기준으로 지금 생기부에서 무엇이 비어 있는지 진단하고, 오늘 무엇을 해야 할지 한 걸음씩 안내합니다.">
+  <title>에바연 | 학교생활기록부는 기록이 아니라 설계입니다</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+    :root {
+      --navy-1: #0e1c3a;
+      --navy-2: #182644;
+      --navy-3: #11203f;
+      --coral: #e8714e;
+      --coral-2: #f0997b;
+      --cream: #fbf8f1;
+      --line: #eceae3;
+      --ink: #11203f;
+      --muted: #5b6577;
+      --muted-2: #54607a;
+      --faint: #8a93a6;
+      --ice: #c3cde0;
+      --ice-2: #9fb0cc;
+      --shadow: 0 22px 60px rgba(17, 32, 63, .14);
+      --soft-shadow: 0 12px 34px rgba(20, 30, 50, .08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font-family: Pretendard, "Noto Sans KR", system-ui, sans-serif;
+      letter-spacing: -.025em;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { word-break: keep-all; text-wrap: balance; }
+
+    /* ===== 버튼 ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 13px 26px;
+      border: 0;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn.coral {
+      background: var(--coral);
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(232, 113, 78, .34);
+    }
+    .btn.coral:hover { transform: translateY(-2px); background: var(--coral-2); box-shadow: 0 18px 38px rgba(232, 113, 78, .4); }
+    .btn.coral-sm { min-height: 42px; padding: 10px 20px; font-size: 14px; border-radius: 12px; }
+    .btn.ghost {
+      min-height: 42px;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--navy-3);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+    .btn.ghost:hover { transform: translateY(-2px); background: var(--cream); border-color: #dccfb7; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn.outline-dark {
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      border: 1px solid rgba(159, 176, 204, .4);
+      box-shadow: none;
+    }
+    .btn.outline-dark:hover { transform: translateY(-2px); background: rgba(255, 255, 255, .14); }
+
+    /* ===== 헤더 ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 72px;
+      padding: 0 max(22px, calc((100vw - 1120px) / 2));
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-seal { width: 44px; height: 44px; flex: none; display: block; }
+    .brand-name { font-size: 18px; font-weight: 900; color: var(--navy-3); letter-spacing: -.04em; }
+    .brand-name small { display: block; margin-top: 1px; color: var(--faint); font-size: 10px; font-weight: 700; letter-spacing: .14em; }
+
+    /* ===== 공통 섹션 ===== */
+    .band { padding: 96px 22px; }
+    .wrap { width: 100%; max-width: 820px; margin: 0 auto; text-align: center; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    .lead { font-size: 18px; line-height: 1.8; }
+
+    /* ===== 히어로 (딥네이비) ===== */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(232, 113, 78, .16), transparent 28rem),
+        radial-gradient(circle at 88% 92%, rgba(159, 176, 204, .14), transparent 30rem),
+        linear-gradient(158deg, var(--navy-1) 0%, var(--navy-2) 56%, var(--navy-3) 100%);
+      padding: 116px 22px 124px;
+    }
+    .hero-corner {
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border: 2px solid rgba(159, 176, 204, .42);
+      pointer-events: none;
+    }
+    .hero-corner.tl { top: 26px; left: 26px; border-right: 0; border-bottom: 0; border-top-left-radius: 9px; }
+    .hero-corner.tr { top: 26px; right: 26px; border-left: 0; border-bottom: 0; border-top-right-radius: 9px; }
+    .hero-corner.bl { bottom: 26px; left: 26px; border-right: 0; border-top: 0; border-bottom-left-radius: 9px; }
+    .hero-corner.br { bottom: 26px; right: 26px; border-left: 0; border-top: 0; border-bottom-right-radius: 9px; }
+    .hero .eyebrow {
+      border: 1px solid rgba(159, 176, 204, .4);
+      background: rgba(255, 255, 255, .06);
+      color: var(--ice);
+    }
+    .hero .eyebrow::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--coral);
+      box-shadow: 0 0 0 4px rgba(232, 113, 78, .22);
+    }
+    .hero h1 {
+      margin: 26px 0 20px;
+      font-size: clamp(40px, 5.6vw, 64px);
+      line-height: 1.13;
+      letter-spacing: -.05em;
+      color: #fff;
+    }
+    .hero h1 span { color: var(--coral); }
+    .hero .lead { max-width: 620px; margin: 0 auto; color: var(--ice); }
+    .hero-cta { margin-top: 36px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== 가치 선언 (크림) ===== */
+    .value { background: var(--cream); }
+    .value h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.28;
+      letter-spacing: -.04em;
+      color: var(--navy-3);
+    }
+    .value h2 span { color: var(--coral); }
+    .value p { margin: 22px auto 0; max-width: 640px; color: var(--muted); font-size: 16px; }
+
+    /* ===== 신뢰지표 (화이트) ===== */
+    .proof h2 {
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.32;
+      letter-spacing: -.03em;
+      color: var(--navy-3);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 40px 0 0;
+    }
+    .stat {
+      padding: 34px 18px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: var(--soft-shadow);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .stat:hover { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(20, 30, 50, .12); }
+    .stat b {
+      display: block;
+      font-size: clamp(40px, 4.6vw, 52px);
+      font-weight: 900;
+      color: var(--coral);
+      letter-spacing: -.04em;
+      line-height: 1;
+    }
+    .stat b i { font-style: normal; font-size: .6em; }
+    .stat span { display: block; margin-top: 13px; color: var(--muted-2); font-size: 14px; font-weight: 800; }
+    .proof-note { margin: 26px auto 0; max-width: 660px; color: var(--faint); font-size: 13px; line-height: 1.7; }
+
+    /* ===== 후기 (크림) ===== */
+    .voice { background: var(--cream); }
+    .voice-card {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 44px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: var(--soft-shadow);
+    }
+    .voice-card .mark { font-family: Georgia, serif; font-size: 56px; line-height: .4; color: var(--coral); }
+    .voice-card blockquote {
+      margin: 18px 0 0;
+      font-size: clamp(18px, 2.2vw, 23px);
+      line-height: 1.7;
+      letter-spacing: -.03em;
+      color: #2a3552;
+      font-weight: 600;
+    }
+    .voice-card cite { display: block; margin-top: 22px; color: var(--faint); font-size: 14px; font-weight: 800; font-style: normal; }
+    .voice-card + .voice-card { margin-top: 18px; }
+
+    /* ===== 최종 CTA (딥네이비) ===== */
+    .final {
+      color: #fff;
+      background:
+        radial-gradient(circle at 84% 4%, rgba(232, 113, 78, .18), transparent 22rem),
+        linear-gradient(158deg, var(--navy-2) 0%, var(--navy-1) 100%);
+    }
+    .final h2 {
+      font-size: clamp(28px, 4.2vw, 46px);
+      line-height: 1.18;
+      letter-spacing: -.04em;
+      color: #fff;
+    }
+    .final p { margin: 22px auto 0; max-width: 600px; color: var(--ice); font-size: 16px; line-height: 1.75; }
+    .final .hero-cta { margin-top: 34px; }
+
+    /* ===== 푸터 ===== */
+    footer {
+      padding: 34px 22px 48px;
+      text-align: center;
+      color: var(--faint);
+      font-size: 12px;
+      line-height: 1.8;
+      border-top: 1px solid var(--line);
+    }
+    footer strong { color: var(--muted-2); }
+    footer a:hover { color: var(--coral); }
+
+    @media (max-width: 640px) {
+      .band { padding: 68px 20px; }
+      .hero { padding: 92px 20px 96px; }
+      .hero h1 { font-size: 30px; letter-spacing: -.04em; }
+      .hero-corner { display: none; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .voice-card { padding: 36px 26px; }
+      .brand-name small { display: none; }
+    }
+    @media (max-width: 520px) {
+      .brand-name { display: none; }
+      .brand-seal { width: 38px; height: 38px; }
+      .hide-narrow { display: none; }
+      .btn.ghost, .btn.coral-sm { padding: 9px 13px; font-size: 13px; }
+      .header-actions { gap: 7px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="에듀케레 바른교육연구소">
+      <img class="brand-seal" src="assets/logo.png" alt="에듀케레 바른교육연구소 로고" width="44" height="44">
+      <span class="brand-name">에듀케레 바른교육연구소<small>STUDENT RECORD DESIGN</small></span>
+    </a>
+    <div class="header-actions">
+      <a class="btn ghost" href="landing.html"><span class="hide-narrow">에바연 </span>둘러보기 →</a>
+      <a class="btn coral coral-sm" href="free-start.html">무료 진단</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- 히어로 -->
+    <section class="hero">
+      <span class="hero-corner tl" aria-hidden="true"></span>
+      <span class="hero-corner tr" aria-hidden="true"></span>
+      <span class="hero-corner bl" aria-hidden="true"></span>
+      <span class="hero-corner br" aria-hidden="true"></span>
+      <div class="wrap">
+        <span class="eyebrow">대학은 생기부에서 무엇을 볼까요?</span>
+        <h1>학교생활기록부는<br>기록이 아니라 <span>설계</span>입니다.</h1>
+        <p class="lead">잘 외우는 학생보다, 깊이 생각하는 학생.<br>그 차이를 설계합니다.</p>
+        <div class="hero-cta">
+          <a class="btn coral" href="free-start.html">무료 진단으로 시작하기 →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 가치 선언 -->
+    <section class="band value">
+      <div class="wrap">
+        <h2>입시 경쟁력은 정보의 격차가 아니라,<br><span>생각의 힘</span>에서 나옵니다.</h2>
+        <p>그래서 설계의 지식은 모든 학생에게 열려 있어야 합니다.</p>
+      </div>
+    </section>
+
+    <!-- 신뢰지표 -->
+    <section class="band proof">
+      <div class="wrap">
+        <h2>이미 많은 학생이,<br>막막함 대신 방향을 찾았습니다.</h2>
+        <div class="stats-grid">
+          <div class="stat"><b>500<i>+</i></b><span>이용 학생수</span></div>
+          <div class="stat"><b>4.97</b><span>평균 만족도</span></div>
+          <div class="stat"><b>98<i>%</i></b><span>추천 의향</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 후기 -->
+    <section class="band voice">
+      <div class="voice-card">
+        <div class="mark" aria-hidden="true">&ldquo;</div>
+        <blockquote>막연히 스펙만 쌓으려 했는데, 제 희망 전공을 기준으로 지금 생기부에서 뭐가 비어 있는지 보이니까 마음이 놓였어요. 이번 주에 할 탐구가 생겼습니다.</blockquote>
+        <cite>— 고2 학생 김○○</cite>
+      </div>
+      <div class="voice-card">
+        <div class="mark" aria-hidden="true">&ldquo;</div>
+        <blockquote>다른 곳은 스펙 쌓기를 권하는데, 에바연은 교과에서 시작하라고 했어요. 그게 더 현실적이고 설득력 있었습니다.</blockquote>
+        <cite>— 학부모 박○○</cite>
+      </div>
+    </section>
+
+    <!-- 최종 CTA -->
+    <section class="band final">
+      <div class="wrap">
+        <h2>이제, 당신만의 학생부 설계실로.</h2>
+        <p>문을 열면, 진단부터 시작하는 한 사람만의 설계가 기다립니다.<br>지금 어디쯤 서 있는지 확인해보세요.</p>
+        <div class="hero-cta">
+          <a class="btn coral" href="free-start.html">무료 진단으로 내 설계 시작하기 →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>에듀케레 바른교육연구소</strong> · 에바연 학생부 설계실<br>
+    대표 이혜린 · 사업자등록번호 559-86-04180 · 통신판매업신고 제2025-경남양산-9097호<br>
+    경남 양산시 물금읍 증산역로 135, 502호 · 고객문의 educere8010@gmail.com · 070-7954-6105 (평일 10:00~18:00)<br>
+    생기부 원문은 저장하지 않습니다.
+  </footer>
+</body>
+</html>
