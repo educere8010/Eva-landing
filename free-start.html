@@ -402,6 +402,28 @@
       box-shadow: 0 22px 70px rgba(0, 0, 0, .24);
     }
 
+    .auth-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      margin: 0 0 16px;
+      background: #f4f1ea;
+      border-radius: 14px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .15s;
+    }
+    .auth-tab.on { background: #fff; color: var(--green); box-shadow: 0 2px 8px rgba(20, 30, 50, .08); }
+
     .modal-box h2 {
       margin: 0 0 8px;
       font-size: 24px;
@@ -571,7 +593,8 @@
         </p>
         <div class="hero-actions">
           <button class="btn lime" type="button" onclick="openSignup()">무료로 시작하기</button>
-          <a class="btn light" href="#free-tools">진단 종류 보기</a>
+          <button class="btn light" type="button" onclick="openLogin()">로그인</button>
+          <a class="btn" href="#free-tools">진단 종류 보기</a>
           <a class="btn" href="dashboard.html?view=tour">설계실 둘러보기</a>
         </div>
       </article>
@@ -586,7 +609,7 @@
           <span id="usageMonth">이번 달 받을 수 있는 진단</span>
           <strong id="usageCount">1회 남음</strong>
         </div>
-        <button class="btn block" type="button" onclick="openSignup()">내 정보 확인하기</button>
+        <button class="btn block" type="button" onclick="openSignup()">로그인 / 무료 시작하기</button>
       </aside>
     </section>
 
@@ -716,6 +739,7 @@
 
   <div class="modal" id="signupModal" role="dialog" aria-modal="true" aria-labelledby="signupTitle">
     <div class="modal-box">
+      <div class="auth-tabs" role="tablist"><button type="button" id="tabSignup" class="auth-tab on" onclick="setAuthMode('signup')">무료 가입</button><button type="button" id="tabLogin" class="auth-tab" onclick="setAuthMode('login')">로그인</button></div>
       <h2 id="signupTitle">무료 회원 가입</h2>
       <p id="authIntro">이메일로 가입하면 무료 진단 1회를 바로 받을 수 있어요. 결제·신용카드 필요 없어요. 🔒</p>
       <form id="signupForm">
@@ -804,6 +828,7 @@
         const { data: { session: s } } = await sb.auth.getSession();
         session = s || null;
         if (session) {
+          try { localStorage.setItem('eva_has_account', '1'); } catch (e) {}
           evaScopeToUser(session.user.id);  // 계정이 바뀌었으면 이전 로컬데이터 정리
           const { data: m } = await sb.from('memberships').select('tier,free_diag_used').eq('user_id', session.user.id).maybeSingle();
           membership = m || { tier: 'free', free_diag_used: false };
@@ -849,16 +874,22 @@
       field('authSwitchText').innerHTML = isSignup
         ? '이미 회원이세요? <a href="#" onclick="setAuthMode(\'login\');return false">로그인</a>'
         : '처음이세요? <a href="#" onclick="setAuthMode(\'signup\');return false">무료 가입</a>';
+      const ts = field('tabSignup'), tl = field('tabLogin');
+      if (ts) ts.classList.toggle('on', isSignup);
+      if (tl) tl.classList.toggle('on', !isSignup);
     }
 
-    function openSignup(toolId) {
+    function showAuthModal(mode, toolId) {
       if (session) { showToast('이미 로그인되어 있어요. 진단을 선택해 시작하세요. 🙂'); return; }
       pendingToolId = toolId || pendingToolId || '';
-      setAuthMode('signup');
+      setAuthMode(mode);
       field('authMsg').style.display = 'none';
       document.querySelector('#signupModal').classList.add('show');
       setTimeout(() => field('freeEmail').focus(), 40);
     }
+    // 이 기기에서 가입/로그인한 적 있으면 '로그인'으로 기본 열기(돌아온 회원 마찰 제거)
+    function openSignup(toolId) { showAuthModal(localStorage.getItem('eva_has_account') === '1' ? 'login' : 'signup', toolId); }
+    function openLogin(toolId) { showAuthModal('login', toolId); }
     function closeSignup() { document.querySelector('#signupModal').classList.remove('show'); }
 
     function openLimit() {
@@ -876,7 +907,7 @@
     async function startFreeTool(toolId) {
       const tool = toolMap[toolId];
       if (!tool) return;
-      if (!session) { openSignup(toolId); showToast('무료 가입(1분)하면 바로 진단을 시작할 수 있어요. 🙂'); return; }
+      if (!session) { openSignup(toolId); showToast('로그인하거나 무료 가입(1분)하면 바로 시작할 수 있어요. 🙂'); return; }
       if (membership && membership.tier === 'paid') { launch(tool); return; }
       // 무료: 최초 1회만 — 서버에서 원자적으로 판정·소진
       try {
@@ -910,10 +941,17 @@
           const { error } = await sb.auth.signInWithPassword({ email, password: pw });
           if (error) { setMsg('로그인 오류: ' + error.message); return; }
         }
+        try { localStorage.setItem('eva_has_account', '1'); } catch (e) {}
         closeSignup();
         await refreshAuthState();
-        showToast('환영해요! 진단을 시작할게요. 🎉');
-        if (pendingToolId) { const t = pendingToolId; pendingToolId = ''; startFreeTool(t); }
+        if (pendingToolId) {
+          const t = pendingToolId; pendingToolId = '';
+          showToast('환영해요! 진단을 시작할게요. 🎉');
+          startFreeTool(t);
+        } else {
+          showToast('가입 완료! 아래에서 받을 진단을 골라 주세요. 🙂');
+          document.querySelector('#free-tools')?.scrollIntoView({ behavior: 'smooth' });
+        }
       } finally { submit.disabled = false; }
     });
 
