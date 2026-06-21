@@ -905,7 +905,13 @@ window.EVAAccountStore?.ensureAccount();render();renderLibrary();syncSaveButtons
     modal.addEventListener('click', function (e) { if (e.target === modal) hide(); });
     document.getElementById('evaDemoClose').addEventListener('click', hide);
   }
-  function show() { if (modal) modal.classList.add('show'); }
+  var DEFAULT_MSG = '';
+  function show(customMsg) {
+    if (!modal) return;
+    var p = modal.querySelector('.box p');
+    if (p) { if (!DEFAULT_MSG) DEFAULT_MSG = p.textContent; p.textContent = customMsg || DEFAULT_MSG; }
+    modal.classList.add('show');
+  }
   function hide() { if (modal) modal.classList.remove('show'); }
 
   var ACTION = /(담기|담아|저장|작성|업로드|결제|구매|등록하기|완료|추가|만들기|분석|시작하기|진단 시작|첫 진단 시작|다시 진단|최저 진단|과목 확인|결과 보기|보완 행동|인쇄·PDF|내보내기|제출|발급)/;
@@ -960,6 +966,19 @@ window.EVAAccountStore?.ensureAccount();render();renderLibrary();syncSaveButtons
       show();
     }, true);
     document.addEventListener('submit', function (e) { if (e.target && e.target.closest && e.target.closest('[data-eva-allow]')) return; e.preventDefault(); e.stopPropagation(); show(); }, true);
+    // 무료 회원: 진단 추천 자료 상세는 3개까지 열람(맛보기), 이후는 구독 유도. (유료/데모는 제외)
+    if (reason === 'free' && typeof window.openRecommendation === 'function') {
+      var REC_LIMIT = 3, REC_KEY = 'eva_free_rec_opens';
+      var _openRec = window.openRecommendation;
+      window.openRecommendation = function (id) {
+        var arr; try { arr = JSON.parse(localStorage.getItem(REC_KEY) || '[]'); } catch (e) { arr = []; }
+        if (arr.indexOf(id) < 0) {
+          if (arr.length >= REC_LIMIT) { show('무료로 추천 자료 ' + REC_LIMIT + '개를 열어봤어요. 전체 추천과 라이브러리, 자료 담기·저장은 구독 후 이용할 수 있어요.'); return; }
+          arr.push(id); try { localStorage.setItem(REC_KEY, JSON.stringify(arr)); } catch (e) {}
+        }
+        return _openRec.apply(this, arguments);
+      };
+    }
     if (document.body) startTagging(); else document.addEventListener('DOMContentLoaded', startTagging);
   }
 
