@@ -458,15 +458,15 @@ function calc(){
     tool:{id:'grade-position',title:'내신 위치 진단',category:'학업 진단'},
     summary:{title:'내신 위치 진단',headline:`전 과목 ${avgAll.toFixed(2)}등급 · 상위 ${Math.round(avgP)}%`,score:Math.round(avgP),scoreLabel:'전국 추정 백분위',status:avgP<=15?'상위권':avgP<=35?'중상위권':'보완 필요',description:msg},
     metrics:{averageAll:Number(avgAll.toFixed(2)),averageMain:avgMain?Number(avgMain.toFixed(2)):null,percentile:Math.round(avgP),convertedScore:total,gradeSystem:SYS},
-    signals:{strengths:avgP<=15?['학업 성취도 상위권']:[],gaps:avgP>15?['교과 성적 상승 추세 만들기']:['학생부 탐구 깊이 차별화'],subjects:['주요 교과'],keywords:['내신','성적 분석','학생부종합','정량 분석']},
-    actions:[{label:avgP<=15?'전공 연계 탐구로 학생부 경쟁력 강화':'성적 보완 과목과 탐구 활동 연결',page:'roadmap'},{label:'내 위치에 맞는 지원 전략 확인',page:'diagnosis'}],
+    signals:{strengths:avgP<=15?['학업 성취도 상위권']:[],gaps:avgP>15?['교과 성적 상승 추세 만들기']:['생기부 탐구 깊이 차별화'],subjects:['주요 교과'],keywords:['내신','성적 분석','학생부종합','정량 분석']},
+    actions:[{label:avgP<=15?'전공 연계 탐구로 생기부 경쟁력 강화':'성적 보완 과목과 탐구 활동 연결',page:'roadmap'},{label:'내 위치에 맞는 지원 전략 확인',page:'diagnosis'}],
     source:{schoolType:schoolName,gradeSystem:SYS}
   }):null;
   const gradeNextEl=document.getElementById('gradeNextActions');
   if(gradeNextEl)gradeNextEl.className='';
   window.EVAResultBridge?.renderNextActions(gradeNextEl,savedResult,{
     dashboardPage:'insights',
-    subtitle:'내신 위치 결과가 나의 리포트에 저장되었습니다. 이어서 학생부에서 보완할 활동을 바로 확인해 보세요.'
+    subtitle:'내신 위치 결과가 나의 리포트에 저장되었습니다. 이어서 생기부에서 보완할 활동을 바로 확인해 보세요.'
   });
 }
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>전공·적성 탐색기 | 중·고등학생 진로 찾기</title>
+<title>전공·적성 탐색 | 중·고등학생 진로 찾기</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f4f6fb;color:#1e2433;line-height:1.6}
@@ -107,11 +107,11 @@ footer{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:11p
 </head>
 <body class="eva-tool eva-career">
 <link rel="stylesheet" href="eva_studio_theme.css">
-<div class="eva-studio-shell"><div class="eva-studio-brand"><span class="eva-studio-mark">E</span><span><strong>에바연</strong><small>MY ADMISSION STUDIO</small></span></div><div class="eva-studio-actions"><span class="eva-tool-label">전공 · 적성 탐색</span><a class="eva-back" href="dashboard.html">대시보드로 돌아가기</a></div></div>
-<section class="eva-product-hero"><div class="eva-product-copy"><span class="eva-product-kicker">MAJOR EXPLORER</span><h1>전공적성 탐색</h1><p>흥미와 강점을 바탕으로 나에게 어울리는 전공 후보를 발견하고 학과 정보를 탐색합니다.</p></div></section>
+<div class="eva-studio-shell"><div class="eva-studio-brand"><span class="eva-studio-mark">E</span><span><strong>에바연</strong><small>MY ADMISSION STUDIO</small></span></div><div class="eva-studio-actions"><span class="eva-tool-label">전공·적성 탐색</span><a class="eva-back" href="dashboard.html">대시보드로 돌아가기</a></div></div>
+<section class="eva-product-hero"><div class="eva-product-copy"><span class="eva-product-kicker">MAJOR EXPLORER</span><h1>전공·적성 탐색</h1><p>흥미와 강점을 바탕으로 나에게 어울리는 전공 후보를 발견하고 학과 정보를 탐색합니다.</p></div></section>
 <div class="wrap">
 <header>
-<h1>🧭 전공·적성 탐색기</h1>
+<h1>🧭 전공·적성 탐색</h1>
 <p>중·고등학생을 위한 진로·전공 찾기 · 194개 학과 수록</p>
 </header>
 <div class="tabs">
@@ -224,7 +224,7 @@ function renderDiag(){
   el.innerHTML = `<div class="startbox">
    <div class="big">🎯</div>
    <h2>나에게 맞는 학과는 뭘까?</h2>
-   <p>좋아하는 과목을 고르고, 39개의 문장에<br><b>'좋아함(흥미)'</b>과 <b>'잘함(강점)'</b>을 솔직하게 답하면<br>194개 학과 중 나와 어울리는 학과를 찾아드려요. (약 4분)</p>
+   <p>좋아하는 과목을 고르고, <b>'좋아함'</b>과 <b>'잘함'</b>을 묻는<br>39개 문장에 솔직하게 답하면 194개 학과 중<br>나와 잘 맞는 학과를 찾아드려요. (약 4분)</p>
    <button class="btn" onclick="step=1;renderDiag()">진단 시작하기</button>
   </div>`;
   return;
@@ -363,8 +363,8 @@ function renderResult(){
  const topMajor=top[0],topPct=Math.max(35,Math.round(topMajor.s/max*97));
  const topBand=deptBand(topMajor.d,dom);
  const savedResult=window.EVAResultBridge?window.EVAResultBridge.save({
-  tool:{id:'major-fit',title:'전공적성 탐색',category:'진로 탐색'},
-  summary:{title:'전공적성 탐색 결과',headline:`${topMajor.d.name} · ${topBand.label} · 관심 분야 ${CATS[top3i[0]].l}`,score:topPct,scoreLabel:'전공 적합도',status:'전공 후보 발견',description:`흥미(좋아함)와 강점(잘함)을 기준으로 ${topMajor.d.name}을 포함한 전공 후보를 찾았습니다.`},
+  tool:{id:'major-fit',title:'전공·적성 탐색',category:'진로 탐색'},
+  summary:{title:'전공·적성 탐색 결과',headline:`${topMajor.d.name} · ${topBand.label} · 관심 분야 ${CATS[top3i[0]].l}`,score:topPct,scoreLabel:'전공 적합도',status:'전공 후보 발견',description:`흥미(좋아함)와 강점(잘함)을 기준으로 ${topMajor.d.name}을 포함한 전공 후보를 찾았습니다.`},
   metrics:{topMajor:topMajor.d.name,band:topBand.label,fit:topPct,topMajors:top.slice(0,3).map(row=>row.d.name)},
   signals:{strengths:top3s.map(code=>CATS[code].l),interests:[...top3i.map(code=>CATS[code].l),...pickedCats.map(code=>CATS[code].l)],subjects:pickedSubs,majors:top.slice(0,3).map(row=>row.d.name),keywords:['전공 탐색',...top3i.map(code=>CATS[code].l)]},
   actions:[{label:`${topMajor.d.name} 권장과목 확인`,page:'diagnosis'},{label:`${CATS[top3i[0]].l} 관심과 연결되는 탐구자료 찾기`,page:'resources'}]
@@ -390,7 +390,7 @@ function renderResult(){
     </div>
     ${evidHTML(r.d, band, dom)}</div>`;
   }).join('')}
-  <div class="note"><b>밴드는 어떻게 정해지나요?</b> '좋아함(흥미)'과 '잘함(강점)' 두 가지를 따로 묻고, <b>둘 다 높으면 강하게 맞음</b>, 하나만 높으면 잘 맞음이에요. 각 학과의 <b>'왜?'</b>에서 두 막대를 직접 확인할 수 있어요.<br><br><b>📌 이 진단이 아직 보지 못하는 것</b> — 흥미·강점 신호만 봅니다. 내신·실제 개설과목은 반영하지 않으니 <b>내신진단·과목설계</b>와 함께 보면 더 정확해져요. 밴드가 낮아도 직접 탐색하면 새로운 발견이 있을 수 있어요!</div>
+  <div class="note"><b>밴드는 어떻게 정해지나요?</b> '좋아함(흥미)'과 '잘함(강점)' 두 가지를 따로 묻고, <b>둘 다 높으면 강하게 맞음</b>, 하나만 높으면 잘 맞음이에요. 각 학과의 <b>'왜?'</b>에서 두 막대를 직접 확인할 수 있어요.<br><br><b>📌 이 진단이 아직 보지 못하는 것</b> — 흥미·강점 신호만 봅니다. 내신·실제 개설과목은 반영하지 않으니 <b>내신 위치 진단·선택과목 진단</b>와 함께 보면 더 정확해져요. 밴드가 낮아도 직접 탐색하면 새로운 발견이 있을 수 있어요!</div>
   <div class="result-actions"><button class="btn ghost" onclick="resetDiag()">다시 진단하기</button><button class="btn dashboard-btn" onclick="viewDashboardResult()">대시보드에서 결과 보기</button></div>
   ${window.EVAResultBridge?.nextActionHTML(savedResult,{dashboardPage:'insights'})||''}
   <button class="btn" onclick="showTab('exp')">전체 학과 둘러보기</button>`;

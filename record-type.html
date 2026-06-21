@@ -156,7 +156,7 @@
           </div>
           <div class="bg-surface-container-lowest rounded-xl p-4 md:p-5 soft-shadow">
             <div class="text-2xl md:text-3xl font-bold text-primary-container">98%</div>
-            <div class="text-[10px] md:text-xs text-on-surface-variant mt-1">재구매 의향</div>
+            <div class="text-[10px] md:text-xs text-on-surface-variant mt-1">추천 의향</div>
           </div>
           <div class="bg-surface-container-lowest rounded-xl p-4 md:p-5 soft-shadow">
             <div class="text-2xl md:text-3xl font-bold text-primary-container">500+</div>
@@ -410,7 +410,7 @@
     // 그러면 결과 화면의 모든 '자료 보기' 버튼이 그곳으로 연결돼요.
     // =====================================================================
     const LINKS = {
-      library: "https://www.educereedu.com",
+      library: "library-books.html",
     };
     // ================== 문항 데이터 ==================
     // axis: "dir"=방향 정합도, "drive"=활동 주도성, "record"=기록 축적도
@@ -762,51 +762,6 @@
       state.answers.fill(null);
       showView("start");
     }));
-    // =====================================================================
-    // 📮 구글 폼 연결 설정 (에바연 운영자용)
-    // ---------------------------------------------------------------------
-    // 이메일 수집을 작동시키려면 아래 3줄만 교체하세요.
-    //
-    // 1) 구글 폼(docs.google.com/forms)에서 새 폼 만들기
-    //    - 질문 1: "이메일" (단답형, 필수)
-    //    - 질문 2: "유형"   (단답형, 선택) — 어떤 유형이 나왔는지 함께 기록용
-    // 2) 폼 상단 점 3개(⋮) → "미리 채워진 링크 가져오기" → 아무값 입력 → 링크 생성
-    //    → 만들어진 URL의 "entry.1234567890" 숫자들이 각 질문의 필드 ID
-    // 3) 폼 "보내기" 버튼 → 링크 아이콘에서 나오는 주소의 /viewform 을
-    //    /formResponse 로 바꿔서 아래 action 에 입력
-    // =====================================================================
-    const GOOGLE_FORM = {
-      action:     "https://docs.google.com/forms/d/e/FORM_ID_여기_교체/formResponse",
-      emailField: "entry.이메일_필드ID_교체",   // 예: "entry.1234567890"
-      typeField:  "entry.유형_필드ID_교체",     // 유형도 저장하려면 채우기. 안 쓸 거면 ""
-    };
-    const leadForm = document.querySelector('[data-field="leadForm"]');
-    const leadMsg  = document.querySelector('[data-field="leadMsg"]');
-    if(leadForm) leadForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = leadForm.email.value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        leadMsg.textContent = "이메일 형식이 조금 이상해! 한 번만 다시 확인해줘.";
-        leadMsg.className = "text-xs md:text-sm text-error min-h-[1.25rem]";
-        return;
-      }
-      // 구글 폼이 연결돼 있으면 실제로 POST (응답은 구글 스프레드시트에 자동 저장)
-      const ready = !GOOGLE_FORM.action.includes("교체") && !GOOGLE_FORM.emailField.includes("교체");
-      if (ready) {
-        const fd = new FormData();
-        fd.append(GOOGLE_FORM.emailField, email);
-        if (GOOGLE_FORM.typeField && !GOOGLE_FORM.typeField.includes("교체")) {
-          fd.append(GOOGLE_FORM.typeField, state.result?.title || "");
-        }
-        // no-cors 모드: 브라우저가 응답을 못 읽어도 구글 폼에는 정상 기록됨
-        fetch(GOOGLE_FORM.action, { method: "POST", mode: "no-cors", body: fd }).catch(() => {});
-      } else {
-        console.warn("[에바연] 구글 폼이 아직 연결되지 않았어요. HTML 안의 GOOGLE_FORM 설정을 채워주세요.");
-      }
-      leadMsg.textContent = "신청 완료! 24시간 안에 이메일로 자료 보내드릴게.";
-      leadMsg.className = "text-xs md:text-sm text-primary-container font-bold min-h-[1.25rem]";
-      leadForm.reset();
-    });
     // ================== 공유 버튼 ==================
     const shareUrl = window.location.href;
     function currentShareText() {

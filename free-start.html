@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="우리 아이 학생부, 무엇부터 시작할지 무료로 확인하세요. 전공적성·생기부 유형·내신 위치 중 지금 가장 필요한 진단 하나를 무료로 체험할 수 있습니다.">
-  <title>무료 진단 | 우리 아이 학생부, 어디부터 시작할지 확인하기</title>
+  <meta name="description" content="우리 아이 생기부, 무엇부터 시작할지 무료로 확인하세요. 전공적성·생기부 유형·내신 위치 중 지금 가장 필요한 진단 하나를 무료로 체험할 수 있습니다.">
+  <title>무료 진단 | 우리 아이 생기부, 어디부터 시작할지 확인하기</title>
   <link rel="stylesheet" href="eva_studio_theme.css">
   <style>
     :root {
@@ -563,7 +563,7 @@
     <section class="hero">
       <article class="hero-copy">
         <span class="kicker">무료 진단</span>
-        <h1>우리 아이 학생부,<br>무엇부터 할지 5분이면 보여요.</h1>
+        <h1>우리 아이 생기부,<br>무엇부터 할지 5분이면 보여요.</h1>
         <p>
           전공적성·생기부 유형·내신 위치 중 <b style="color:#fff">지금 가장 필요한 진단 하나</b>를 무료로 받아보세요.
           결과는 저장돼 학생부 설계실의 추천 자료·플래너로 자연스럽게 이어집니다.
@@ -572,7 +572,7 @@
         <div class="hero-actions">
           <button class="btn lime" type="button" onclick="openSignup()">무료로 시작하기</button>
           <a class="btn light" href="#free-tools">진단 종류 보기</a>
-          <a class="btn" href="dashboard.html?mode=demo">설계실 둘러보기</a>
+          <a class="btn" href="dashboard.html?view=tour">설계실 둘러보기</a>
         </div>
       </article>
 
@@ -625,7 +625,7 @@
               <span class="badge">무료</span>
               <span class="badge">진로가 아직 막연할 때</span>
             </div>
-            <h3>전공적성 탐색</h3>
+            <h3>전공·적성 탐색</h3>
             <p>"우리 아이가 뭘 좋아하는지 모르겠어요." 흥미와 선호 과목으로 어울리는 전공 방향을 가볍게 찾아줍니다.</p>
           </div>
           <button class="btn block" type="button" onclick="startFreeTool('major-fit')">이 진단으로 시작하기</button>
@@ -639,7 +639,7 @@
               <span class="badge">활동은 했는데 방향이 애매할 때</span>
             </div>
             <h3>생기부 유형 진단</h3>
-            <p>"활동은 많은데 잘하고 있는 건지…" 지금 학생부의 기록 성향과, 앞으로 채우면 좋을 부분을 빠르게 짚어줍니다.</p>
+            <p>"활동은 많은데 잘하고 있는 건지…" 지금 생기부의 기록 성향과, 앞으로 채우면 좋을 부분을 빠르게 짚어줍니다.</p>
           </div>
           <button class="btn block" type="button" onclick="startFreeTool('record-type')">이 진단으로 시작하기</button>
         </article>
@@ -704,7 +704,7 @@
           전체 진단·추천 탐구자료·독서 설계·탐구 설계·주간 플래너는 6개월 학생부 설계실에서 이어집니다.
         </p>
       </div>
-      <a class="btn lime" href="dashboard.html?mode=demo">설계실 둘러보기</a>
+      <a class="btn lime" href="dashboard.html?view=tour">설계실 둘러보기</a>
     </section>
   </main>
 
@@ -782,7 +782,7 @@
     }
 
     const toolMap = {
-      'major-fit': { title: '전공적성 탐색', file: 'major-aptitude.html' },
+      'major-fit': { title: '전공·적성 탐색', file: 'major-aptitude.html' },
       'record-type': { title: '생기부 유형 진단', file: 'record-type.html' },
       'grade-position': { title: '내신 위치 진단', file: 'grade-position.html' }
     };
@@ -862,7 +862,7 @@
     function closeSignup() { document.querySelector('#signupModal').classList.remove('show'); }
 
     function openLimit() {
-      field('limitText').textContent = '무료 진단을 모두 사용하셨어요. 구독하면 전공적성·생기부·내신 등 모든 진단을 무제한으로 받고, 탐구자료·도서 전체와 학생부 설계 기능까지 이어집니다.';
+      field('limitText').textContent = '무료 진단을 모두 사용하셨어요. 구독하면 전공적성·생기부·내신 등 모든 진단을 무제한으로 받고, 탐구자료·도서 전체와 생기부 설계 기능까지 이어집니다.';
       document.querySelector('#limitModal').classList.add('show');
     }
     function closeLimit() { document.querySelector('#limitModal').classList.remove('show'); }

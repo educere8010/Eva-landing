@@ -23,7 +23,7 @@
   <section class="hero"><div class="hero-main"><span class="eyebrow">MY SUBJECT PLAN</span><h1>희망학과에 맞는<br>나의 선택과목 찾기</h1><p>많이 듣는 것보다 전공에 필요한 과목을 일관되게 연결하는 것이 중요합니다. 학과를 선택하면 우선 과목과 심화 과목을 간단히 확인할 수 있어요.</p></div><aside class="mini-guide"><b>이렇게 사용하세요</b><div class="guide-step"><i>1</i>현재 학년을 선택해요.</div><div class="guide-step"><i>2</i>희망학과를 검색해요.</div><div class="guide-step"><i>3</i>수강할 과목을 체크해요.</div><div class="guide-step"><i>4</i>내 계획을 브라우저에 저장해요.</div></aside></section>
   <div class="grid">
     <aside class="card"><h2>나의 조건</h2><p class="sub">학생 개인에게 필요한 정보만 간단히 선택하세요.</p><div class="field"><label>현재 학년</label><div class="seg" id="grades"><button data-grade="고1">고1</button><button class="on" data-grade="고2">고2</button><button data-grade="고3">고3</button></div></div><div class="field"><label>희망학과 검색</label><input type="search" id="search" placeholder="예: 컴퓨터공학, 간호, 경영"><div class="major-list" id="majorList"></div></div><div class="notice">학교에 개설되지 않은 과목이 있을 수 있습니다. 실제 수강 신청 전에는 학교 교육과정 편제표와 희망 대학의 최신 모집요강을 함께 확인하세요.</div></aside>
-    <section class="card" id="result"><div class="empty"><div><strong>희망학과를 선택해 주세요.</strong>추천 과목과 선택 우선순위가 여기에 나타납니다.</div></div></section>
+    <section class="card" id="result"><div class="empty"><div><strong>희망학과를 선택해 주세요.</strong><br>추천 과목과 선택 우선순위가 여기에 나타납니다.</div></div></section>
   </div>
 </main>
 <script src="eva_result_bridge.js"></script>
@@ -103,7 +103,7 @@ search.addEventListener('input',e=>renderList(e.target.value));renderList();
     '현대사회와 윤리':{why:'의료·기술·교육 분야에서 필요한 가치 판단과 책임성을 보여줍니다.',output:'윤리 쟁점 토론 기록'},
     '윤리와 사고':{why:'근거를 세워 판단하고 토론하는 역량을 보여주는 과목입니다.',output:'쟁점 기반 발표'},
     '독서와 작문':{why:'전공 텍스트를 읽고 자기 언어로 논증하는 기본 역량입니다.',output:'전공 독서·비평문'},
-    '화법과 언어':{why:'발표와 의사소통 역량을 학생부 활동으로 드러내기 좋습니다.',output:'발표·토론 세특'},
+    '화법과 언어':{why:'발표와 의사소통 역량을 생기부 활동으로 드러내기 좋습니다.',output:'발표·토론 세특'},
     '문학':{why:'텍스트 해석과 표현 역량을 교육·인문 계열의 기초로 연결합니다.',output:'문학 해석 활동'},
     '영어 I':{why:'전공 자료 접근성과 학술 자료 이해의 기본 역량을 보여줍니다.',output:'영문 자료 요약'},
     '매체 의사소통':{why:'디지털 매체의 메시지 구조와 수용자를 분석하는 데 연결됩니다.',output:'콘텐츠 분석 보고서'},
@@ -122,7 +122,7 @@ search.addEventListener('input',e=>renderList(e.target.value));renderList();
   };
   function enrichSubject(name,major,type){
     const meta=SUBJECT_META[name]||{};
-    return {name,type,why:meta.why||DOMAIN_REASON[major.domain]||'전공 이해와 학생부 활동의 근거를 만드는 과목입니다.',output:meta.output||`${major.name} 연계 탐구 질문·세특 소재`,curriculum:'2022-revised'};
+    return {name,type,why:meta.why||DOMAIN_REASON[major.domain]||'전공 이해와 생기부 활동의 근거를 만드는 과목입니다.',output:meta.output||`${major.name} 연계 탐구 질문·세특 소재`,curriculum:'2022-revised'};
   }
   const SUBJECT_MAJORS=RAW_MAJORS.map(major=>({
     ...major,
@@ -174,15 +174,15 @@ search.addEventListener('input',e=>renderList(e.target.value));renderList();
     renderResult();
   };
   subjectRow=function(item,type){
-    const subject=typeof item==='string'?{name:item,type,why:'전공 기초와 학생부 활동의 근거를 만드는 과목입니다.',output:'탐구 질문·세특 소재'}:item;
-    return `<label class="subject"><input type="checkbox" value="${subject.name}" ${state.selected.includes(subject.name)?'checked':''} onchange="toggleSubject(this)"><span class="subject-copy"><b>${subject.name}</b><small>${type} · 2022 개정</small><span class="reason">왜 연결되나 · ${subject.why}</span><span class="output">학생부 활용 · ${subject.output}</span></span></label>`;
+    const subject=typeof item==='string'?{name:item,type,why:'전공 기초와 생기부 활동의 근거를 만드는 과목입니다.',output:'탐구 질문·세특 소재'}:item;
+    return `<label class="subject"><input type="checkbox" value="${subject.name}" ${state.selected.includes(subject.name)?'checked':''} onchange="toggleSubject(this)"><span class="subject-copy"><b>${subject.name}</b><small>${type} · 2022 개정</small><span class="reason">왜 연결되나 · ${subject.why}</span><span class="output">생기부 활용 · ${subject.output}</span></span></label>`;
   };
   renderResult=function(){
     const m=state.major;
     if(!m)return;
     const band=planBand(m);
     const whyLine=`핵심 ${band.coreMatched}/${band.C} 반영`+(band.advMatched?` · 심화 ${band.advMatched}개`:'');
-    result.innerHTML=`<div class="result-head"><div><span class="domain">${m.domain}계열</span><h2>${m.name}</h2><p>${state.grade} 기준으로 나의 선택 계획을 만들어 보세요.</p><span class="curriculum-badge">${CURRICULUM_NOTE}</span></div><div class="bandbox ${band.cls}"><span class="bandlabel">${band.label}</span><span class="bandwhy">${whyLine}</span></div></div>${gapHTML(band)}<div class="plan-summary"><div class="stat"><b>${band.coreMatched}/${m.core.length}</b><span>핵심 반영</span></div><div class="stat"><b>${band.advMatched}/${m.advanced.length}</b><span>심화 선택</span></div><div class="stat"><b>${m.explore.length}</b><span>탐구 연결</span></div></div><div class="section"><div class="section-title"><h3>우선 확인할 과목</h3><span>전공 기초를 만드는 과목</span></div><div class="subjects">${m.core.map(x=>subjectRow(x,'기초 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>심화하면 좋은 과목</h3><span>관심 분야를 깊게 보여주는 과목</span></div><div class="subjects">${m.advanced.map(x=>subjectRow(x,'심화 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>탐구와 연결할 과목</h3></div><div class="priority">${m.explore.map(x=>`<span><b>${x.name}</b>${x.why}</span>`).join('')}</div></div><div class="section"><div class="section-title"><h3>에바연 설계 포인트</h3></div><div class="advice">${m.note}</div><div class="actions"><button class="primary" onclick="savePlan()">내 선택계획 저장</button><button class="secondary" onclick="clearPlan()">체크 초기화</button></div><div class="saved" id="savedMessage"></div><div id="subjectNextActions"></div></div><div class="limits"><b>📌 이 진단이 보지 못하는 것</b> — 우리 학교에 실제 개설된 과목인지, 지망 대학의 권장·필수 과목인지까지는 확인하지 못해요. 밴드는 '권장과목을 얼마나 담았나'를 볼 뿐이니, 빠진 과목은 학교 교육과정 편제표와 모집요강에서 꼭 확인하세요.</div>`;
+    result.innerHTML=`<div class="result-head"><div><span class="domain">${m.domain}계열</span><h2>${m.name}</h2><p>${state.grade} 기준으로 나의 선택 계획을 만들어 보세요.</p><span class="curriculum-badge">${CURRICULUM_NOTE}</span></div><div class="bandbox ${band.cls}"><span class="bandlabel">${band.label}</span><span class="bandwhy">${whyLine}</span></div></div>${gapHTML(band)}<div class="plan-summary"><div class="stat"><b>${band.coreMatched}/${m.core.length}</b><span>핵심 반영</span></div><div class="stat"><b>${band.advMatched}/${m.advanced.length}</b><span>심화 선택</span></div><div class="stat"><b>${m.explore.length}</b><span>탐구 연결</span></div></div><div class="section"><div class="section-title"><h3>우선 확인할 과목</h3><span>전공 기초를 만드는 과목</span></div><div class="subjects">${m.core.map(x=>subjectRow(x,'기초 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>심화하면 좋은 과목</h3><span>관심 분야를 깊게 보여주는 과목</span></div><div class="subjects">${m.advanced.map(x=>subjectRow(x,'심화 권장')).join('')}</div></div><div class="section"><div class="section-title"><h3>탐구와 연결할 과목</h3></div><div class="priority">${m.explore.map(x=>`<span><b>${x.name}</b><br>${x.why}</span>`).join('')}</div></div><div class="section"><div class="section-title"><h3>에바연 설계 포인트</h3></div><div class="advice">${m.note}</div><div class="actions"><button class="primary" onclick="savePlan()">내 선택계획 저장</button><button class="secondary" onclick="clearPlan()">체크 초기화</button></div><div class="saved" id="savedMessage"></div><div id="subjectNextActions"></div></div><div class="limits"><b>📌 이 진단이 보지 못하는 것</b> — 우리 학교에 실제 개설된 과목인지, 지망 대학의 권장·필수 과목인지까지는 확인하지 못해요. 밴드는 '권장과목을 얼마나 담았나'를 볼 뿐이니, 빠진 과목은 학교 교육과정 편제표와 모집요강에서 꼭 확인하세요.</div>`;
   };
   savePlan=function(){
     if(!state.major)return;
@@ -204,7 +204,7 @@ search.addEventListener('input',e=>renderList(e.target.value));renderList();
     savedMessage.textContent=`${state.selected.length}개 과목을 나의 계획과 대시보드에 저장했습니다.`;
     window.EVAResultBridge?.renderNextActions('#subjectNextActions',savedResult,{
       dashboardPage:'insights',
-      subtitle:'선택과목 계획이 저장되었습니다. 이제 과목 선택을 탐구 주제와 학생부 활동으로 이어가 보세요.'
+      subtitle:'선택과목 계획이 저장되었습니다. 이제 과목 선택을 탐구 주제와 생기부 활동으로 이어가 보세요.'
     });
   };
   renderList(search.value||'');

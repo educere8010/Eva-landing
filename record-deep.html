@@ -314,7 +314,7 @@
     <div class="blocktitle">PART 1 · 진단</div>
 
     <div class="card">
-      <div class="cardhead"><span class="num">①</span><h2 id="rAxTitle">학생부 3축 진단</h2></div>
+      <div class="cardhead"><span class="num">①</span><h2 id="rAxTitle">생기부 3축 진단</h2></div>
       <div id="rAxes"></div>
       <div class="tri" id="rTri"></div>
       <div class="gauge">
@@ -722,7 +722,7 @@ function analyze(){
   const uploaded=S.analysisMode==="upload";
   document.getElementById("aMajor").textContent = uploaded?"원문 근거를 "+S.hak+" 역량 기준표와 대조 중…":S.hak+" 역량 기준표와 대조 중…";
   const steps = uploaded
-    ? ["학생부 영역과 근거 문장 분류 중…","공통 8개 영역의 과정 근거 대조 중…","학과 핵심역량 3개 항목 연결 중…","검토용 리포트 정리 중…"]
+    ? ["생기부 영역과 근거 문장 분류 중…","공통 8개 영역의 과정 근거 대조 중…","학과 핵심역량 3개 항목 연결 중…","검토용 리포트 정리 중…"]
     : S.mode==="design"
     ? ["습관·경험 6개 항목 점검 중…","학과 역량의 씨앗 3개 항목 대조 중…","권장 교과·첫 기록 방향 매칭 중…","설계 리포트 정리 중…"]
     : ["8개 영역 루브릭 채점 중…","학과 핵심역량 3개 항목 대조 중…","권장 교과·탐구 방향 매칭 중…","리포트 정리 중…"];
@@ -878,11 +878,11 @@ function renderReport(){
   const design = S.mode==="design";
   const uploaded = S.analysisMode==="upload" && S.uploadAnalysis;
   const savedResult=window.EVAResultBridge?window.EVAResultBridge.save({
-    tool:{id:'record-analysis',title:'생기부 정밀 진단',category:'학생부 진단'},
-    summary:{title:`${S.hak} 학생부 ${design?'설계':uploaded?'원문 분석':'정밀 진단'}`,headline:`${design?'준비도':'적합도'} ${fitBand(r.fit).label} · 우선 ${r.worst[0]?.q?.nm||'기록 보완'}`,score:r.fit,scoreLabel:design?'학생부 준비도':'학생부 적합도',status:r.fit>=75?'강점 확장':r.fit>=55?'보완 실행':'기초 설계',description:`${S.hak} 역량 기준으로 강점과 우선 보완 영역을 ${uploaded?'원문 근거에서 ':''}분석했습니다.`},
+    tool:{id:'record-analysis',title:'생기부 정밀 진단',category:'생기부 진단'},
+    summary:{title:`${S.hak} 생기부 ${design?'설계':uploaded?'원문 분석':'정밀 진단'}`,headline:`${design?'준비도':'적합도'} ${fitBand(r.fit).label} · 우선 ${r.worst[0]?.q?.nm||'기록 보완'}`,score:r.fit,scoreLabel:design?'생기부 준비도':'생기부 적합도',status:r.fit>=75?'강점 확장':r.fit>=55?'보완 실행':'기초 설계',description:`${S.hak} 역량 기준으로 강점과 우선 보완 영역을 ${uploaded?'원문 근거에서 ':''}분석했습니다.`},
     metrics:{fit:r.fit,axes:Object.fromEntries(r.axes3.map(axis=>[axis.nm,axis.p])),mode:uploaded?'upload':S.mode,grade:S.grade,evidenceCount:uploaded?S.uploadAnalysis.evidence.length:0,documentPages:uploaded?S.uploadAnalysis.document.pageCount:0},
-    signals:{strengths:r.axes3.filter(axis=>axis.p>=70).map(axis=>axis.nm),gaps:r.worst.map(item=>item.q.nm),subjects:[],majors:[S.hak,S.gye],keywords:['학생부','세특','탐구 기록',...r.worst.map(item=>item.q.tag||item.q.nm)]},
-    actions:[{label:`${r.worst[0]?.q?.nm||'학생부 기록'} 보완 활동 시작`,page:'roadmap'},{label:`${S.hak} 연계 탐구자료 확인`,page:'resources'}],
+    signals:{strengths:r.axes3.filter(axis=>axis.p>=70).map(axis=>axis.nm),gaps:r.worst.map(item=>item.q.nm),subjects:[],majors:[S.hak,S.gye],keywords:['생기부','세특','탐구 기록',...r.worst.map(item=>item.q.tag||item.q.nm)]},
+    actions:[{label:`${r.worst[0]?.q?.nm||'생기부 기록'} 보완 활동 시작`,page:'roadmap'},{label:`${S.hak} 연계 탐구자료 확인`,page:'resources'}],
     source:{grade:S.grade,major:S.hak,track:S.gye,mode:uploaded?'upload':S.mode,rawRecordStored:false,schemaVersion:uploaded?S.uploadAnalysis.schemaVersion:''}
   }):null;
   window.EVAResultBridge?.renderNextActions('#recordNextActions',savedResult,{
@@ -891,7 +891,7 @@ function renderReport(){
   });
   document.getElementById("rTitle").textContent = `${S.grade} · ${S.hak} 지망 (${S.gye})${design?" — 설계 리포트":uploaded?" — 원문 근거 리포트":""}`;
   document.getElementById("rDate").textContent = new Date().toLocaleDateString("ko-KR");
-  document.getElementById("rAxTitle").textContent = design ? "출발선 진단" : "학생부 3축 진단";
+  document.getElementById("rAxTitle").textContent = design ? "출발선 진단" : "생기부 3축 진단";
   const strongLacks = !design && r.worst.length && r.worst.every(w=>w.p>=75);
   document.getElementById("rLackTitle").textContent = design ? "우선 시작할 일" : strongLacks ? "한 단계 더 키울 영역" : "우선 보완 역량";
   document.getElementById("rLackSub").textContent = design
