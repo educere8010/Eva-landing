@@ -929,6 +929,7 @@
       const msg = field('authMsg');
       const setMsg = t => { msg.style.display = 'block'; msg.textContent = t; };
       if (!email || !pw) { setMsg('이메일과 비밀번호를 입력해 주세요.'); return; }
+      if (!sb) { setMsg('로그인 서비스에 연결하지 못했어요. 인터넷 연결을 확인하고 페이지를 새로고침해 주세요.'); return; }
       const submit = field('authSubmit'); submit.disabled = true;
       try {
         if (authMode === 'signup') {
@@ -952,6 +953,8 @@
           showToast('가입 완료! 아래에서 받을 진단을 골라 주세요. 🙂');
           document.querySelector('#free-tools')?.scrollIntoView({ behavior: 'smooth' });
         }
+      } catch (e) {
+        setMsg('처리 중 오류가 났어요: ' + (e && e.message ? e.message : e));
       } finally { submit.disabled = false; }
     });
 
