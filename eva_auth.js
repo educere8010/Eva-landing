@@ -108,22 +108,35 @@
 
   async function afterLogin() { ov.remove(); addLogoutBtn(); await syncProfileFromSupabase(); }
 
+  function _wt(p) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error("TIMEOUT")); }, 15000); })]); }
+  function _busy(btnId, on, busyLabel) {
+    var b = document.getElementById(btnId), other = document.getElementById(btnId === "evaAuthLogin" ? "evaAuthSignup" : "evaAuthLogin");
+    if (b) { if (on) { b.dataset.lbl = b.textContent; b.textContent = busyLabel; } else if (b.dataset.lbl) { b.textContent = b.dataset.lbl; } b.disabled = on; }
+    if (other) other.disabled = on;
+  }
   async function doSignup() {
-    const { data, error } = await sb.auth.signUp({
-      email: emailEl.value.trim(),
-      password: pwEl.value
-    });
-    if (error) return setMsg("가입 오류: " + error.message);
-    if (data.session) afterLogin();
-    else setMsg("가입이 완료됐어요. '로그인'을 눌러 시작하세요.");
+    _busy("evaAuthSignup", true, "가입 중…");
+    try {
+      const { data, error } = await _wt(sb.auth.signUp({ email: emailEl.value.trim(), password: pwEl.value }));
+      if (error) {
+        if (/already registered|already exists|User already/i.test(error.message || "")) return setMsg("이미 가입된 이메일이에요. '로그인'을 눌러 주세요.");
+        return setMsg("가입 오류: " + error.message);
+      }
+      if (data.session) afterLogin();
+      else setMsg("가입이 완료됐어요. '로그인'을 눌러 시작하세요.");
+    } catch (e) {
+      setMsg(e && e.message === "TIMEOUT" ? "서버 응답이 늦어요. 잠시 후 다시 눌러 주세요." : "오류: " + (e && e.message ? e.message : e));
+    } finally { _busy("evaAuthSignup", false); }
   }
   async function doLogin() {
-    const { error } = await sb.auth.signInWithPassword({
-      email: emailEl.value.trim(),
-      password: pwEl.value
-    });
-    if (error) return setMsg("로그인 오류: " + error.message);
-    afterLogin();
+    _busy("evaAuthLogin", true, "로그인 중…");
+    try {
+      const { error } = await _wt(sb.auth.signInWithPassword({ email: emailEl.value.trim(), password: pwEl.value }));
+      if (error) return setMsg("로그인 오류: " + error.message);
+      afterLogin();
+    } catch (e) {
+      setMsg(e && e.message === "TIMEOUT" ? "서버 응답이 늦어요. 잠시 후 다시 눌러 주세요." : "오류: " + (e && e.message ? e.message : e));
+    } finally { _busy("evaAuthLogin", false); }
   }
   document.getElementById("evaAuthSignup").onclick = doSignup;
   document.getElementById("evaAuthLogin").onclick = doLogin;

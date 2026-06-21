@@ -937,16 +937,22 @@
       const setMsg = t => { msg.style.display = 'block'; msg.textContent = t; };
       if (!email || !pw) { setMsg('이메일과 비밀번호를 입력해 주세요.'); return; }
       if (!sb) { setMsg('로그인 서비스에 연결하지 못했어요. 인터넷 연결을 확인하고 페이지를 새로고침해 주세요.'); return; }
-      const submit = field('authSubmit'); submit.disabled = true;
+      const submit = field('authSubmit'); const origLabel = submit.textContent;
+      submit.disabled = true; submit.textContent = authMode === 'signup' ? '가입 중…' : '로그인 중…';
+      const withTimeout = (p) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), 15000))]);
+      const wasSignup = authMode === 'signup';
       try {
         if (authMode === 'signup') {
-          const { data, error } = await sb.auth.signUp({ email, password: pw });
-          if (error) { setMsg('가입 오류: ' + error.message); return; }
+          const { data, error } = await withTimeout(sb.auth.signUp({ email, password: pw }));
+          if (error) {
+            if (/already registered|already exists|User already/i.test(error.message || '')) { setMsg('이미 가입된 이메일이에요. 로그인으로 바꿨어요 — 비밀번호를 넣고 다시 눌러 주세요.'); setAuthMode('login'); return; }
+            setMsg('가입 오류: ' + error.message); return;
+          }
           if (!data.session) { setMsg('가입이 완료됐어요. 로그인을 눌러 시작하세요.'); setAuthMode('login'); return; }
           const prof = { id: data.user.id, name: field('freeName').value.trim() || '학생', grade: field('freeGrade').value.trim(), major: field('freeMajor').value.trim(), updated_at: new Date().toISOString() };
           try { await sb.from('profiles').upsert(prof); } catch (e) {}
         } else {
-          const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+          const { error } = await withTimeout(sb.auth.signInWithPassword({ email, password: pw }));
           if (error) { setMsg('로그인 오류: ' + error.message); return; }
         }
         try { localStorage.setItem('eva_has_account', '1'); } catch (e) {}
@@ -957,12 +963,13 @@
           showToast('환영해요! 진단을 시작할게요. 🎉');
           startFreeTool(t);
         } else {
-          showToast('가입 완료! 아래에서 받을 진단을 골라 주세요. 🙂');
+          showToast(wasSignup ? '가입 완료! 아래에서 받을 진단을 골라 주세요. 🙂' : '로그인됐어요! 아래에서 받을 진단을 골라 주세요. 🙂');
           document.querySelector('#free-tools')?.scrollIntoView({ behavior: 'smooth' });
         }
       } catch (e) {
-        setMsg('처리 중 오류가 났어요: ' + (e && e.message ? e.message : e));
-      } finally { submit.disabled = false; }
+        if (e && e.message === 'TIMEOUT') setMsg('서버 응답이 늦어요. 잠시 후 다시 한 번 눌러 주세요. (일시적 지연일 수 있어요 — 보통 다시 누르면 됩니다)');
+        else setMsg('처리 중 오류가 났어요: ' + (e && e.message ? e.message : e));
+      } finally { submit.disabled = false; submit.textContent = origLabel; }
     });
 
     document.querySelectorAll('.modal').forEach(function (modal) {
