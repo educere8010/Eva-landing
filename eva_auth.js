@@ -7,6 +7,8 @@
   if (!window.supabase) { console.error("[eva-auth] supabase-js 로드 실패"); return; }
   const sb = window.supabase.createClient(SB_URL, SB_KEY);
   window.sbClient = sb;
+  // 무료 티어 콜드스타트 완화: 로드 즉시 프로젝트를 깨워 둠(논블로킹)
+  try { fetch(SB_URL + "/auth/v1/health", { headers: { apikey: SB_KEY } }).catch(function () {}); } catch (e) {}
   const isDemo = new URLSearchParams(location.search).get("mode") === "demo";
 
   // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(프로필/결과 등 eva_* 키)를 비움.
@@ -108,7 +110,7 @@
 
   async function afterLogin() { ov.remove(); addLogoutBtn(); await syncProfileFromSupabase(); }
 
-  function _wt(p) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error("TIMEOUT")); }, 15000); })]); }
+  function _wt(p) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error("TIMEOUT")); }, 20000); })]); }
   function _busy(btnId, on, busyLabel) {
     var b = document.getElementById(btnId), other = document.getElementById(btnId === "evaAuthLogin" ? "evaAuthSignup" : "evaAuthLogin");
     if (b) { if (on) { b.dataset.lbl = b.textContent; b.textContent = busyLabel; } else if (b.dataset.lbl) { b.textContent = b.dataset.lbl; } b.disabled = on; }

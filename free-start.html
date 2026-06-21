@@ -795,6 +795,8 @@
     const SB_URL = "https://eytdqxlueuhqinkjxhui.supabase.co";
     const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5dGRxeGx1ZXVocWlua2p4aHVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE0MzQ5MTYsImV4cCI6MjA5NzAxMDkxNn0.gljEkX78tXvffkxqUOCB5z9k_bPSf_gq5RT3TURaZW4";
     const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+    // 무료 티어 콜드스타트 완화: 로드 즉시 프로젝트를 깨워 둠(논블로킹). 사용자가 입력하는 동안 워밍업돼 로그인이 빨라짐.
+    try { fetch(SB_URL + '/auth/v1/health', { headers: { apikey: SB_KEY } }).catch(function () {}); } catch (e) {}
 
     // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(eva_* 키)를 비움.
     function evaScopeToUser(uid) {
@@ -939,7 +941,7 @@
       if (!sb) { setMsg('로그인 서비스에 연결하지 못했어요. 인터넷 연결을 확인하고 페이지를 새로고침해 주세요.'); return; }
       const submit = field('authSubmit'); const origLabel = submit.textContent;
       submit.disabled = true; submit.textContent = authMode === 'signup' ? '가입 중…' : '로그인 중…';
-      const withTimeout = (p) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), 15000))]);
+      const withTimeout = (p) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), 20000))]);
       const wasSignup = authMode === 'signup';
       try {
         if (authMode === 'signup') {
