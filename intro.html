@@ -363,5 +363,16 @@
     경남 양산시 물금읍 증산역로 135, 502호 · 고객문의 educere8010@gmail.com · 070-7954-6105 (평일 10:00~18:00)<br>
     생기부 원문은 저장하지 않습니다.
   </footer>
+  <script>
+  (function(){
+    if(window.self===window.top)return;
+    function send(){var d=document,h=Math.max(d.documentElement.scrollHeight,d.body?d.body.scrollHeight:0);try{parent.postMessage({evaIntroHeight:h},'*');}catch(e){}}
+    window.addEventListener('load',send);
+    window.addEventListener('resize',send);
+    document.addEventListener('DOMContentLoaded',send);
+    if(window.ResizeObserver){try{new ResizeObserver(send).observe(document.documentElement);}catch(e){}}
+    setTimeout(send,300);setTimeout(send,1000);setTimeout(send,2500);
+  })();
+  </script>
 </body>
 </html>
