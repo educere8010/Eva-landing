@@ -60,7 +60,7 @@ body.eva-mock { --eva-accent:#397b82; --eva-accent-soft:#dcecee; --eva-accent-de
   place-items: center;
   border-radius: 11px;
   color: transparent;
-  background: transparent url("assets/logo-seal.png") center / contain no-repeat;
+  background: transparent url("assets/seal.png") center / contain no-repeat;
   font-size: 0;
   font-weight: 900;
 }
