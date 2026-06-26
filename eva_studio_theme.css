@@ -59,9 +59,9 @@ body.eva-mock { --eva-accent:#397b82; --eva-accent-soft:#dcecee; --eva-accent-de
   display: grid;
   place-items: center;
   border-radius: 11px;
-  color: #11203f;
-  background: #ecd9b6;
-  font-size: 17px;
+  color: transparent;
+  background: transparent url("assets/logo.png") center / contain no-repeat;
+  font-size: 0;
   font-weight: 900;
 }
 .eva-studio-brand strong { display: block; font-size: 14px; letter-spacing: -0.04em; }
