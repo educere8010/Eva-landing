@@ -1304,7 +1304,7 @@
       * { transition: none !important; }
     }
     /* 랜딩 슬림화(2026-06): 중복·통합 섹션 숨김(삭제 아님). 복구하려면 아래 한 줄 삭제 */
-    #features, #preview, #compare, #voice, #samples, #howto, #products { display: none !important; }
+    #features, #voice, #samples, #howto, #products { display: none !important; }
   </style>
 </head>
 <body>
@@ -1426,9 +1426,8 @@
           <h2>방대한 탐구자료와 탐구도서.<br>모두 '바로 탐구 가능한' 상세 설계도입니다.</h2>
         </div>
         <p>
-          제목만 던지는 자료실이 아닙니다. 자료마다 <b style="color:var(--accent)">주제·실험 방법·보고서 흐름·연계도서</b>까지
-          정리돼 <b style="color:var(--accent)">오늘 바로 탐구를 시작</b>할 수 있고, 자료마다
-          <b style="color:var(--accent)">왜 내 전공과 연결되는지</b> 근거가 붙어 '진행 중인 탐구'로 담으면 세특·면접까지 이어집니다.
+          제목만 던지는 자료실이 아닙니다. 자료마다 <b style="color:var(--accent)">주제·실험·보고서 흐름·연결 근거</b>까지
+          정리돼, <b style="color:var(--accent)">담는 순간 세특·면접까지</b> 이어집니다.
         </p>
       </div>
       <div class="lib-tabs" role="tablist" aria-label="희망 계열 선택">
@@ -1831,6 +1830,39 @@
         </aside>
       </div>
       </div><!-- /soc -->
+
+      <!-- 전 계열 대표 예시 (samples 흡수): 탭=한 계열 깊이, 아래=전 계열 넓이 -->
+      <div style="margin-top:32px;padding-top:28px;border-top:1px solid rgba(17,32,63,.10)">
+        <p style="margin:0 0 16px;font-weight:800;font-size:15.5px">📚 계열을 가리지 않습니다 — 전 계열, 이런 자료가 준비돼 있어요</p>
+        <div class="sample-grid">
+          <article class="sample-card">
+            <span>탐구보고서 · 공학</span>
+            <h3>지진파와 건물 고유 진동수의 관계</h3>
+            <p>P파·S파의 전파와 건물 고유 진동수를 물리로 분석해 건축·기계공학 탐구로 연결합니다.</p>
+          </article>
+          <article class="sample-card">
+            <span>세특 · 의약</span>
+            <h3>EEG 뇌파로 본 집중·휴식·수면</h3>
+            <p>뇌파를 물리적 파동으로 이해해 신호처리 관점으로 분석, 의약·심리 세특으로 확장합니다.</p>
+          </article>
+          <article class="sample-card">
+            <span>독서 · 사회</span>
+            <h3>댓글과 알고리즘이 군중 심리에 미치는 영향</h3>
+            <p>감성 분석과 프레이밍 이론으로 미디어를 탐구해 사회·미디어계열 독서·탐구로 잇습니다.</p>
+          </article>
+          <article class="sample-card">
+            <span>면접 · 자연과학</span>
+            <h3>방사선 피폭의 과학과 문학적 상징</h3>
+            <p>과학적 사실이 문학적 상징으로 전이되는 과정을 고찰해 융합 면접 질문으로 확장합니다.</p>
+          </article>
+        </div>
+        <p style="margin:16px 0 0;color:var(--muted);font-size:13px;line-height:1.7">
+          💡 에듀케레
+          <a href="https://www.youtube.com/@Educere8010" target="_blank" rel="noopener" style="color:var(--accent);font-weight:800">유튜브</a> ·
+          <a href="https://blog.naver.com/educereresearch" target="_blank" rel="noopener" style="color:var(--accent);font-weight:800">블로그</a>에서 보던 탐구·입시 콘텐츠,
+          이제 학생부 설계실에서 '내 생기부'로 이어가세요.
+        </p>
+      </div>
 
       <div class="hero-actions" style="margin-top:24px">
         <button class="btn ghost" type="button" onclick="openDesignRoom('resources')">탐구자료 라이브러리 둘러보기</button>
