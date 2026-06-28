@@ -827,7 +827,7 @@
           <p class="hero-copy">희망학과 기준으로 지금의 준비도를 확인하고, 탐구·독서·세특을 한 흐름으로 연결합니다. 학생에게는 이번 주 할 일을, 학부모에게는 믿고 지켜볼 기준을 보여드립니다.</p>
           <div class="hero-actions">
             <a class="btn" href="../free-start.html" target="_top">무료 진단으로 시작</a>
-            <a class="btn secondary" href="#flow">어떻게 작동하나요</a>
+            <a class="btn secondary" href="../dashboard.html" target="_blank" rel="noopener">설계실 둘러보기</a>
           </div>
           <div class="hero-points" aria-label="핵심 기능">
             <div class="hero-point">희망학과 기준 준비도 진단</div>
@@ -1009,6 +1009,46 @@
         <article class="card reveal"><div class="icon">P</div><h3>학부모 대화의 질 변화</h3><p>“했니?”라는 확인보다 “이번 주엔 무엇을 보완하니?”라는 대화가 가능해집니다.</p></article>
         <article class="card reveal"><div class="icon">R</div><h3>기록 서사의 정렬</h3><p>파편화된 활동이 희망학과와 연결된 전공 적합성 산출물로 쌓입니다.</p></article>
       </div>
+    </section>
+
+    <style>
+      .peek-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}
+      .peek-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--soft);}
+      .peek-ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--cream);border:1px solid var(--line);margin-bottom:14px;}
+      .peek-card h3{margin:0 0 8px;font-size:18px;color:var(--ink);}
+      .peek-card p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.62;flex:1;}
+      .peek-link{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-weight:900;font-size:14px;color:var(--navy);border:1.5px solid var(--navy);border-radius:999px;padding:11px 18px;transition:background .15s,color .15s;}
+      .peek-link:hover{background:var(--navy);color:#fff;}
+      .peek-note{margin:18px 0 0;color:var(--muted);font-size:13px;line-height:1.6;}
+      @media(max-width:860px){.peek-grid{grid-template-columns:1fr;}}
+    </style>
+    <section>
+      <div class="section-head center reveal">
+        <span class="tag">직접 보고 결정하세요</span>
+        <h2>가입 전에, 설계실을 미리 둘러보세요.</h2>
+        <p class="lead">말로 설명하는 대신 직접 보여드립니다. 대시보드와 라이브러리를 미리 살펴보고 시작하세요.</p>
+      </div>
+      <div class="peek-grid">
+        <article class="peek-card reveal">
+          <div class="peek-ico">🧭</div>
+          <h3>학생부 설계실 (대시보드)</h3>
+          <p>로그인 후 보이는 ‘내 대시보드’ 예시입니다. 희망학과 기준 준비도와 이번 주 할 일을 한눈에 확인합니다.</p>
+          <a class="peek-link" href="../dashboard.html" target="_blank" rel="noopener">설계실 둘러보기 →</a>
+        </article>
+        <article class="peek-card reveal">
+          <div class="peek-ico">🔬</div>
+          <h3>탐구자료 라이브러리</h3>
+          <p>계열별 탐구자료가 세특·보고서·발표·면접 결과물로 어떻게 연결되는지 직접 확인하세요.</p>
+          <a class="peek-link" href="../library-research.html" target="_blank" rel="noopener">탐구자료 미리보기 →</a>
+        </article>
+        <article class="peek-card reveal">
+          <div class="peek-ico">📚</div>
+          <h3>탐구도서 라이브러리</h3>
+          <p>단순 추천이 아니라 교과 질문·전공 연결·다음 탐구 방향까지 짚어주는 도서 큐레이션입니다.</p>
+          <a class="peek-link" href="../library-books.html" target="_blank" rel="noopener">탐구도서 미리보기 →</a>
+        </article>
+      </div>
+      <p class="peek-note">※ 무료로는 대표 화면과 추천 자료를 미리 볼 수 있어요. 전체 자료는 이용권에서 열립니다.</p>
     </section>
 
     <section id="start" class="contrast">
