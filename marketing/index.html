@@ -1014,7 +1014,7 @@
     <style>
       .peek-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;}
       .peek-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--soft);}
-      .peek-ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:var(--cream);border:1px solid var(--line);margin-bottom:14px;}
+      .peek-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;border:1px solid var(--line);margin-bottom:16px;display:block;background:var(--cream);}
       .peek-card h3{margin:0 0 8px;font-size:18px;color:var(--ink);}
       .peek-card p{margin:0 0 18px;color:var(--muted);font-size:14px;line-height:1.62;flex:1;}
       .peek-link{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-weight:900;font-size:14px;color:var(--navy);border:1.5px solid var(--navy);border-radius:999px;padding:11px 18px;transition:background .15s,color .15s;}
@@ -1030,19 +1030,19 @@
       </div>
       <div class="peek-grid">
         <article class="peek-card reveal">
-          <div class="peek-ico">🧭</div>
+          <img class="peek-thumb" src="thumb-lab.png" alt="학생부 설계실 대시보드 미리보기" loading="lazy">
           <h3>학생부 설계실 (대시보드)</h3>
           <p>로그인 후 보이는 ‘내 대시보드’ 예시입니다. 희망학과 기준 준비도와 이번 주 할 일을 한눈에 확인합니다.</p>
           <a class="peek-link" href="../dashboard.html" target="_blank" rel="noopener">설계실 둘러보기 →</a>
         </article>
         <article class="peek-card reveal">
-          <div class="peek-ico">🔬</div>
+          <img class="peek-thumb" src="thumb-research.png" alt="탐구자료 라이브러리 미리보기" loading="lazy">
           <h3>탐구자료 라이브러리</h3>
           <p>계열별 탐구자료가 세특·보고서·발표·면접 결과물로 어떻게 연결되는지 직접 확인하세요.</p>
           <a class="peek-link" href="../library-research.html" target="_blank" rel="noopener">탐구자료 미리보기 →</a>
         </article>
         <article class="peek-card reveal">
-          <div class="peek-ico">📚</div>
+          <img class="peek-thumb" src="thumb-books.png" alt="탐구도서 라이브러리 미리보기" loading="lazy">
           <h3>탐구도서 라이브러리</h3>
           <p>단순 추천이 아니라 교과 질문·전공 연결·다음 탐구 방향까지 짚어주는 도서 큐레이션입니다.</p>
           <a class="peek-link" href="../library-books.html" target="_blank" rel="noopener">탐구도서 미리보기 →</a>
