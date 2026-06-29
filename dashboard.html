@@ -1149,10 +1149,10 @@ window.EVAAccountStore?.ensureAccount();importPendingLibraryCTA();render();rende
   }
 
   // 로그인 게이트(auth.js)가 무료 회원 확인 시 호출. 데모는 즉시 작동.
-  window.evaActivateSoftGate = function (reason) { install(reason || 'free'); };
+  window.evaActivateSoftGate = function (reason) { if (window.evaMembership && window.evaMembership.tier === 'paid') return; install(reason || 'free'); };
   // 저장된 Supabase 세션 토큰(로그인 흔적)이 있는지 동기 확인.
   function hasStoredAuth() {
-    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && k.indexOf('-auth-token') > -1 && localStorage.getItem(k)) return true; } } catch (e) {}
+    try { for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (k && (k.indexOf('-auth-token') > -1 || k.indexOf('sb-') === 0) && localStorage.getItem(k)) return true; } } catch (e) {}
     return false;
   }
   // ?view=tour(공개 둘러보기)는 '비로그인 방문자'에게만 데모 게이트를 건다.

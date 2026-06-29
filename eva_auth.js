@@ -19,6 +19,15 @@
   try { fetch(SB_URL + "/auth/v1/health", { headers: { apikey: SB_KEY } }).catch(function () {}); } catch (e) {}
   const isDemo = new URLSearchParams(location.search).get("mode") === "demo";
   const isTour = new URLSearchParams(location.search).get("view") === "tour"; // 공개 둘러보기: 비로그인이면 로그인 벽 대신 데모
+  function hasStoredAuth() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && (k.indexOf("-auth-token") > -1 || k.indexOf("sb-") === 0) && localStorage.getItem(k)) return true;
+      }
+    } catch (e) {}
+    return false;
+  }
 
   // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(프로필/결과 등 eva_* 키)를 비움.
   // Supabase 세션 키(sb-*)는 건드리지 않으므로 로그인은 유지됨.
@@ -36,7 +45,13 @@
     for (var attempt = 0; attempt < 5; attempt++) {
       try {
         const res = await sb.from("memberships").select("tier,paid_until").eq("user_id", uid).maybeSingle();
-        if (!res.error) { return (res.data && res.data.tier) ? res.data.tier : "free"; } // 행 있으면 tier, 없으면 free 확정
+        if (!res.error) {
+          const row = res.data;
+          const paidUntil = row && row.paid_until ? new Date(row.paid_until) : null;
+          const paidByDate = paidUntil && !Number.isNaN(paidUntil.getTime()) && paidUntil >= new Date();
+          if (row && (row.tier === "paid" || paidByDate)) return "paid";
+          return row && row.tier ? row.tier : "free"; // 행 있으면 tier, 없으면 free 확정
+        }
       } catch (e) { /* 네트워크 예외 → 재시도 */ }
       await new Promise(function (r) { setTimeout(r, 600 * (attempt + 1)); });
     }
@@ -130,11 +145,23 @@
 
   if (isTour) {
     (async function () {
+      const storedAuth = hasStoredAuth();
       try {
-        const res = await resolveWithTimeout(sb.auth.getSession(), 1200);
+        const res = await resolveWithTimeout(sb.auth.getSession(), storedAuth ? 8000 : 1200);
+        if (res && res.__timeout && storedAuth) {
+          addLogoutBtn();
+          window.evaMembership = { tier: "unknown" };
+          return;
+        }
         const session = res && res.data && res.data.session;
         if (session) { addLogoutBtn(); await syncProfileFromSupabase(); return; }
-      } catch (e) {}
+      } catch (e) {
+        if (storedAuth) {
+          addLogoutBtn();
+          window.evaMembership = { tier: "unknown" };
+          return;
+        }
+      }
       activateTourDemo();
     })();
     return;
