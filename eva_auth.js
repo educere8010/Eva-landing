@@ -118,7 +118,27 @@
     side.appendChild(b);
   }
 
+  function activateTourDemo() {
+    if (typeof window.evaActivateSoftGate === "function") window.evaActivateSoftGate("demo");
+  }
+
+  function resolveWithTimeout(promise, ms) {
+    return Promise.race([promise, new Promise(function (resolve) { setTimeout(function () { resolve({ __timeout: true }); }, ms); })]);
+  }
+
   if (isDemo) return; // 데모는 로그인 불필요
+
+  if (isTour) {
+    (async function () {
+      try {
+        const res = await resolveWithTimeout(sb.auth.getSession(), 1200);
+        const session = res && res.data && res.data.session;
+        if (session) { addLogoutBtn(); await syncProfileFromSupabase(); return; }
+      } catch (e) {}
+      activateTourDemo();
+    })();
+    return;
+  }
 
   // 로그인 오버레이
   const css = document.createElement("style");
@@ -176,14 +196,8 @@
     el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); doLogin(); } });
   });
 
-  // 이미 로그인돼 있으면 통과. 비로그인이라도 ?view=tour면 로그인 벽 대신 데모로 둘러보게 한다
-  // (가치 먼저 → 가입은 '담기·저장·진단 실행' 등 행동 순간에 유도 = 데모 소프트게이트가 처리).
-  function enterTourDemo() { try { ov.remove(); } catch (e) {} if (typeof window.evaActivateSoftGate === "function") window.evaActivateSoftGate("demo"); }
+  // 이미 로그인돼 있으면 통과. 그 외 비로그인은 로그인 벽 유지.
   sb.auth.getSession().then(({ data }) => {
     if (data.session) { ov.remove(); addLogoutBtn(); syncProfileFromSupabase(); return; }
-    if (isTour) { enterTourDemo(); return; }
-    // 그 외 비로그인: 로그인 벽 유지(이미 표시됨)
-  }, () => {
-    if (isTour) enterTourDemo();
   });
 })();
