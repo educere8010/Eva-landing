@@ -88,6 +88,8 @@
 .subon-progress i:after{content:"";display:block;width:var(--progress);height:100%;background:var(--green2);border-radius:999px}
 .subon-primary{display:inline-flex;align-items:center;justify-content:center;width:max-content;border:0;border-radius:12px;background:var(--green);color:#fff;padding:12px 16px;font-size:13px;font-weight:900}
 .subon-primary:hover{background:var(--green2)}
+.subon-preview-chips{display:flex;gap:7px;flex-wrap:wrap}
+.subon-preview-chips span{border-radius:999px;background:#fbf8f1;color:var(--green);font-size:11px;font-weight:900;padding:6px 9px}
 .subon-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
 .subon-step{position:relative;text-align:left;border:1px solid var(--line);border-radius:15px;background:#fbf8f1;padding:13px;min-height:154px;display:flex;flex-direction:column;gap:8px;transition:.18s}
 .subon-step:hover,.subon-step:focus{transform:translateY(-2px);box-shadow:0 10px 24px rgba(17,32,63,.08);outline:none}
@@ -819,6 +821,19 @@ function renderSubscriberOnboarding(results,saved,profile){
  const root=document.querySelector('#subscriberOnboarding');if(!root)return;
  const steps=buildSubscriberOnboardingSteps(results,saved,profile),doneCount=steps.filter(step=>step.done).length,activeIndex=steps.findIndex(step=>!step.done),complete=activeIndex<0,progress=Math.round(doneCount/steps.length*100);
  window.subscriberOnboardingSteps=steps;
+ const previewMode=window.evaPreviewMode||document.body?.dataset?.evaAccess||'';
+ if(previewMode){
+  root.classList.remove('done');
+  const label=previewMode==='free'?'무료 미리보기':'샘플 미리보기';
+  const cards=[
+   {title:'진단',desc:'샘플 결과',state:'보기'},
+   {title:'자료',desc:'목록 일부',state:'미리보기'},
+   {title:'설계',desc:'저장 잠금',state:'구독 전용'},
+   {title:'플래너',desc:'기록 잠금',state:'구독 전용'}
+  ];
+  root.innerHTML=`<div class="subon-summary"><span class="subon-kicker">PREVIEW MODE</span><h2>설계실 흐름 미리보기</h2><div class="subon-preview-chips"><span>${escapeHTML(label)}</span><span>저장 잠금</span><span>전체 자료 잠금</span></div><button class="subon-primary" onclick="location.href='https://www.educereedu.com/185/?idx=375'">구독하고 열기</button></div><div class="subon-steps">${cards.map((card,index)=>`<button class="subon-step ${index<2?'done':'current'}" type="button" onclick="${index<2?'runSubscriberOnboardingStep('+index+')':'window.evaShowSoftGate&&window.evaShowSoftGate()'}"><span class="subon-num">${index+1}</span><b>${escapeHTML(card.title)}</b><span>${escapeHTML(card.desc)}</span><small>${escapeHTML(card.state)}</small></button>`).join('')}</div>`;
+  return;
+ }
  root.classList.toggle('done',complete);
  const title=complete?'첫 10분 루틴을 완료했어요':'구독 첫 10분, 이렇게 시작하세요';
  const desc=complete?'이제 진행 중인 탐구를 단계별로 키우면 됩니다. 자료, 질문, 수행평가, 세특 문장이 한 흐름으로 쌓여요.':`${profile.major?profile.major+' 목표에 맞춰 ':''}진단 하나, 자료 하나, 질문 하나, 플래너 한 줄이면 설계실 사용법이 바로 잡힙니다.`;
@@ -1027,38 +1042,46 @@ window.EVAAccountStore?.ensureAccount();importPendingLibraryCTA();render();rende
 
   var css = document.createElement('style');
   css.textContent = [
-    '#evaDemoBar{position:fixed;left:0;right:0;bottom:0;z-index:99998;display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:center;padding:13px 18px;background:#11203f;color:#fff;font-family:Pretendard,system-ui,sans-serif;font-size:13px;font-weight:700;box-shadow:0 -8px 30px rgba(17, 32, 63,.22)}',
-    '#evaDemoBar b{color:#ecd9b6}',
-    '#evaDemoBar .cta{padding:9px 16px;border-radius:999px;background:#ecd9b6;color:#11203f;font-weight:900;text-decoration:none;border:0;cursor:pointer;font-size:13px}',
+    '#evaDemoBar{position:fixed;left:0;right:0;bottom:0;z-index:99998;display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;padding:11px 18px;background:#11203f;color:#fff;font-family:Pretendard,system-ui,sans-serif;box-shadow:0 -8px 30px rgba(17, 32, 63,.22)}',
+    '#evaDemoBar .mode{display:inline-flex;align-items:center;border-radius:999px;background:#ecd9b6;color:#11203f;font-size:12px;font-weight:900;padding:7px 10px;white-space:nowrap}',
+    '#evaDemoBar .chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center;flex:1}',
+    '#evaDemoBar .chip{border:1px solid rgba(255,255,255,.18);border-radius:999px;color:#fff;font-size:12px;font-weight:800;padding:6px 9px;white-space:nowrap}',
+    '#evaDemoBar .chip.locked{color:#ecd9b6}',
+    '#evaDemoBar .cta{padding:9px 16px;border-radius:999px;background:#ecd9b6;color:#11203f;font-weight:900;text-decoration:none;border:0;cursor:pointer;font-size:13px;white-space:nowrap}',
     '#evaDemoBar .cta:hover{background:#ecd9b6}',
     '#evaDemoModal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(17, 32, 63,.55)}',
     '#evaDemoModal.show{display:flex}',
-    '#evaDemoModal .box{width:min(440px,100%);padding:30px;border-radius:24px;background:#fff;text-align:center;font-family:Pretendard,system-ui,sans-serif;box-shadow:0 24px 70px rgba(0,0,0,.3)}',
-    '#evaDemoModal .ico{font-size:34px}',
-    '#evaDemoModal h3{margin:12px 0 8px;color:#11203f;font-size:22px;letter-spacing:-.04em}',
-    '#evaDemoModal p{margin:0 0 20px;color:#6b7280;font-size:14px;line-height:1.7}',
+    '#evaDemoModal .box{width:min(500px,100%);padding:26px;border-radius:22px;background:#fff;text-align:left;font-family:Pretendard,system-ui,sans-serif;box-shadow:0 24px 70px rgba(0,0,0,.3)}',
+    '#evaDemoModal .demo-lock{display:inline-flex;border-radius:999px;background:#fbf8f1;color:#e8714e;font-size:11px;font-weight:900;padding:6px 9px}',
+    '#evaDemoModal h3{margin:12px 0 6px;color:#11203f;font-size:22px;letter-spacing:-.04em}',
+    '#evaDemoModal p{margin:0 0 16px;color:#6b7280;font-size:13px;line-height:1.55}',
+    '#evaDemoModal .demo-features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 17px}',
+    '#evaDemoModal .demo-feature{border:1px solid #f4efe4;border-radius:13px;background:#fbf8f1;padding:12px}',
+    '#evaDemoModal .demo-feature b{display:block;font-size:13px;color:#11203f;margin-bottom:5px}',
+    '#evaDemoModal .demo-feature span{font-size:11px;color:#6b7280;font-weight:800}',
     '#evaDemoModal .acts{display:flex;flex-direction:column;gap:9px}',
     '#evaDemoModal .primary{padding:13px;border-radius:13px;background:#11203f;color:#fff;font-weight:900;text-decoration:none;border:0;cursor:pointer;font-size:14px}',
     '#evaDemoModal .ghost{padding:12px;border-radius:13px;background:#fff;border:1px solid #f4efe4;color:#11203f;font-weight:800;cursor:pointer;font-size:13px;text-decoration:none;display:block}',
-    '.eva-locked::after{content:"🔒";margin-left:5px;font-size:.82em;opacity:.85;vertical-align:baseline;pointer-events:none}'
+    '.eva-locked::after{content:"잠금";display:inline-flex;margin-left:6px;border-radius:999px;background:#fbf8f1;color:#e8714e;font-size:10px;font-weight:900;padding:2px 6px;vertical-align:baseline;pointer-events:none}',
+    '@media(max-width:640px){#evaDemoBar{align-items:stretch;flex-direction:column}#evaDemoBar .chips{justify-content:flex-start;width:100%}#evaDemoBar .cta{text-align:center}#evaDemoModal .demo-features{grid-template-columns:1fr}}'
   ].join('');
 
   var bar, modal;
   function buildUI(reason) {
+    window.evaPreviewMode = reason || 'free';
+    if (document.body) document.body.dataset.evaAccess = window.evaPreviewMode;
     document.head.appendChild(css);
     bar = document.createElement('div');
     bar.id = 'evaDemoBar';
-    bar.innerHTML = (reason === 'demo' ? '<a href="https://www.educereedu.com" target="_top" style="color:#ecd9b6;text-decoration:none;font-weight:900;margin-right:auto"><span style="opacity:.7">←</span> 홈</a>' : '')
-      + '<span>🔒 <b>' + (reason === 'free' ? '무료 회원 미리보기' : '샘플 미리보기') + '</b> · 진단 실행·자료 담기·저장·플래너는 구독 후 이용할 수 있어요</span>'
+    bar.innerHTML = (reason === 'demo' ? '<a href="https://www.educereedu.com" target="_top" class="mode">홈</a>' : '<span class="mode">무료 미리보기</span>')
+      + '<span class="chips"><span class="chip">흐름 보기</span><span class="chip locked">진단 실행</span><span class="chip locked">저장</span><span class="chip locked">전체 자료</span></span>'
       + '<a class="cta" href="' + PRICE + '">구독하고 시작하기</a>';
     modal = document.createElement('div');
     modal.id = 'evaDemoModal';
-    modal.innerHTML = '<div class="box"><div class="ico">🌱</div>'
-      + '<h3>구독하면 바로 시작할 수 있어요</h3>'
-      + '<p>' + (reason === 'free'
-          ? '무료 회원은 핵심 기능을 미리 둘러볼 수 있어요. 진단 실행, 자료 \'진행 중인 탐구\' 담기, 저장·플래너·리포트와 전체 라이브러리는 구독 후 이용할 수 있습니다.'
-          : '지금은 둘러보기(샘플) 화면이에요. 진단 실행, 자료를 \'진행 중인 탐구\'로 담기, 저장·플래너·리포트는 학생부 설계실 구독 후 이용할 수 있습니다.')
-      + '</p>'
+    modal.innerHTML = '<div class="box"><span class="demo-lock">구독 전용</span>'
+      + '<h3>여기부터 내 설계실로 저장돼요</h3>'
+      + '<p>미리보기에서는 구조만 확인할 수 있어요.</p>'
+      + '<div class="demo-features"><div class="demo-feature"><b>진단 실행</b><span>결과 저장</span></div><div class="demo-feature"><b>자료 담기</b><span>탐구 설계</span></div><div class="demo-feature"><b>플래너</b><span>주간 기록</span></div></div>'
       + '<div class="acts"><a class="primary" href="' + PRICE + '">구독하고 시작하기</a>'
       + '<a class="ghost" href="' + FREEDIAG + '">무료 진단하기 →</a>'
       + '<button type="button" class="ghost" id="evaDemoClose">계속 둘러보기</button></div></div>';
@@ -1067,6 +1090,7 @@ window.EVAAccountStore?.ensureAccount();importPendingLibraryCTA();render();rende
     document.body.style.paddingBottom = '78px';
     var _side = document.querySelector('.sidebar');
     if (_side) { _side.style.paddingBottom = '90px'; _side.style.overflowY = 'auto'; }
+    if (typeof renderDashboardState === 'function') renderDashboardState();
     modal.addEventListener('click', function (e) { if (e.target === modal) hide(); });
     document.getElementById('evaDemoClose').addEventListener('click', hide);
   }
@@ -1077,6 +1101,7 @@ window.EVAAccountStore?.ensureAccount();importPendingLibraryCTA();render();rende
     if (p) { if (!DEFAULT_MSG) DEFAULT_MSG = p.textContent; p.textContent = customMsg || DEFAULT_MSG; }
     modal.classList.add('show');
   }
+  window.evaShowSoftGate = function (msg) { show(msg); };
   function hide() { if (modal) modal.classList.remove('show'); }
 
   var ACTION = /(담기|담아|저장|작성|업로드|결제|구매|등록하기|완료|추가|만들기|분석|시작하기|진단 시작|첫 진단 시작|다시 진단|최저 진단|과목 확인|결과 보기|보완 행동|인쇄·PDF|내보내기|제출|발급)/;
@@ -1139,7 +1164,7 @@ window.EVAAccountStore?.ensureAccount();importPendingLibraryCTA();render();rende
       window.openRecommendation = function (id) {
         var arr; try { arr = JSON.parse(localStorage.getItem(REC_KEY) || '[]'); } catch (e) { arr = []; }
         if (arr.indexOf(id) < 0) {
-          if (arr.length >= REC_LIMIT) { show('무료로 추천 자료 ' + REC_LIMIT + '개를 열어봤어요. 전체 추천과 라이브러리, 자료 담기·저장은 구독 후 이용할 수 있어요.'); return; }
+          if (arr.length >= REC_LIMIT) { show('무료 미리보기 한도에 도달했어요.'); return; }
           arr.push(id); try { localStorage.setItem(REC_KEY, JSON.stringify(arr)); } catch (e) {}
         }
         return _openRec.apply(this, arguments);
