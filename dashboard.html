@@ -74,7 +74,34 @@
 .recommend-reason,.recommend-reason b,.action-card .action-reason,.action-card span,.resource-body p,.tool-card p,.onboarding-flow p,.diagnosis-priority p,.detail-reason p,.detail-head p,.planner-source p,.side-plan p,.history-item p,.archive-task p,.section-head p,.planner-guide li,.tool-guide-section li{font-size:13px;line-height:1.6}
 .recommend-reason{color:#54607a}
 /* v2 Round2 — 남은 9~10px 캡션 12px 상향(달력·아바타·번호 등 구조성 제외) */
-.history-date,.resource-foot small,.resource-cover .type,.step small,.metric small,.diag-score span,.readiness-dimension span,.readiness-gap-item span,.result-detail-cell span,.student-output-row span,.student-output-row b,.planner-draft-label span,.tags span{font-size:12px}</style>
+.history-date,.resource-foot small,.resource-cover .type,.step small,.metric small,.diag-score span,.readiness-dimension span,.readiness-gap-item span,.student-output-row span,.student-output-row b,.planner-draft-label span,.tags span{font-size:12px}
+/* subscriber first 10 minutes */
+.subscriber-onboarding{display:grid;grid-template-columns:minmax(0,.78fr) minmax(360px,1.22fr);gap:18px;align-items:stretch;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;margin:0 0 18px;box-shadow:var(--shadow)}
+.subscriber-onboarding.done{background:linear-gradient(135deg,#fff,#fbf8f1)}
+.subon-summary{display:flex;flex-direction:column;gap:13px;min-width:0}
+.subon-kicker{display:inline-flex;width:max-content;border-radius:999px;background:#fbf8f1;color:var(--green2);font-size:11px;font-weight:900;letter-spacing:.08em;padding:6px 10px}
+.subon-summary h2{margin:0;font-size:22px;line-height:1.34;letter-spacing:-.04em;word-break:keep-all}
+.subon-summary p{margin:0;color:var(--muted);font-size:13px;line-height:1.65;word-break:keep-all}
+.subon-progress{display:grid;gap:7px;margin-top:auto}
+.subon-progress b{font-size:12px;color:var(--green)}
+.subon-progress i{height:8px;background:#fbf8f1;border-radius:999px;overflow:hidden}
+.subon-progress i:after{content:"";display:block;width:var(--progress);height:100%;background:var(--green2);border-radius:999px}
+.subon-primary{display:inline-flex;align-items:center;justify-content:center;width:max-content;border:0;border-radius:12px;background:var(--green);color:#fff;padding:12px 16px;font-size:13px;font-weight:900}
+.subon-primary:hover{background:var(--green2)}
+.subon-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.subon-step{position:relative;text-align:left;border:1px solid var(--line);border-radius:15px;background:#fbf8f1;padding:13px;min-height:154px;display:flex;flex-direction:column;gap:8px;transition:.18s}
+.subon-step:hover,.subon-step:focus{transform:translateY(-2px);box-shadow:0 10px 24px rgba(17,32,63,.08);outline:none}
+.subon-step.done{background:#fff;border-color:#e3ddd0}
+.subon-step.current{border-color:#e8714e;box-shadow:inset 0 0 0 1px #e8714e;background:#fff7f3}
+.subon-num{display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:#fff;color:var(--green);font-size:11px;font-weight:900}
+.subon-step.done .subon-num{background:var(--green);color:#fff}
+.subon-step.current .subon-num{background:var(--green2);color:#fff}
+.subon-step b{font-size:13px;line-height:1.35;color:var(--green);word-break:keep-all}
+.subon-step span{font-size:12px;color:var(--muted);line-height:1.5;word-break:keep-all}
+.subon-step small{margin-top:auto;color:var(--green2);font-size:11px;font-weight:900}
+@media(max-width:1180px){.subscriber-onboarding{grid-template-columns:1fr}.subon-steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.subscriber-onboarding{padding:17px}.subon-summary h2{font-size:19px}.subon-steps{grid-template-columns:1fr}.subon-step{min-height:auto}.subon-primary{width:100%;justify-content:center}}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -121,6 +148,7 @@
       <section class="page active" id="page-dashboard">
         <div class="hello"><div><span class="eyebrow">STUDENT RECORD DESIGN</span><h1><span id="helloName">학생</span>님, 이번엔 어떤 탐구를 해볼까요?</h1><p id="helloSub">관심 가는 탐구부터 차근차근 시작해 → 보고서 → 세특으로 이어가요.</p></div><div class="date-chip" id="today"></div></div>
         <button class="next-hero" id="nextStepHero" type="button"><span><span class="nh-kicker" id="nhKicker">지금 할 일 · STEP 1</span><b class="nh-title" id="nhTitle">다음 할 일을 불러오는 중…</b><span class="nh-meta" id="nhMeta"></span></span><span class="nh-cta" id="nhCta">시작하기 →</span></button>
+        <section class="subscriber-onboarding" id="subscriberOnboarding" aria-label="구독회원 첫 10분 온보딩"></section>
         <div class="result-sync-status" id="resultSyncStatus"></div>
         <section class="onboarding-flow" id="onboardingFlow" hidden>
           <div><span class="eyebrow">START HERE</span><h2 id="onboardingTitle">첫 생기부 설계 기준을 만들어볼까요?</h2><p id="onboardingDescription">희망학과와 첫 진단 결과가 연결되면 추천 자료, 탐구 설계, 이번 주 플래너가 학생에게 맞게 움직입니다.</p></div>
@@ -756,6 +784,46 @@ function plannerHasActivity(){
  const tasks=Object.values(ensureCurrentPlannerWeek().week.tasks||{});
  return tasks.some(task=>task.done||String(task.draft||'').trim());
 }
+function subscriberDesignStarted(saved){
+ return saved.some(entry=>{const d=entry.design||{};return ['motivation','question','paType','result'].some(key=>String(d[key]||'').trim())||(Array.isArray(d.comps)&&d.comps.length)});
+}
+function currentPlannerTasks(){
+ return weeklyPlannerTasks.length?weeklyPlannerTasks:Object.values(ensureCurrentPlannerWeek().week.tasks||{});
+}
+function focusWeeklyPlanner(){
+ goPage('dashboard');
+ setTimeout(()=>{const el=document.querySelector('#todoList')?.closest('.panel-card')||document.querySelector('#todoList');if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},80);
+}
+function openFirstPlannerTask(){
+ const task=currentPlannerTasks().find(item=>!item.done)||currentPlannerTasks()[0];
+ focusWeeklyPlanner();
+ if(task)setTimeout(()=>openPlannerTask(task.id),240);
+}
+function buildSubscriberOnboardingSteps(results,saved,profile){
+ const firstTool=recommendedFirstTool(profile),designDone=subscriberDesignStarted(saved),plannerDone=plannerHasActivity();
+ return [
+  {done:results.length>0,title:'진단 하나 저장',desc:results[0]?`${results[0].tool.title} 결과가 추천 기준이 되었어요.`:'내 기준을 먼저 만들면 추천이 정확해져요.',minutes:'2분',cta:firstTool?`${firstTool.title} 시작`:'진단 시작',go:()=>firstTool?openToolById(firstTool.id):goPage('diagnosis')},
+  {done:saved.length>0,title:'자료 1개 담기',desc:saved.length?`${saved.length}개의 탐구가 진행 목록에 있어요.`:'과목별 추천에서 마음에 드는 자료를 담아요.',minutes:'3분',cta:'추천자료 담기',go:()=>{goPage('dashboard');setTimeout(focusSubjectRec,80);}},
+  {done:designDone,title:'탐구 질문 쓰기',desc:designDone?'질문 또는 수행평가 설계가 시작됐어요.':'담은 자료를 질문과 수행평가로 바꿔요.',minutes:'3분',cta:saved.length?'탐구 설계하기':'자료 먼저 담기',go:()=>{if(saved.length)goPage('roadmap');else{goPage('dashboard');setTimeout(focusSubjectRec,80);showToast('먼저 자료를 하나 담으면 탐구 질문을 쓸 수 있어요.');}}},
+  {done:plannerDone,title:'이번 주 기록 남기기',desc:plannerDone?'플래너에 작성 또는 완료 기록이 있어요.':'오늘 할 일을 열고 한 줄이라도 적어봐요.',minutes:'2분',cta:'플래너 열기',go:openFirstPlannerTask}
+ ];
+}
+function runSubscriberOnboardingStep(index){
+ const step=window.subscriberOnboardingSteps?.[index];if(step?.go)step.go();
+}
+function runSubscriberOnboardingPrimary(){
+ const steps=window.subscriberOnboardingSteps||[],index=steps.findIndex(step=>!step.done);
+ if(index>=0)runSubscriberOnboardingStep(index);else goPage('library');
+}
+function renderSubscriberOnboarding(results,saved,profile){
+ const root=document.querySelector('#subscriberOnboarding');if(!root)return;
+ const steps=buildSubscriberOnboardingSteps(results,saved,profile),doneCount=steps.filter(step=>step.done).length,activeIndex=steps.findIndex(step=>!step.done),complete=activeIndex<0,progress=Math.round(doneCount/steps.length*100);
+ window.subscriberOnboardingSteps=steps;
+ root.classList.toggle('done',complete);
+ const title=complete?'첫 10분 루틴을 완료했어요':'구독 첫 10분, 이렇게 시작하세요';
+ const desc=complete?'이제 진행 중인 탐구를 단계별로 키우면 됩니다. 자료, 질문, 수행평가, 세특 문장이 한 흐름으로 쌓여요.':`${profile.major?profile.major+' 목표에 맞춰 ':''}진단 하나, 자료 하나, 질문 하나, 플래너 한 줄이면 설계실 사용법이 바로 잡힙니다.`;
+ root.innerHTML=`<div class="subon-summary"><span class="subon-kicker">FIRST 10 MINUTES</span><h2>${escapeHTML(title)}</h2><p>${escapeHTML(desc)}</p><div class="subon-progress" style="--progress:${progress}%"><b>${doneCount}/${steps.length} 완료</b><i></i></div><button class="subon-primary" onclick="runSubscriberOnboardingPrimary()">${escapeHTML(complete?'진행 중인 탐구 보기':steps[activeIndex].cta)}</button></div><div class="subon-steps">${steps.map((step,index)=>{const state=step.done?'done':(index===activeIndex?'current':'');return `<button class="subon-step ${state}" type="button" onclick="runSubscriberOnboardingStep(${index})"><span class="subon-num">${step.done?'✓':index+1}</span><b>${escapeHTML(step.title)}</b><span>${escapeHTML(step.desc)}</span><small>${escapeHTML(step.minutes)} · ${step.done?'완료':(index===activeIndex?'지금 하기':'다음')}</small></button>`}).join('')}</div>`;
+}
 function renderOnboardingFlow(results,saved,profile){
  const root=document.querySelector('#onboardingFlow');if(!root)return;
  const profileDone=hasSavedProfile()||results.length>0||saved.length>0;
@@ -811,6 +879,7 @@ function renderDashboardState(){
  renderOnboardingFlow(results,saved,profile);
  const _ob=document.querySelector('#onboardingFlow');if(_ob)_ob.hidden=true;/* 히어로+진행 맵으로 역할 통합 — 중복 온보딩 카드 숨김 */
  renderJourneyMap(results,saved);
+ renderSubscriberOnboarding(results,saved,profile);
  const sync=document.querySelector('#resultSyncStatus');
  if(latest){sync.style.display='';sync.innerHTML=`<div><strong>최근 결과가 추천에 반영됐어요</strong>${escapeHTML(latest.tool.title)} · ${escapeHTML(latest.summary.headline)} · ${escapeHTML(formatResultDate(latest.createdAt,true))}</div><button class="secondary" data-eva-allow="1" onclick="openResultDetail('${escapeHTML(latest.resultId)}')">저장 결과 보기</button>`;}
  else{sync.style.display='none';sync.innerHTML='';}
