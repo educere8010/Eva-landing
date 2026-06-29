@@ -18,6 +18,7 @@
   // 무료 티어 콜드스타트 완화: 로드 즉시 프로젝트를 깨워 둠(논블로킹)
   try { fetch(SB_URL + "/auth/v1/health", { headers: { apikey: SB_KEY } }).catch(function () {}); } catch (e) {}
   const isDemo = new URLSearchParams(location.search).get("mode") === "demo";
+  const isTour = new URLSearchParams(location.search).get("view") === "tour"; // 공개 둘러보기: 비로그인이면 로그인 벽 대신 데모
 
   // 같은 기기에서 다른 계정으로 로그인하면 이전 계정의 로컬데이터(프로필/결과 등 eva_* 키)를 비움.
   // Supabase 세션 키(sb-*)는 건드리지 않으므로 로그인은 유지됨.
@@ -175,8 +176,14 @@
     el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); doLogin(); } });
   });
 
-  // 이미 로그인돼 있으면 통과
+  // 이미 로그인돼 있으면 통과. 비로그인이라도 ?view=tour면 로그인 벽 대신 데모로 둘러보게 한다
+  // (가치 먼저 → 가입은 '담기·저장·진단 실행' 등 행동 순간에 유도 = 데모 소프트게이트가 처리).
+  function enterTourDemo() { try { ov.remove(); } catch (e) {} if (typeof window.evaActivateSoftGate === "function") window.evaActivateSoftGate("demo"); }
   sb.auth.getSession().then(({ data }) => {
-    if (data.session) { ov.remove(); addLogoutBtn(); syncProfileFromSupabase(); }
+    if (data.session) { ov.remove(); addLogoutBtn(); syncProfileFromSupabase(); return; }
+    if (isTour) { enterTourDemo(); return; }
+    // 그 외 비로그인: 로그인 벽 유지(이미 표시됨)
+  }, () => {
+    if (isTour) enterTourDemo();
   });
 })();
