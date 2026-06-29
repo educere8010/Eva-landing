@@ -29,6 +29,19 @@
     } catch (e) {}
   }
 
+  // 회원등급 조회(견고판): 확정 응답이면 즉시 반환, 일시 오류(무료 티어 콜드스타트 등)는 재시도,
+  // 끝까지 불확실하면 null. supabase-js는 오류 시 예외 대신 {data:null,error}를 주므로 error를 직접 확인한다.
+  async function readMembershipTier(uid) {
+    for (var attempt = 0; attempt < 5; attempt++) {
+      try {
+        const res = await sb.from("memberships").select("tier,paid_until").eq("user_id", uid).maybeSingle();
+        if (!res.error) { return (res.data && res.data.tier) ? res.data.tier : "free"; } // 행 있으면 tier, 없으면 free 확정
+      } catch (e) { /* 네트워크 예외 → 재시도 */ }
+      await new Promise(function (r) { setTimeout(r, 600 * (attempt + 1)); });
+    }
+    return null; // 끝까지 오류 → 등급 불확실
+  }
+
   // 프로필: Supabase → 로컬 저장소 → 화면
   async function syncProfileFromSupabase() {
     try {
@@ -45,13 +58,18 @@
         else localStorage.setItem("eva_profile", JSON.stringify(p));
       }
       // 회원등급(무료/유료) 조회 — 학생은 읽기 전용. 등급은 드러내지 않고 이용 범위 판정에만 사용.
-      try {
-        const { data: mem } = await sb.from("memberships").select("tier,paid_until").eq("user_id", user.id).maybeSingle();
-        window.evaMembership = mem || { tier: "free" };
-      } catch (e) { window.evaMembership = { tier: "free" }; }
-      // 무료 회원이면 대시보드를 '미리보기(소프트게이트)'로 — 유료는 전체 이용
-      if (window.evaMembership.tier !== "paid" && typeof window.evaActivateSoftGate === "function") {
-        window.evaActivateSoftGate("free");
+      // 콜드스타트/일시 오류로 paid가 free로 오인돼 소프트게이트가 잘못 걸리지 않도록 재시도.
+      // 끝까지 등급을 확정 못 하면 게이트를 설치하지 않는다(fail-open). 실제 콘텐츠(라이브러리·진단
+      // 페이지)는 각자 등급을 다시 확인하므로, 여기서 게이트를 못 걸어도 유료 콘텐츠는 보호된다.
+      const tier = await readMembershipTier(user.id);
+      if (tier === null) {
+        window.evaMembership = { tier: "unknown" };   // 확정 실패 → 게이트 미설치(전체 이용 쪽)
+      } else {
+        window.evaMembership = { tier: tier };
+        // 무료 회원이면 대시보드를 '미리보기(소프트게이트)'로 — 유료는 전체 이용
+        if (tier !== "paid" && typeof window.evaActivateSoftGate === "function") {
+          window.evaActivateSoftGate("free");
+        }
       }
       if (typeof loadProfile === "function") loadProfile();
       if (typeof refreshResultDrivenUI === "function") refreshResultDrivenUI();
