@@ -1289,6 +1289,90 @@
       .hero-actions .btn { flex: 1 1 auto; }
     }
 
+    /* 모바일 잘림 방지: 제목, 상품 카드, 가격 카드 */
+    @media (max-width: 640px) {
+      main { overflow-x: hidden; overflow-y: visible; }
+      .site-header { gap: 12px; }
+      .header-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, min(104px, calc((100vw - 64px) / 3))));
+        justify-content: start;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        gap: 8px;
+        box-sizing: border-box;
+      }
+      .header-actions .btn,
+      .header-login,
+      .header-cta {
+        min-width: 0;
+        min-height: 46px;
+        padding: 11px 8px;
+        font-size: 13px;
+        line-height: 1.2;
+        white-space: normal;
+        text-align: center;
+      }
+      .hero { gap: 28px; padding-top: 30px; }
+      h1 {
+        font-size: clamp(31px, 10.6vw, 42px);
+        line-height: 1.16;
+        letter-spacing: -.025em;
+        word-break: keep-all;
+        overflow-wrap: normal;
+      }
+      .section-head h2,
+      .final-cta h2 {
+        font-size: clamp(25px, 7.8vw, 34px);
+        line-height: 1.22;
+      }
+      .hero-actions { display: grid; grid-template-columns: 1fr; }
+      .hero-actions .btn { width: 100%; justify-content: center; white-space: normal; }
+      .product-grid { gap: 14px; }
+      .product-card {
+        min-height: auto;
+        gap: 16px;
+        padding: 22px;
+        border-radius: 24px;
+      }
+      .product-card h3 {
+        font-size: clamp(22px, 7vw, 27px);
+        line-height: 1.22;
+        letter-spacing: -.025em;
+      }
+      .product-card p { margin: 0; }
+      .product-price {
+        margin-top: 6px;
+        font-size: clamp(22px, 7vw, 28px);
+        line-height: 1.18;
+        overflow-wrap: anywhere;
+      }
+      .product-links { display: grid; grid-template-columns: 1fr; }
+      .product-links .btn { width: 100%; justify-content: center; white-space: normal; }
+      .price-wrap { gap: 14px; }
+      .price-card { overflow: visible; }
+      .price {
+        flex-wrap: wrap;
+        align-items: baseline;
+        margin: 22px 0 10px;
+      }
+      .price strong {
+        font-size: clamp(36px, 12vw, 44px);
+        line-height: 1;
+        letter-spacing: -.035em;
+        max-width: 100%;
+      }
+      .price small { margin-bottom: 4px; }
+    }
+
+    @media (max-width: 380px) {
+      .section { width: min(100% - 22px, 1180px); }
+      h1 { font-size: clamp(29px, 10vw, 37px); }
+      .hero-panel, .card, .preview-card, .product-card, .price-card, .note-card { padding: 18px; border-radius: 20px; }
+      .product-chip { max-width: 100%; white-space: normal; line-height: 1.35; }
+    }
+
     /* ===== 이용 방법(처음 시작) ===== */
     .howto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .howto-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 26px 22px; }

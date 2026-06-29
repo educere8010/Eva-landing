@@ -391,12 +391,16 @@
       justify-content: center;
       padding: 22px;
       background: rgba(10, 30, 23, .52);
+      overflow-y: auto;
     }
 
     .modal.show { display: flex; }
 
     .modal-box {
       width: min(520px, 100%);
+      max-height: calc(100dvh - 44px);
+      overflow-y: auto;
+      box-sizing: border-box;
       padding: 28px;
       background: #fff;
       border-radius: 26px;
@@ -529,6 +533,27 @@
       .modal-actions { flex-direction: column; }
       .hero-actions .btn,
       .modal-actions .btn { width: 100%; }
+      .hero h1 {
+        font-size: clamp(30px, 10vw, 42px);
+        line-height: 1.16;
+        letter-spacing: -.025em;
+      }
+      .modal {
+        align-items: flex-start;
+        padding: 12px;
+      }
+      .modal-box {
+        max-height: calc(100dvh - 24px);
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+      .modal-box h2 {
+        font-size: 21px;
+        line-height: 1.25;
+        letter-spacing: -.025em;
+      }
+      .auth-tabs { grid-template-columns: 1fr 1fr; }
+      .auth-tab { min-width: 0; white-space: normal; }
     }
 
     /* ===== 디자인 폴리시 ===== */
