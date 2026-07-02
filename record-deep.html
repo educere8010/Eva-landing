@@ -176,7 +176,11 @@
   .lawitem p{font-size:12.5px;color:#33405e;margin:2px 0 3px;}
   .lawitem span{font-size:11px;color:var(--muted);line-height:1.5;display:block;}
   .lawnote{font-size:11.5px;color:#8a6d1a;background:#fff8e6;border-radius:8px;padding:7px 10px;margin-top:6px;}
-  @media(max-width:560px){.tri,.evidence-summary{grid-template-columns:1fr;}.axiscmt{margin-left:0;}}
+  .decisiongrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;}
+  .decisionitem{border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8f9fd;}
+  .decisionitem b{display:block;font-size:11.5px;color:var(--accent);margin-bottom:4px;}
+  .decisionitem span{display:block;font-size:12.5px;color:#33405e;line-height:1.55;}
+  @media(max-width:560px){.tri,.evidence-summary,.decisiongrid{grid-template-columns:1fr;}.axiscmt{margin-left:0;}}
   @media print{.topbar,.actions,.upsell,.leadcard,.noprint,.print-skip,.eva-studio-shell,.eva-product-hero,footer{display:none!important;}body{background:#fff;}.card{box-shadow:none;break-inside:avoid;}}
 </style>
 </head>
@@ -324,6 +328,12 @@
         <div class="why" id="rWhy"></div>
       </div>
       <p class="hint" id="rWeight"></p>
+    </div>
+
+    <div class="card">
+      <div class="cardhead"><span class="num">↳</span><h2>이번 리포트가 본 기준</h2></div>
+      <p class="sub" style="margin:0 0 8px;">입력한 학년·학과와 진단 근거를 바탕으로, 강점과 보완 지점을 다음 설계 단계에 연결했습니다.</p>
+      <div class="decisiongrid" id="rDecision"></div>
     </div>
 
     <div class="card">
@@ -966,6 +976,21 @@ function renderReport(){
     : design
     ? "준비도 산식: 학과 역량 경험 45% + 진로 방향 15% + 탐구 성향·주도성·기록·학습관리 각 10% (상=90 / 중=60 / 하=30점 환산)"
     : "점수 산식: 학과 핵심역량 45% + 방향 정합도 15% + 탐구력·교과선택·주도성 각 10% + 기록·성취 각 5% (상=90 / 중=60 / 하=30점 환산)";
+
+  // ↳ 이번 리포트가 본 기준 — 실제 진단 결과값으로 판단 근거 요약
+  const topAxis = [...r.axes3].sort((a,b)=>b.p-a.p)[0];
+  const firstGap = r.worst[0];
+  const strongMajor = mq[best], weakMajor = mq[worstM];
+  const decisionBox = document.getElementById("rDecision");
+  if(decisionBox && topAxis && firstGap){
+    const decisionRows=[
+      ["입력 기준", `${S.grade} · ${S.hak} · ${uploaded?"원문 분석 리포트":design?"설계 리포트":"진단 리포트"}`],
+      ["강하게 읽힌 축", `${topAxis.nm} ${LETTER(topAxis.p)} — 이 축을 세특·면접 서사의 출발점으로 둡니다.`],
+      ["먼저 볼 지점", `${firstGap.q.nm} ${LETTER(firstGap.p)} — 다음 활동에서 가장 먼저 보완할 항목입니다.`],
+      ["추천 방향", `${strongMajor.nm}은 살리고, ${weakMajor.nm}은 아래 탐구 주제와 권장 교과로 보완합니다.`]
+    ];
+    decisionBox.innerHTML=decisionRows.map(x=>`<div class="decisionitem"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("");
+  }
 
   // ② 부족 역량 / 우선 시작할 일
   const lackBox=document.getElementById("rLacks"); lackBox.innerHTML="";
