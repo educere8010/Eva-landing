@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="플라나 프로 클래스에 소속된 학생이 자기 과제, 배정 자료, 피드백만 확인하는 학생 전용 포털">
+  <title>플라나 학생 포털 | 기관용 클래스</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+    :root{--ink:#11203f;--muted:#6b7280;--line:#e3ddd0;--paper:#f4f1ea;--card:#fff;--navy:#11203f;--coral:#e8714e;--gold:#ecd9b6;--blue:#dfe9f5;--green:#dfe8d3;--rose:#f6e0d6;--shadow:0 14px 34px rgba(17,32,63,.08);--r:18px}
+    *{box-sizing:border-box} body{margin:0;color:var(--ink);background:radial-gradient(circle at 82% 4%,rgba(236,217,182,.38),transparent 24rem),var(--paper);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;letter-spacing:-.02em} button,textarea{font:inherit} button{cursor:pointer}
+    .shell{width:min(1180px,calc(100% - 34px));margin:0 auto;padding:28px 0 60px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:11px}.mark{width:38px;height:38px;border-radius:13px;background:transparent url("assets/logo-mark.svg") center/contain no-repeat}.brand b{display:block;font-size:18px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.08em;margin-top:2px}.account{padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);font-size:11px;font-weight:900}
+    .hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.65fr);gap:16px;margin-bottom:18px}.hero-main{min-height:238px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;padding:30px;border-radius:26px;background:var(--navy);color:#fff;box-shadow:var(--shadow)}.hero-main:after{content:"";position:absolute;width:250px;height:250px;right:-84px;top:-100px;border:52px solid rgba(236,217,182,.13);border-radius:50%}.eyebrow{position:relative;z-index:1;color:var(--coral);font-size:10px;font-weight:900;letter-spacing:.13em}.hero-main .eyebrow{color:var(--gold)}h1{position:relative;z-index:1;margin:9px 0 8px;font-size:clamp(30px,5vw,48px);line-height:1.12;letter-spacing:-.06em}.hero-main p{position:relative;z-index:1;margin:0;color:#cdd8ec;font-size:13px;line-height:1.7}.status-card,.card{border:1px solid var(--line);border-radius:var(--r);background:#fff;box-shadow:0 8px 24px rgba(17,32,63,.05)}.status-card{padding:22px}.status-card h2,.section-head h2,.card h3{margin:0;letter-spacing:-.04em}.status-card p,.section-head p,.card p{color:var(--muted);font-size:12px;line-height:1.65}.bar{height:8px;background:#f4efe4;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:var(--coral);border-radius:inherit}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}.stat{padding:12px;border-radius:13px;background:#fbf8f1}.stat span{color:var(--muted);font-size:10px}.stat b{display:block;margin-top:5px;font-size:18px}
+    .grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.75fr);gap:16px}.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:28px 0 12px}.card{padding:18px}.assignment{border:1px solid #f0eadf;border-radius:15px;padding:15px;margin-bottom:10px}.assignment h3{font-size:15px}.assignment textarea{width:100%;min-height:94px;margin-top:10px;border:1px solid var(--line);border-radius:11px;padding:11px;resize:vertical;outline:0;font-size:12px;line-height:1.55}.assignment textarea:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(232,113,78,.14)}.meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.tag{display:inline-flex;align-items:center;min-height:24px;padding:5px 8px;border-radius:999px;background:var(--blue);color:#284e73;font-size:10px;font-weight:900}.tag.gold{background:var(--gold);color:var(--navy)}.tag.green{background:var(--green);color:#4b663f}.primary,.secondary{min-height:37px;border-radius:10px;padding:9px 12px;font-size:11px;font-weight:900}.primary{border:0;background:var(--navy);color:#fff}.primary:hover{background:var(--coral)}.secondary{border:1px solid var(--line);background:#fff;color:var(--navy)}.resource{display:grid;grid-template-columns:auto 1fr;gap:11px;padding:13px 0;border-bottom:1px solid #f4efe4}.resource:last-child{border-bottom:0}.resource i{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:var(--navy);color:var(--gold);font-style:normal;font-weight:900}.resource b{display:block;font-size:13px}.resource span{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.45}.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tool{min-height:72px;border:1px solid #f0eadf;border-radius:13px;background:#fbf8f1;padding:12px;text-align:left}.tool b{display:block;font-size:12px}.tool span{display:block;margin-top:5px;color:var(--muted);font-size:10px;line-height:1.45}.feedback{padding:13px;border-radius:13px;background:#fbf8f1;color:var(--muted);font-size:12px;line-height:1.65}.toast{position:fixed;right:24px;bottom:24px;transform:translateY(80px);opacity:0;transition:.2s;padding:13px 16px;border-radius:13px;background:var(--navy);color:#fff;font-size:12px;font-weight:900}.toast.show{transform:none;opacity:1}
+    @media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.stat-grid,.tool-grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.account{border-radius:12px}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div class="brand"><div class="mark"></div><div><b>플라나 학생 포털</b><small>PLANA · CLASS STUDENT VIEW</small></div></div>
+    <div class="account" id="accountLabel">학생 계정 확인 중</div>
+  </header>
+  <section class="hero">
+    <div class="hero-main"><span class="eyebrow">MY CLASSROOM</span><h1 id="heroTitle">나의 과제와 피드백</h1><p id="heroSub">기관 클래스에서 배정된 자료와 과제만 확인합니다.</p></div>
+    <aside class="status-card"><span class="eyebrow">진행 현황</span><h2>이번 주 수행 상태</h2><p>제출할 과제와 배정 자료를 먼저 확인하세요.</p><div class="stat-grid" id="statGrid"></div></aside>
+  </section>
+  <section class="grid">
+    <div>
+      <div class="section-head"><div><h2>내 과제</h2><p>작성 내용은 이 브라우저에 저장되는 초안입니다.</p></div></div>
+      <div id="assignmentList"></div>
+    </div>
+    <aside>
+      <div class="section-head"><div><h2>배정 자료</h2><p>교사가 골라준 자료와 도서만 먼저 보여줍니다.</p></div></div>
+      <section class="card" id="resourceList"></section>
+      <div class="section-head"><div><h2>내 진단</h2><p>학생 본인이 진행할 수 있는 진단 도구입니다.</p></div></div>
+      <section class="card"><div class="tool-grid" id="toolGrid"></div></section>
+      <div class="section-head"><div><h2>교사 피드백</h2></div></div>
+      <section class="card"><div class="feedback" id="feedbackBox">아직 등록된 피드백이 없습니다.</div></section>
+    </aside>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const STORAGE_KEY='evaInstitutionDraftV1';
+const params=new URLSearchParams(location.search);
+const studentId=params.get('studentId')||'s1';
+const sampleNames=['김도윤','이서연','박민준','최지우','정하린','강민서','조유찬','윤서아','임태현','한지민','오시현','서유나','문준호','백가은','신우진','장채원','홍라온','유건우','노하은','배서준','권예린','송지호','류다인','남현서','차은우','하주원','공서윤','전민재','양아린','진태오'];
+const majors=['의공학과','컴퓨터공학과','간호학과','경영학과','생명과학과','기계공학과','심리학과','교육학과','약학과','데이터사이언스학과','화학공학과','미디어커뮤니케이션학과'];
+const defaultAssignments=[
+  {id:'a1',title:'희망학과 기반 탐구 질문 3개 작성',type:'탐구 설계',target:'전체 클래스',due:'2026-07-03',guide:'희망학과와 교과 개념을 연결해 탐구 질문 3개를 작성하세요.'},
+  {id:'a2',title:'탐구도서 독서 기록 제출',type:'독서 활동',target:'전체 클래스',due:'2026-07-10',guide:'도서의 핵심 개념, 후속 탐구 아이디어, 세특 연결 포인트를 정리하세요.'},
+  {id:'a3',title:'세특 연결 자기평가서 초안',type:'자기평가서',target:'고2',due:'2026-07-17',guide:'이번 활동에서 보인 역량과 기록 근거를 자기평가서 형태로 작성하세요.'}
+];
+const sampleResources=[
+  {id:'r1',type:'탐구자료',title:'의료 데이터의 편향과 진단 정확도',subject:'생명과학·통계',stage:'탐구 질문'},
+  {id:'r2',type:'탐구도서',title:'디지털 헬스케어: 의료의 미래',subject:'의공학',stage:'독서 기록'},
+  {id:'r3',type:'탐구자료',title:'AI 추천 알고리즘과 공정성 분석',subject:'수학·정보',stage:'보고서'},
+  {id:'r4',type:'탐구도서',title:'공학의 눈으로 미래를 설계하라',subject:'공학',stage:'세특 연결'}
+];
+function fallbackState(){
+  const students=sampleNames.map((name,idx)=>({id:`s${idx+1}`,name,grade:idx%3===0?'고1':idx%3===1?'고2':'고3',major:majors[idx%majors.length],loginId:`eva-${String(idx+1).padStart(2,'0')}`,tempPassword:`class${String(1720+idx).slice(-4)}`,teacherFeedback:''}));
+  const resources=students.flatMap((student,idx)=>[{...sampleResources[idx%sampleResources.length],id:`ra-${student.id}-1`,studentId:student.id,due:'2026-07-05'},{...sampleResources[(idx+1)%sampleResources.length],id:`ra-${student.id}-2`,studentId:student.id,due:'2026-07-12'}]);
+  const submissions=defaultAssignments.flatMap((assignment,ai)=>students.filter(student=>assignment.target==='전체 클래스'||assignment.target===student.grade).map((student,si)=>({id:`${assignment.id}-${student.id}`,assignmentId:assignment.id,studentId:student.id,status:(si+ai)%4===3?'missing':'submitted',draft:'',submittedAt:''})));
+  return {students,assignments:defaultAssignments,submissions,resources};
+}
+function loadState(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||fallbackState()}catch(error){return fallbackState()}}
+function normalize(input){
+  const fallback=fallbackState();
+  const students=(input.students||fallback.students).map((student,idx)=>({...fallback.students[idx%fallback.students.length],...student,loginId:student.loginId||`eva-${String(idx+1).padStart(2,'0')}`,tempPassword:student.tempPassword||`class${String(1720+idx).slice(-4)}`}));
+  const assignments=input.assignments?.length?input.assignments:fallback.assignments;
+  return {students,assignments,submissions:input.submissions?.length?input.submissions:fallback.submissions,resources:input.resources?.length?input.resources:fallback.resources};
+}
+let state=normalize(loadState());
+let student=state.students.find(item=>item.id===studentId)||state.students[0];
+function applicableAssignments(){return state.assignments.filter(a=>a.target==='전체 클래스'||a.target===student.grade||a.target==='우선 관리 학생')}
+function studentSubmissions(){return state.submissions.filter(row=>row.studentId===student.id)}
+function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
+function render(){
+  document.querySelector('#accountLabel').textContent=`${student.loginId||params.get('loginId')||'학생 계정'} · ${student.grade} · ${student.major}`;
+  document.querySelector('#heroTitle').textContent=`${student.name} 학생의 클래스 포털`;
+  document.querySelector('#heroSub').textContent=`${student.major} 희망 · 배정 자료와 과제를 중심으로 학생부 설계를 진행합니다.`;
+  const subs=studentSubmissions();
+  const submitted=subs.filter(row=>row.status!=='missing').length;
+  document.querySelector('#statGrid').innerHTML=[['과제',`${submitted}/${subs.length}`],['배정 자료',state.resources.filter(r=>r.studentId===student.id).length],['희망학과',student.major]].map(([a,b])=>`<div class="stat"><span>${a}</span><b>${b}</b></div>`).join('');
+  renderAssignments();
+  renderResources();
+  renderTools();
+  document.querySelector('#feedbackBox').textContent=student.teacherFeedback||'아직 등록된 피드백이 없습니다.';
+}
+function renderAssignments(){
+  const submissions=studentSubmissions();
+  document.querySelector('#assignmentList').innerHTML=applicableAssignments().map(assignment=>{
+    let row=submissions.find(item=>item.assignmentId===assignment.id);
+    if(!row){row={id:`${assignment.id}-${student.id}`,assignmentId:assignment.id,studentId:student.id,status:'missing',draft:'',submittedAt:''};state.submissions.push(row)}
+    return `<article class="assignment card"><h3>${assignment.title}</h3><div class="meta"><span class="tag">${assignment.type}</span><span class="tag gold">마감 ${assignment.due||'미정'}</span><span class="tag ${row.status==='missing'?'':'green'}">${row.status==='missing'?'미제출':'제출됨'}</span></div><p>${assignment.guide}</p><textarea id="draft-${row.id}" placeholder="과제 내용을 작성하세요.">${row.draft||''}</textarea><button class="primary" style="margin-top:10px" onclick="submitAssignment('${row.id}')">제출 저장</button></article>`;
+  }).join('');
+}
+function renderResources(){
+  const resources=state.resources.filter(resource=>resource.studentId===student.id);
+  document.querySelector('#resourceList').innerHTML=resources.map(resource=>`<div class="resource"><i>${resource.type==='탐구도서'?'도':'탐'}</i><div><b>${resource.title}</b><span>${resource.type} · ${resource.subject} · ${resource.stage}<br>마감 ${resource.due}</span></div></div>`).join('')||'<p>아직 배정된 자료가 없습니다.</p>';
+}
+function toolUrl(file){
+  const p=new URLSearchParams({institution:'1',studentId:student.id,studentName:student.name,grade:student.grade,major:student.major});
+  return `${file}?${p.toString()}`;
+}
+function renderTools(){
+  const tools=[['전공적성 진단','major-aptitude.html','전공 후보 확인'],['내신 위치 진단','grade-position.html','성적 위치 확인'],['학생부 진단','record-deep.html','강점과 빈틈 점검']];
+  document.querySelector('#toolGrid').innerHTML=tools.map(([title,file,desc])=>`<button class="tool" onclick="window.open('${toolUrl(file)}','_blank','noopener')"><b>${title}</b><span>${desc}</span></button>`).join('');
+}
+function submitAssignment(rowId){
+  const row=state.submissions.find(item=>item.id===rowId);
+  row.draft=document.querySelector(`#draft-${CSS.escape(rowId)}`).value;
+  row.status='submitted';
+  row.submittedAt=new Date().toISOString().slice(0,10);
+  saveState();
+  render();
+  toast('제출 내용이 저장되었습니다.');
+}
+function toast(message){const node=document.querySelector('#toast');node.textContent=message;node.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>node.classList.remove('show'),1800)}
+render();
+</script>
+</body>
+</html>
